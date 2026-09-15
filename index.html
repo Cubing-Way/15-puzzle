@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>15 Puzzle Sim</title>
+
+    <link
+        rel="stylesheet"
+        href="desktop.css"
+        media="(min-width: 601px)"
+    >
+
+    <link
+        rel="stylesheet"
+        href="mobile.css"
+        media="(max-width: 600px)"
+    >
+        <link
+        rel="stylesheet"
+        href="puzzle.css"
+    >
+</head>
+
+<body>
+
+    <header id="app-header">
+
+        <div id="brand">
+            <h1>15 Puzzle</h1>
+            <p>Puzzle Simulator</p>
+        </div>
+
+        <div id="header-actions">
+
+<select id="puzzle-theme-select">
+    <option value="puzzle-neon-clean">Default</option>
+    <option value="puzzle-neon">Neon</option>
+    <option value="puzzle-modern">Modern</option>
+    <option value="puzzle-glass">Glass</option>
+    <option value="puzzle-soft">Soft</option>
+    <option value="puzzle-arcade">Arcade</option>
+    <option value="puzzle-minimal">Minimal</option>
+</select>
+
+            <div id="theme-toggle">
+                <span class="theme-icon">☀</span>
+
+                <label class="switch">
+                    <input
+                        type="checkbox"
+                        id="dark-mode-option"
+                    >
+
+                    <span class="slider"></span>
+                </label>
+
+                <span class="theme-icon">☾</span>
+            </div>
+
+        </div>
+
+    </header>
+
+    <main id="app">
+
+        <aside id="sidebar">
+
+            <select
+                id="size-select"
+                aria-label="Puzzle size"
+            ></select>
+
+            <div id="options"></div>
+
+            <div id="stats"></div>
+
+            <div id="controls"></div>
+
+        </aside>
+
+        <section id="game">
+
+            <div id="fifteen-puzzle" class="puzzle-neon-clean"></div>
+
+            <div id="solved-message"></div>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="main.js"></script>
+
+</body>
+</html>

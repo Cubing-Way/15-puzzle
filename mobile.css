@@ -1,0 +1,685 @@
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    max-width: 100%;
+
+    overflow-x: hidden;
+}
+
+:root {
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --border: #e2e8f0;
+
+    --text: #172033;
+    --muted: #64748b;
+
+    --primary: #2563eb;
+
+    --tile: #3b82f6;
+    --tile-active: #2563eb;
+
+    --solved: #a3e635;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding:
+        env(safe-area-inset-top)
+        16px
+        env(safe-area-inset-bottom);
+
+    background: var(--bg);
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+#app-header {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 13px 0 15px;
+}
+
+#brand {
+    min-width: 0;
+}
+
+#brand h1 {
+    margin: 0;
+
+    font-size: 19px;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+#brand p {
+    margin: 2px 0 0;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+#header-actions {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+/* =========================
+   DARK MODE
+   ========================= */
+
+#theme-toggle {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    flex-shrink: 0;
+}
+
+.theme-icon {
+    line-height: 1;
+}
+
+.switch {
+    position: relative;
+
+    width: 38px;
+    height: 21px;
+
+    display: inline-block;
+
+    flex-shrink: 0;
+}
+
+.switch input {
+    width: 0;
+    height: 0;
+
+    opacity: 0;
+}
+
+.slider {
+    position: absolute;
+
+    inset: 0;
+
+    background: #cbd5e1;
+
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease;
+}
+
+.slider::before {
+    content: "";
+
+    position: absolute;
+
+    width: 15px;
+    height: 15px;
+
+    left: 3px;
+    top: 3px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    transition:
+        transform 0.2s ease;
+}
+
+.switch input:checked + .slider {
+    background: var(--primary);
+}
+
+.switch input:checked + .slider::before {
+    transform:
+        translateX(17px);
+}
+
+
+/* =========================
+   SIZE SELECTOR
+   ========================= */
+
+#size-select {
+    width: 100%;
+    max-width: 100%;
+
+    min-height: 42px;
+
+    padding: 9px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--surface);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   MAIN APP
+   ========================= */
+
+#app {
+    width: 100%;
+    max-width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+#sidebar {
+    width: 100%;
+    max-width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-top: 0;
+}
+
+
+/* =========================
+   GAME
+   ========================= */
+
+#game {
+    width: 100%;
+    max-width: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   PUZZLE
+   ========================= */
+
+#fifteen-puzzle {
+    --grid-size: 3;
+
+    /*
+     * This is important.
+     * The puzzle is a square whose width is
+     * exactly the width available to #game.
+     */
+
+    width: 100%;
+    max-width: 500px;
+
+    aspect-ratio: 1 / 1;
+
+    height: auto;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            var(--grid-size),
+            minmax(0, 1fr)
+        );
+
+    grid-template-rows:
+        repeat(
+            var(--grid-size),
+            minmax(0, 1fr)
+        );
+
+    gap: 0;
+
+    padding: 0;
+
+    background: #0f172a;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    touch-action: none;
+}
+
+
+/* =========================
+   TILES
+   ========================= */
+
+#fifteen-puzzle {
+    container-type: inline-size;
+}
+
+.grid-item {
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--tile);
+    color: white;
+
+    border: 1px solid white;
+    border-radius: 0;
+
+    font-size: clamp(
+        14px,
+        calc(58cqw / var(--grid-size)),
+        38px
+    );
+
+    font-weight: 800;
+    line-height: 1;
+
+    overflow: hidden;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    touch-action: none;
+}
+
+.grid-item:active {
+    transform: scale(0.93);
+}
+
+.grid-item.solved {
+    background: var(--tile);
+    color: var(--solved);
+
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+}
+
+
+.grid-item.solved {
+    background: var(--tile);
+    color: var(--solved);
+
+    /*
+     * No white outline.
+     */
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+}
+
+
+/* =========================
+   OPTIONS
+   ========================= */
+
+#options {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 12px 14px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+}
+
+#options h2 {
+    margin: 0 0 8px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+.option {
+    display: inline-flex;
+    align-items: center;
+
+    margin-right: 13px;
+
+    font-size: 12px;
+}
+
+.option input {
+    width: 17px;
+    height: 17px;
+
+    margin: 0 6px 0 0;
+
+    accent-color: var(--primary);
+}
+
+
+/* =========================
+   STATS
+   ========================= */
+
+#stats {
+    width: 100%;
+    max-width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    padding: 11px 14px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+}
+
+.stat {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat + .stat {
+    padding-left: 14px;
+
+    border-left: 1px solid var(--border);
+}
+
+.stat-label {
+    color: var(--muted);
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+#move-counter,
+#timer {
+    font-size: 15px;
+    font-weight: 800;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+#controls {
+    width: 100%;
+    max-width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+}
+
+#controls button {
+    min-width: 0;
+
+    min-height: 49px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: var(--primary);
+    color: white;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    touch-action: manipulation;
+}
+
+#controls button:active {
+    transform: scale(0.97);
+}
+
+#controls button:last-child {
+    background: var(--surface);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+
+/* =========================
+   SOLVED MESSAGE
+   ========================= */
+
+#solved-message {
+    position: fixed;
+
+    left: 50%;
+
+    bottom:
+        calc(
+            20px +
+            env(safe-area-inset-bottom)
+        );
+
+    transform:
+        translate(-50%, 10px);
+
+    padding: 11px 20px;
+
+    background: var(--solved);
+    color: #172033;
+
+    border-radius: 999px;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+    z-index: 10;
+}
+
+#solved-message.visible {
+    opacity: 1;
+
+    transform:
+        translate(-50%, 0);
+}
+
+
+/* =========================
+   DARK MODE
+   ========================= */
+
+body.dark-mode {
+    --bg: #080d18;
+    --surface: #111827;
+    --surface-2: #1e293b;
+    --border: #263449;
+
+    --text: #f8fafc;
+    --muted: #94a3b8;
+
+    --primary: #3b82f6;
+
+    --tile: #3b82f6;
+    --tile-active: #60a5fa;
+
+    --solved: #bef264;
+}
+
+body.dark-mode #fifteen-puzzle {
+    background: #020617;
+
+    box-shadow:
+        0 20px 50px rgba(
+            0,
+            0,
+            0,
+            0.45
+        );
+}
+
+
+/* =========================
+   SMALL PHONES
+   ========================= */
+
+@media (max-width: 360px) {
+    body {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #header-actions {
+        gap: 5px;
+    }
+
+    #fifteen-puzzle {
+        max-width: 100%;
+
+        border-radius: 14px;
+    }
+
+    .grid-item {
+        border-width: 1px;
+
+        font-size: clamp(
+            9px,
+            7.5cqw,
+            32px
+        );
+    }
+}
+
+#puzzle-theme-select {
+    width: 100%;
+    min-height: 42px;
+
+    padding: 9px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+    outline: none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+#puzzle-theme-select:hover {
+    border-color: var(--primary);
+}
+
+#puzzle-theme-select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, .12);
+}
