@@ -1,6 +1,6 @@
 import { createPuzzle, moveSquare } from "./puzzle.js";
 
-function scramblePuzzle(size, moves = size * size * 10) {
+function scramblePuzzle(size, moves = size * size * 100) {
     let puzzle = createPuzzle(size);
 
     for (let i = 0; i < moves; i++) {
