@@ -21,7 +21,8 @@
         href="mobile.css"
         media="(max-width: 600px)"
     >
-        <link
+
+    <link
         rel="stylesheet"
         href="puzzle.css"
     >
@@ -38,17 +39,18 @@
 
         <div id="header-actions">
 
-<select id="puzzle-theme-select">
-    <option value="puzzle-neon-clean">Default</option>
-    <option value="puzzle-neon">Neon</option>
-    <option value="puzzle-modern">Modern</option>
-    <option value="puzzle-glass">Glass</option>
-    <option value="puzzle-soft">Soft</option>
-    <option value="puzzle-arcade">Arcade</option>
-    <option value="puzzle-minimal">Minimal</option>
-</select>
+            <select id="puzzle-theme-select">
+                <option value="puzzle-neon-clean">Default</option>
+                <option value="puzzle-neon">Neon</option>
+                <option value="puzzle-modern">Modern</option>
+                <option value="puzzle-glass">Glass</option>
+                <option value="puzzle-soft">Soft</option>
+                <option value="puzzle-arcade">Arcade</option>
+                <option value="puzzle-minimal">Minimal</option>
+            </select>
 
             <div id="theme-toggle">
+
                 <span class="theme-icon">☀</span>
 
                 <label class="switch">
@@ -61,6 +63,7 @@
                 </label>
 
                 <span class="theme-icon">☾</span>
+
             </div>
 
         </div>
@@ -71,30 +74,31 @@
 
         <aside id="sidebar">
 
-            <select
-                id="size-select"
-                aria-label="Puzzle size"
-            ></select>
-
             <div id="options"></div>
-
-            <div id="stats"></div>
-
-            <div id="controls"></div>
 
         </aside>
 
         <section id="game">
+            <div id="game-info">
+                
+                <select
+                    id="size-select"
+                    aria-label="Puzzle size"
+                ></select>
+
+                <div id="scramble-control"></div>
+
+               <div id="reset-control"></div>
+            </div>
 
             <div id="fifteen-puzzle" class="puzzle-neon-clean"></div>
+
+            <div id="stats"></div>
 
             <div id="solved-message"></div>
 
         </section>
-
     </main>
-
     <script type="module" src="main.js"></script>
-
 </body>
 </html>

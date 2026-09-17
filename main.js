@@ -13,14 +13,26 @@ import {
 
 import { scramblePuzzle } from "./simulator.js";
 
+
 const puzzleElement = document.getElementById("fifteen-puzzle");
 const themeSelect = document.getElementById("puzzle-theme-select");
+const sizeSelect = document.getElementById("size-select");
+
+const STORAGE_KEY = "15-puzzle-state";
 
 const puzzleThemes = [
-    "puzzle-neon-clean", "puzzle-neon", "puzzle-modern",
-    "puzzle-glass", "puzzle-soft", "puzzle-arcade",
-    "puzzle-minimal", "puzzle-midnight", "puzzle-ocean",
-    "puzzle-sunset", "puzzle-forest", "puzzle-monochrome"
+    "puzzle-neon-clean",
+    "puzzle-neon",
+    "puzzle-modern",
+    "puzzle-glass",
+    "puzzle-soft",
+    "puzzle-arcade",
+    "puzzle-minimal",
+    "puzzle-midnight",
+    "puzzle-ocean",
+    "puzzle-sunset",
+    "puzzle-forest",
+    "puzzle-monochrome"
 ];
 
 const savedTheme = localStorage.getItem("puzzle-theme");
@@ -45,189 +57,190 @@ themeSelect.addEventListener("change", () => {
 });
 
 
-const fifteenPuzzle =
-    document.getElementById("fifteen-puzzle");
-
-const sizeSelect =
-    document.getElementById("size-select");
-
-
 for (let size = 3; size <= 10; size++) {
-    const option =
-        document.createElement("option");
+    const option = document.createElement("option");
 
     option.value = size;
-    option.textContent = `${size} × ${size}`;
+    option.textContent = `${size} × ${size} (${size * size - 1} puzzle)`;
 
     sizeSelect.appendChild(option);
 }
 
 
-sizeSelect.value = "4";
+const savedState = loadGameState();
+
+let size = savedState?.size || 4;
+let puzzle = savedState?.puzzle || scramblePuzzle(size);
+
+sizeSelect.value = String(size);
+
+const setPuzzle = newPuzzle => {
+    puzzle = newPuzzle;
+};
+
+
+const saveState = extraState => {
+    const state = {
+        size,
+        puzzle: [...puzzle],
+        ...extraState
+    };
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
+    );
+};
+
+
+const clearSavedState = () => {
+    localStorage.removeItem(
+        STORAGE_KEY
+    );
+};
+
+
+function loadGameState() {
+    try {
+        const saved = localStorage.getItem(
+            STORAGE_KEY
+        );
+
+        if (!saved) {
+            return null;
+        }
+
+        const state = JSON.parse(saved);
+
+        if (
+            !state ||
+            !Array.isArray(state.puzzle) ||
+            !state.size
+        ) {
+            return null;
+        }
+
+        if (isPuzzleSolved(state.puzzle)) {
+            localStorage.removeItem(STORAGE_KEY);
+            return null;
+        }
+
+        return state;
+    } catch {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+    }
+}
+
+
+function isPuzzleSolved(state) {
+    const last = state.length;
+
+    return state.every(
+        (square, index) =>
+            square === index + 1 ||
+            (index === last - 1 && square === last)
+    );
+}
 
 
 createOptionsUI();
-createStatsUI();
+
+createStatsUI(
+    setPuzzle,
+    {
+        onStateChange: state => {
+            saveState(state);
+        },
+
+        initialState: savedState
+    }
+);
 
 
-let size =
-    Number(sizeSelect.value);
-
-let puzzle =
-    scramblePuzzle(size);
-
-
-fifteenPuzzle.style.setProperty(
+puzzleElement.style.setProperty(
     "--grid-size",
     size
 );
 
 
-const moveHandler =
-    createMoveHandler({
-        getPuzzle: () => puzzle,
-
-        setPuzzle: newPuzzle => {
-            puzzle = newPuzzle;
-        },
-
-        getSize: () => size,
-
-        container: fifteenPuzzle,
-
-        onSolved: () => {
-            setTimeout(() => {
-                puzzle =
-                    createPuzzle(size);
-
-                /*
-                 * Do NOT reset the stats here.
-                 *
-                 * The next attempt starts when
-                 * the player makes their first move.
-                 */
-                markNewPuzzle();
-
-                showSolvedMessage(false);
-
-                fifteenPuzzle.innerHTML = "";
-
-                createPuzzleUI(
-                    fifteenPuzzle,
-                    puzzle,
-                    moveHandler
-                );
-
-                renderPuzzle(puzzle);
-
-            }, 1000);
-        }
-    });
+let moveHandler;
 
 
-createPuzzleUI(
-    fifteenPuzzle,
-    puzzle,
-    moveHandler
-);
+const rebuildPuzzleUI = () => {
+    puzzleElement.innerHTML = "";
 
-renderPuzzle(puzzle);
+    createPuzzleUI(
+        puzzleElement,
+        puzzle,
+        moveHandler
+    );
+
+    renderPuzzle(puzzle);
+};
 
 
-/*
- * Puzzle controls
- */
-createPuzzleControls(
+moveHandler = createMoveHandler({
+    getPuzzle: () => puzzle,
+    setPuzzle,
+    getSize: () => size,
+    container: puzzleElement,
 
-    /*
-     * Auto Scramble
-     */
-    () => {
-        puzzle =
-            scramblePuzzle(size);
+    initialState: savedState,
 
-        /*
-         * Don't reset stats yet.
-         * Wait for the player's first move.
-         */
-        markNewPuzzle();
-
-        showSolvedMessage(false);
-
-        fifteenPuzzle.innerHTML = "";
-
-        createPuzzleUI(
-            fifteenPuzzle,
-            puzzle,
-            moveHandler
-        );
-
-        renderPuzzle(puzzle);
+    onStateChange: state => {
+        saveState(state);
     },
 
+    onSolved: () => {
+        clearSavedState();
 
-    /*
-     * Reset to Solved
-     */
+        setTimeout(() => {
+            puzzle = createPuzzle(size);
+
+            markNewPuzzle();
+            showSolvedMessage(false);
+            rebuildPuzzleUI();
+        }, 1000);
+    }
+});
+
+
+rebuildPuzzleUI();
+
+
+createPuzzleControls(
     () => {
-        puzzle =
-            createPuzzle(size);
+        puzzle = scramblePuzzle(size);
 
-        /*
-         * Don't reset stats yet.
-         * The next valid move will reset
-         * the counter and start the timer.
-         */
         markNewPuzzle();
-
         showSolvedMessage(false);
+        clearSavedState();
+        rebuildPuzzleUI();
+    },
 
-        fifteenPuzzle.innerHTML = "";
+    () => {
+        puzzle = createPuzzle(size);
 
-        createPuzzleUI(
-            fifteenPuzzle,
-            puzzle,
-            moveHandler
-        );
-
-        renderPuzzle(puzzle);
+        markNewPuzzle();
+        showSolvedMessage(false);
+        clearSavedState();
+        rebuildPuzzleUI();
     }
 );
 
 
-/*
- * Puzzle size changed
- */
-sizeSelect.addEventListener(
-    "change",
-    () => {
-        size =
-            Number(sizeSelect.value);
+sizeSelect.addEventListener("change", () => {
+    size = Number(sizeSelect.value);
+    puzzle = scramblePuzzle(size);
 
-        puzzle =
-            scramblePuzzle(size);
+    puzzleElement.style.setProperty(
+        "--grid-size",
+        size
+    );
 
-        fifteenPuzzle.style.setProperty(
-            "--grid-size",
-            size
-        );
-
-        /*
-         * New puzzle, but don't reset stats
-         * until the first valid move.
-         */
-        markNewPuzzle();
-
-        showSolvedMessage(false);
-
-        fifteenPuzzle.innerHTML = "";
-
-        createPuzzleUI(
-            fifteenPuzzle,
-            puzzle,
-            moveHandler
-        );
-
-        renderPuzzle(puzzle);
-    }
-);
+    markNewPuzzle();
+    showSolvedMessage(false);
+    clearSavedState();
+    rebuildPuzzleUI();
+});

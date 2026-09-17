@@ -19,7 +19,6 @@
 
     --solved: #9dff00;
 
-
     --sidebar-width: 250px;
 }
 
@@ -223,9 +222,118 @@ body {
 }
 
 
+/* =========================
+   GAME AREA
+   ========================= */
+
+#game {
+    min-width: 0;
+    min-height: 0;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    overflow: hidden;
+}
+
+
+#game-info {
+    width: 100%;
+    max-width: 400px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+}
+
+#game-info > #scramble-control,
+#game-info > #reset-control {
+    width: 100%;
+}
+
+#game-info > #scramble-control button,
+#game-info > #reset-control button {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 42px;
+
+    padding: 0 8px;
+}
+
+
+
+#game-info #size-select {
+    width: 100%;
+    max-width: 400px;
+}
+
+#scramble-control button,
+#reset-control button {
+    width: 100%;
+
+    min-height: 40px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.08s ease;
+}
+
+#scramble-control button:hover,
+#reset-control button:hover {
+    background: var(--surface);
+    border-color: var(--primary);
+}
+
+#scramble-control button:active,
+#reset-control button:active {
+    transform: scale(0.98);
+}
+
+
+#reset-control button {
+    background: var(--surface-2);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+#game > #stats {
+    width: 100%;
+    max-width: 400px;
+
+    margin-top: 10px;
+}
+
+
 /* Puzzle size selector */
 
-#size-select, #puzzle-theme-select {
+#size-select,
+#puzzle-theme-select {
     width: 100%;
 
     min-height: 42px;
@@ -247,7 +355,8 @@ body {
     outline: none;
 }
 
-#size-select:focus {
+#size-select:focus,
+#puzzle-theme-select:focus {
     border-color: var(--primary);
 
     box-shadow:
@@ -257,28 +366,10 @@ body {
 
 
 /* =========================
-   GAME AREA
-   ========================= */
-
-#game {
-    min-width: 0;
-    min-height: 0;
-
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-}
-
-/* =========================
    SIDEBAR CARDS
    ========================= */
 
 #options,
-#stats,
 #controls {
     width: 100%;
 
@@ -332,26 +423,51 @@ body {
    STATS
    ========================= */
 
+/* =========================
+   STATS
+   ========================= */
+
 #stats {
+    min-width: 0;
+
     display: grid;
 
     grid-template-columns:
         1fr 1fr;
 
+    gap: 0;
+
     padding: 14px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
 }
 
 .stat {
-    display: flex;
-    flex-direction: column;
+    min-width: 0;
 
-    gap: 3px;
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
 }
 
 .stat + .stat {
-    padding-left: 13px;
+    padding-left: 16px;
 
     border-left: 1px solid var(--border);
+}
+
+.stat-info {
+    min-width: 45px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
 }
 
 .stat-label {
@@ -373,6 +489,52 @@ body {
 
     font-variant-numeric: tabular-nums;
 }
+
+.move-controls,
+.timer-controls {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+#stats button {
+    min-height: 30px;
+
+    padding: 0 9px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.08s ease;
+}
+
+#stats button:hover:not(:disabled) {
+    background: var(--surface);
+    border-color: var(--primary);
+}
+
+#stats button:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+#stats button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
 
 
 /* =========================
@@ -424,6 +586,32 @@ body {
 
     border: 1px solid var(--border);
 }
+
+#game > #controls {
+    width: auto;
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 8px;
+
+    margin-top: 20px;
+
+    padding: 0;
+
+    background: transparent;
+    border: none;
+}
+
+#game > #controls button {
+    width: auto;
+    min-width: 110px;
+
+    min-height: 42px;
+
+    padding: 0 18px;
+}
+
 
 
 /* =========================

@@ -187,13 +187,11 @@ body {
 
 
 /* =========================
-   SIZE SELECTOR
+   HEADER THEME SELECT
    ========================= */
 
-#size-select {
+#puzzle-theme-select {
     width: 100%;
-    max-width: 100%;
-
     min-height: 42px;
 
     padding: 9px 12px;
@@ -201,7 +199,7 @@ body {
     border: 1px solid var(--border);
     border-radius: 9px;
 
-    background: var(--surface);
+    background: var(--surface-2);
     color: var(--text);
 
     font-family: inherit;
@@ -209,6 +207,23 @@ body {
     font-weight: 700;
 
     cursor: pointer;
+    outline: none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+#puzzle-theme-select:hover {
+    border-color: var(--primary);
+}
+
+#puzzle-theme-select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, .12);
 }
 
 
@@ -260,13 +275,210 @@ body {
     min-height: 0;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
 
     padding: 0;
 
     overflow: hidden;
 }
+
+
+
+/* =========================
+   GAME INFO
+   ========================= */
+   
+#game-info {
+    width: 100%;
+    max-width: 400px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 6px;
+
+    margin-bottom: 8px;
+}
+
+#game-info > #scramble-control,
+#game-info > #reset-control {
+    width: 100%;
+}
+
+#game-info > #scramble-control button,
+#game-info > #reset-control button {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 44px;
+
+    padding: 0 4px;
+
+    font-size: 12px;
+}
+
+#game-info > #size-select {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 44px;
+
+    padding: 8px 5px;
+
+    font-size: 12px;
+}
+
+#scramble-control button,
+#reset-control button {
+    min-height: 44px;
+
+    padding: 0 4px;
+
+    border-radius: 14px;
+
+    background: var(--surface);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+#scramble-control button:hover,
+#reset-control button:hover {
+    background: var(--surface-2);
+    border-color: var(--primary);
+}
+
+
+#reset-control button {
+    background: var(--surface);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+
+
+/* =========================
+   SIZE SELECTOR
+   ========================= */
+
+#size-select {
+    width: 100%;
+    max-width: 100%;
+
+    min-height: 42px;
+
+    padding: 9px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--surface);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   STATS
+   ========================= */
+
+/* =========================
+   STATS
+   ========================= */
+
+#stats {
+    width: 100%;
+    max-width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    padding: 11px 14px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+}
+
+.stat {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.stat + .stat {
+    padding-left: 12px;
+
+    border-left: 1px solid var(--border);
+}
+
+.stat-info {
+    min-width: 38px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.stat-label {
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+#move-counter,
+#timer {
+    font-size: 15px;
+    font-weight: 800;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.move-controls,
+.timer-controls {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+}
+
+#stats button {
+    min-height: 29px;
+
+    padding: 0 6px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+}
+
 
 
 /* =========================
@@ -275,12 +487,6 @@ body {
 
 #fifteen-puzzle {
     --grid-size: 3;
-
-    /*
-     * This is important.
-     * The puzzle is a square whose width is
-     * exactly the width available to #game.
-     */
 
     width: 100%;
     max-width: 500px;
@@ -317,16 +523,14 @@ body {
     overflow: hidden;
 
     touch-action: none;
+
+    container-type: inline-size;
 }
 
 
 /* =========================
    TILES
    ========================= */
-
-#fifteen-puzzle {
-    container-type: inline-size;
-}
 
 .grid-item {
     width: 100%;
@@ -370,18 +574,6 @@ body {
     background: var(--tile);
     color: var(--solved);
 
-    -webkit-text-stroke: 0;
-    text-shadow: none;
-}
-
-
-.grid-item.solved {
-    background: var(--tile);
-    color: var(--solved);
-
-    /*
-     * No white outline.
-     */
     -webkit-text-stroke: 0;
     text-shadow: none;
 }
@@ -431,60 +623,6 @@ body {
     margin: 0 6px 0 0;
 
     accent-color: var(--primary);
-}
-
-
-/* =========================
-   STATS
-   ========================= */
-
-#stats {
-    width: 100%;
-    max-width: 100%;
-
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    padding: 11px 14px;
-
-    background: var(--surface);
-
-    border: 1px solid var(--border);
-
-    border-radius: 14px;
-}
-
-.stat {
-    min-width: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.stat + .stat {
-    padding-left: 14px;
-
-    border-left: 1px solid var(--border);
-}
-
-.stat-label {
-    color: var(--muted);
-
-    font-size: 10px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-}
-
-#move-counter,
-#timer {
-    font-size: 15px;
-    font-weight: 800;
-
-    font-variant-numeric: tabular-nums;
 }
 
 
@@ -622,6 +760,7 @@ body.dark-mode #fifteen-puzzle {
    ========================= */
 
 @media (max-width: 360px) {
+
     body {
         padding-left: 10px;
         padding-right: 10px;
@@ -646,40 +785,4 @@ body.dark-mode #fifteen-puzzle {
             32px
         );
     }
-}
-
-#puzzle-theme-select {
-    width: 100%;
-    min-height: 42px;
-
-    padding: 9px 12px;
-
-    border: 1px solid var(--border);
-    border-radius: 9px;
-
-    background: var(--surface-2);
-    color: var(--text);
-
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 700;
-
-    cursor: pointer;
-    outline: none;
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
-}
-
-#puzzle-theme-select:hover {
-    border-color: var(--primary);
-}
-
-#puzzle-theme-select:focus {
-    border-color: var(--primary);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(37, 99, 235, .12);
 }
