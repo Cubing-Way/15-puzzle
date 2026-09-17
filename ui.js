@@ -12,43 +12,11 @@ let highlightSolvedEnabled = true;
 
 let puzzleStarted = false;
 let timerPaused = false;
-let restoredFromStorage = false;
+let restoredGame = false;
 
 let puzzleHistory = [];
 let historyIndex = -1;
-
-const STORAGE_KEY = "15-puzzle-state";
-
-function saveGameState() {
-    if (!currentPuzzle || isSolved(currentPuzzle)) return;
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        puzzle: [...currentPuzzle],
-        moveCount,
-        timerSeconds,
-        puzzleStarted,
-        timerPaused: true
-    }));
-}
-
-function clearGameState() {
-    localStorage.removeItem(STORAGE_KEY);
-}
-
-function getSavedGameState() {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (!saved) return null;
-
-        const state = JSON.parse(saved);
-
-        if (!Array.isArray(state.puzzle) || !state.puzzle.length) return null;
-
-        return state;
-    } catch {
-        return null;
-    }
-}
+let stateChangeCallback = null;
 
 function createPuzzleUI(container, puzzle, onMove) {
     puzzle.forEach((square, i) => {
@@ -96,14 +64,34 @@ function renderPuzzle(puzzle) {
 
     puzzle.forEach((square, i) => {
         const squareDiv = document.getElementById("Square-" + (i + 1));
+
         if (!squareDiv) return;
 
         squareDiv.textContent = square === puzzle.length ? "" : square;
         squareDiv.classList.toggle("empty", square === puzzle.length);
-        squareDiv.classList.toggle("solved", highlightSolvedEnabled && square === i + 1);
+        squareDiv.classList.toggle(
+            "solved",
+            highlightSolvedEnabled && square === i + 1
+        );
     });
 
     updateHistoryButtons();
+}
+
+function saveState() {
+    if (!currentPuzzle || isSolved(currentPuzzle)) {
+        stateChangeCallback?.(null);
+        return;
+    }
+
+    stateChangeCallback?.({
+        moveCount,
+        timerSeconds,
+        timerPaused,
+        puzzleHistory: puzzleHistory.map(puzzle => [...puzzle]),
+        historyIndex,
+        lastSavedAt: Date.now()
+    });
 }
 
 function addToHistory(puzzle) {
@@ -127,7 +115,36 @@ function updateHistoryButtons() {
     if (redoButton) redoButton.disabled = historyIndex >= puzzleHistory.length - 1;
 }
 
-function createMoveHandler({ getPuzzle, setPuzzle, getSize, onSolved }) {
+function createMoveHandler({
+    getPuzzle,
+    setPuzzle,
+    getSize,
+    container,
+    onSolved,
+    onStateChange,
+    initialState
+}) {
+    stateChangeCallback = onStateChange || null;
+
+    if (initialState) {
+        moveCount = initialState.moveCount || 0;
+        timerSeconds = initialState.timerSeconds || 0;
+        timerPaused = true;
+        restoredGame = true;
+
+        puzzleHistory = Array.isArray(initialState.puzzleHistory)
+            ? initialState.puzzleHistory.map(puzzle => [...puzzle])
+            : [];
+
+        historyIndex = initialState.historyIndex ?? -1;
+        puzzleStarted = moveCount > 0;
+
+        updateMoveCounter();
+        updateTimerDisplay();
+        updateTimerButton();
+        updateHistoryButtons();
+    }
+
     return (clickedSquare, currSquare) => {
         const puzzle = getPuzzle();
         const size = getSize();
@@ -136,29 +153,35 @@ function createMoveHandler({ getPuzzle, setPuzzle, getSize, onSolved }) {
         if (newPuzzle === puzzle) return;
 
         if (!puzzleStarted) {
-            resetStats();
             puzzleStarted = true;
-            resetHistory(puzzle);
-        }
 
-        timerPaused = false;
-        restoredFromStorage = false;
+            if (puzzleHistory.length === 0) resetHistory(puzzle);
+        }
 
         setPuzzle(newPuzzle);
         addToHistory(newPuzzle);
-
         incrementMoveCounter();
-        startTimer();
-        renderPuzzle(newPuzzle);
-        saveGameState();
 
-        if (isSolved(newPuzzle)) {
+        if (restoredGame) {
+            restoredGame = false;
+            timerPaused = false;
+            startTimer();
+        } else if (!timerPaused) {
+            startTimer();
+        }
+
+        renderPuzzle(newPuzzle);
+
+        const solved = isSolved(newPuzzle);
+
+        if (solved) {
             stopTimer();
-            clearGameState();
             showSolvedMessage(true);
+            stateChangeCallback?.(null);
             onSolved();
         } else {
             showSolvedMessage(false);
+            saveState();
         }
     };
 }
@@ -176,9 +199,15 @@ function undoMove(setPuzzle) {
 
     updateMoveCounter();
     renderPuzzle(puzzle);
-    showSolvedMessage(isSolved(puzzle));
-    saveGameState();
+
+    const solved = isSolved(puzzle);
+
+    showSolvedMessage(solved);
+
+    if (!solved && !timerPaused && timerEnabled) startTimer();
+
     updateHistoryButtons();
+    saveState();
 }
 
 function redoMove(setPuzzle) {
@@ -194,16 +223,19 @@ function redoMove(setPuzzle) {
 
     updateMoveCounter();
     renderPuzzle(puzzle);
-    showSolvedMessage(isSolved(puzzle));
 
-    if (isSolved(puzzle)) {
+    const solved = isSolved(puzzle);
+
+    showSolvedMessage(solved);
+
+    if (solved) {
         stopTimer();
-        clearGameState();
-    } else {
-        saveGameState();
+    } else if (!timerPaused && timerEnabled) {
+        startTimer();
     }
 
     updateHistoryButtons();
+    saveState();
 }
 
 function createOptionsUI() {
@@ -211,24 +243,44 @@ function createOptionsUI() {
 
     options.innerHTML = `
         <h2>Options</h2>
-        <label class="option"><input type="checkbox" id="move-counter-option" checked><span>Move counter</span></label>
-        <label class="option"><input type="checkbox" id="timer-option" checked><span>Timer</span></label>
-        <label class="option"><input type="checkbox" id="highlight-option" checked><span>Highlight solved</span></label>
+
+        <label class="option">
+            <input type="checkbox" id="move-counter-option" checked>
+            <span>Move counter</span>
+        </label>
+
+        <label class="option">
+            <input type="checkbox" id="timer-option" checked>
+            <span>Timer</span>
+        </label>
+
+        <label class="option">
+            <input type="checkbox" id="highlight-option" checked>
+            <span>Highlight solved</span>
+        </label>
     `;
 
     document.getElementById("move-counter-option").addEventListener("change", event => {
         moveCounterEnabled = event.target.checked;
         updateMoveCounter();
+        saveState();
     });
 
     document.getElementById("timer-option").addEventListener("change", event => {
         timerEnabled = event.target.checked;
-        if (!timerEnabled) stopTimer();
-        updateTimerButton();
+
+        if (!timerEnabled) {
+            stopTimer();
+        } else if (currentPuzzle && !timerPaused && puzzleStarted) {
+            startTimer();
+        }
+
+        saveState();
     });
 
     document.getElementById("highlight-option").addEventListener("change", event => {
         highlightSolvedEnabled = event.target.checked;
+
         if (currentPuzzle) renderPuzzle(currentPuzzle);
     });
 
@@ -237,6 +289,7 @@ function createOptionsUI() {
 
 function createThemeToggle() {
     const toggle = document.getElementById("dark-mode-option");
+
     if (!toggle) return;
 
     const darkMode = localStorage.getItem("dark-mode") === "true";
@@ -252,40 +305,75 @@ function createThemeToggle() {
     });
 }
 
-function createStatsUI() {
+function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
     const stats = document.getElementById("stats");
+
+    stateChangeCallback = onStateChange || null;
 
     stats.innerHTML = `
         <div class="stat">
-            <div class="stat-info"><span class="stat-label">Moves</span><span id="move-counter">0</span></div>
-            <div class="move-controls"><button id="undo-button" type="button" disabled>Undo</button><button id="redo-button" type="button" disabled>Redo</button></div>
+            <div class="stat-info">
+                <span class="stat-label">Moves</span>
+                <span id="move-counter">0</span>
+            </div>
+
+            <div class="move-controls">
+                <button id="undo-button" type="button" disabled>Undo</button>
+                <button id="redo-button" type="button" disabled>Redo</button>
+            </div>
         </div>
+
         <div class="stat">
-            <div class="stat-info"><span class="stat-label">Time</span><span id="timer">00:00</span></div>
-            <div class="timer-controls"><button id="timer-pause-button" type="button">Pause</button><button id="timer-reset-button" type="button">Reset</button></div>
+            <div class="stat-info">
+                <span class="stat-label">Time</span>
+                <span id="timer">00:00</span>
+            </div>
+
+            <div class="timer-controls">
+                <button id="timer-pause-button" type="button">Pause</button>
+                <button id="timer-reset-button" type="button">Reset</button>
+            </div>
         </div>
     `;
 
     document.getElementById("timer-pause-button").addEventListener("click", toggleTimer);
     document.getElementById("timer-reset-button").addEventListener("click", resetTimer);
+    document.getElementById("undo-button").addEventListener("click", () => undoMove(setPuzzle));
+    document.getElementById("redo-button").addEventListener("click", () => redoMove(setPuzzle));
+    createKeyboardControls(setPuzzle);
 
-    updateHistoryButtons();
+    if (initialState) {
+        moveCount = initialState.moveCount || 0;
+        timerSeconds = initialState.timerSeconds || 0;
+
+        puzzleHistory = Array.isArray(initialState.puzzleHistory)
+            ? initialState.puzzleHistory.map(puzzle => [...puzzle])
+            : [];
+
+        historyIndex = initialState.historyIndex ?? -1;
+    }
+
     updateMoveCounter();
     updateTimerDisplay();
     updateTimerButton();
+    updateHistoryButtons();
 }
 
 function resetTimer() {
     stopTimer();
+
     timerSeconds = 0;
-    timerPaused = true;
-    saveGameState();
+    timerPaused = false;
+    restoredGame = false;
+
     updateTimerDisplay();
     updateTimerButton();
+    saveState();
 }
 
 function updateMoveCounter() {
     const counter = document.getElementById("move-counter");
+
     if (!counter) return;
 
     counter.style.display = moveCounterEnabled ? "block" : "none";
@@ -293,17 +381,18 @@ function updateMoveCounter() {
 }
 
 function incrementMoveCounter() {
+    if (!moveCounterEnabled) return;
+
     moveCount++;
     updateMoveCounter();
 }
 
 function startTimer() {
-    if (!timerEnabled || timerInterval || timerPaused) return;
+    if (timerInterval || timerPaused || !timerEnabled) return;
 
     timerInterval = setInterval(() => {
         timerSeconds++;
         updateTimerDisplay();
-        saveGameState();
     }, 1000);
 
     updateTimerButton();
@@ -320,19 +409,24 @@ function toggleTimer() {
 
     if (timerPaused) {
         timerPaused = false;
-        restoredFromStorage = false;
-        startTimer();
+        restoredGame = false;
+
+        if (currentPuzzle && !isSolved(currentPuzzle)) {
+            startTimer();
+        }
     } else {
         timerPaused = true;
+        restoredGame = false;
         stopTimer();
     }
 
-    saveGameState();
     updateTimerButton();
+    saveState();
 }
 
 function updateTimerButton() {
     const button = document.getElementById("timer-pause-button");
+
     if (!button) return;
 
     button.textContent = timerPaused ? "Resume" : "Pause";
@@ -341,6 +435,7 @@ function updateTimerButton() {
 
 function updateTimerDisplay() {
     const timer = document.getElementById("timer");
+
     if (!timer) return;
 
     const minutes = Math.floor(timerSeconds / 60);
@@ -355,62 +450,81 @@ function resetStats() {
     moveCount = 0;
     timerSeconds = 0;
     timerPaused = false;
+    restoredGame = false;
 
     updateMoveCounter();
     updateTimerDisplay();
     updateTimerButton();
-}
-
-function restoreGameState(state) {
-    if (!state) return null;
-
-    currentPuzzle = [...state.puzzle];
-    moveCount = Number(state.moveCount) || 0;
-    timerSeconds = Number(state.timerSeconds) || 0;
-    puzzleStarted = Boolean(state.puzzleStarted);
-
-    // Restored games always wait for Resume or a move.
-    timerPaused = true;
-    restoredFromStorage = true;
-
-    resetHistory(currentPuzzle);
-    updateMoveCounter();
-    updateTimerDisplay();
-    updateTimerButton();
-
-    return [...currentPuzzle];
 }
 
 function markNewPuzzle() {
+    stopTimer();
+
+    moveCount = 0;
+    timerSeconds = 0;
+    timerPaused = false;
+    restoredGame = false;
     puzzleStarted = false;
+
     puzzleHistory = [];
     historyIndex = -1;
 
-    stopTimer();
-    clearGameState();
+    updateMoveCounter();
+    updateTimerDisplay();
+    updateTimerButton();
     updateHistoryButtons();
 }
 
 function showSolvedMessage(solved) {
     const message = document.getElementById("solved-message");
+
     if (!message) return;
 
     message.textContent = solved ? "Solved! 🎉" : "";
     message.classList.toggle("visible", solved);
 }
 
-function createPuzzleControls(onRescramble, onSolve, setPuzzle) {
+function createPuzzleControls(onRescramble, onSolve) {
     const scrambleControl = document.getElementById("scramble-control");
     const resetControl = document.getElementById("reset-control");
 
-    scrambleControl.innerHTML = `<button id="rescramble-button" type="button">Scramble</button>`;
-    resetControl.innerHTML = `<button id="solve-button" type="button">Solve</button>`;
+    scrambleControl.innerHTML = `
+        <button id="rescramble-button" type="button">Scramble</button>
+    `;
+
+    resetControl.innerHTML = `
+        <button id="solve-button" type="button">Solve</button>
+    `;
 
     document.getElementById("rescramble-button").addEventListener("click", onRescramble);
     document.getElementById("solve-button").addEventListener("click", onSolve);
+}
 
-    document.getElementById("undo-button")?.addEventListener("click", () => undoMove(setPuzzle));
-    document.getElementById("redo-button")?.addEventListener("click", () => redoMove(setPuzzle));
+function createKeyboardControls(setPuzzle) {
+    document.addEventListener("keydown", event => {
+        const target = event.target;
+        const isTyping =
+            target instanceof HTMLInputElement ||
+            target instanceof HTMLTextAreaElement ||
+            target instanceof HTMLSelectElement;
+
+        if (isTyping || !event.ctrlKey) return;
+
+        if (event.key.toLowerCase() === "z") {
+            event.preventDefault();
+
+            if (event.shiftKey) {
+                redoMove(setPuzzle);
+            } else {
+                undoMove(setPuzzle);
+            }
+        }
+
+        if (event.key.toLowerCase() === "y") {
+            event.preventDefault();
+            redoMove(setPuzzle);
+        }
+    });
 }
 
 export {
@@ -420,6 +534,7 @@ export {
     createMoveHandler,
     createOptionsUI,
     createStatsUI,
+    createKeyboardControls,
     incrementMoveCounter,
     startTimer,
     stopTimer,
@@ -429,9 +544,6 @@ export {
     showSolvedMessage,
     undoMove,
     redoMove,
-    resetHistory,
-    saveGameState,
-    clearGameState,
-    getSavedGameState,
-    restoreGameState
+    resetHistory
 };
+
