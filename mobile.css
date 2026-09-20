@@ -498,7 +498,6 @@ body {
     min-width: 0;
     min-height: 29px;
 
-    margin: 0;
     padding: 0 5px;
 
     border: 1px solid var(--border);
@@ -510,15 +509,8 @@ body {
     font-family: inherit;
     font-size: 9px;
     font-weight: 700;
-
-    line-height: 1;
-
-    box-sizing: border-box;
-
-    cursor: pointer;
-
-    touch-action: manipulation;
 }
+
 
 
 #stats button:disabled {
