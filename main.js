@@ -190,12 +190,16 @@ moveHandler = createMoveHandler({
         setTimeout(() => {
             puzzle = createPuzzle(size);
 
-            markNewPuzzle({ preserveTimer: true });
+            markNewPuzzle({
+                preserveTimer: true,
+                preserveHistory: true
+            });
             showSolvedMessage(false);
             rebuildPuzzleUI();
             savePuzzleSize();
         }, 1000);
     }
+
 });
 
 rebuildPuzzleUI();

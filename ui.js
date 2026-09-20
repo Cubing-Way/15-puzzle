@@ -14,6 +14,8 @@ let puzzleStarted = false;
 let timerPaused = false;
 let restoredGame = false;
 let resetTimerOnFirstMove = false;
+let resetStatsOnFirstMove = false;
+
 
 let puzzleHistory = [];
 let historyIndex = -1;
@@ -153,13 +155,20 @@ function createMoveHandler({
 
         if (newPuzzle === puzzle) return;
 
-        if (resetTimerOnFirstMove) {
+        if (resetStatsOnFirstMove) {
+            moveCount = 0;
             timerSeconds = 0;
+
+            resetStatsOnFirstMove = false;
             resetTimerOnFirstMove = false;
+
             timerPaused = false;
 
+            updateMoveCounter();
             updateTimerDisplay();
         }
+
+
 
         if (!puzzleStarted) {
             puzzleStarted = true;
@@ -466,28 +475,36 @@ function resetStats() {
     updateTimerButton();
 }
 
-function markNewPuzzle({ preserveTimer = false } = {}) {
+function markNewPuzzle({
+    preserveTimer = false,
+    preserveHistory = false
+} = {}) {
     stopTimer();
 
-    moveCount = 0;
-
     if (!preserveTimer) {
+        moveCount = 0;
         timerSeconds = 0;
     }
 
     timerPaused = false;
     restoredGame = false;
     puzzleStarted = false;
-    resetTimerOnFirstMove = preserveTimer;
 
-    puzzleHistory = [];
-    historyIndex = -1;
+    resetTimerOnFirstMove = preserveTimer;
+    resetStatsOnFirstMove = preserveTimer;
+
+    if (!preserveHistory) {
+        puzzleHistory = [];
+        historyIndex = -1;
+    }
 
     updateMoveCounter();
     updateTimerDisplay();
     updateTimerButton();
     updateHistoryButtons();
 }
+
+
 
 function showSolvedMessage(solved) {
     const message = document.getElementById("solved-message");
