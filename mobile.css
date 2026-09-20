@@ -234,13 +234,12 @@ body {
 #app {
     width: 100%;
     max-width: 100%;
-
     min-width: 0;
 
     display: flex;
     flex-direction: column;
 
-    overflow: hidden;
+    flex: 1;
 }
 
 
@@ -267,21 +266,22 @@ body {
    GAME
    ========================= */
 
+
+
 #game {
     width: 100%;
     max-width: 100%;
-
-    min-width: 0;
-    min-height: 0;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    padding: 0;
+    justify-content: center;
 
-    overflow: hidden;
+    flex: 1;
 }
+
+
 
 
 

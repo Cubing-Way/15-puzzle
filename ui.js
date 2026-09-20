@@ -13,6 +13,7 @@ let highlightSolvedEnabled = true;
 let puzzleStarted = false;
 let timerPaused = false;
 let restoredGame = false;
+let resetTimerOnFirstMove = false;
 
 let puzzleHistory = [];
 let historyIndex = -1;
@@ -151,6 +152,14 @@ function createMoveHandler({
         const newPuzzle = moveSquare(puzzle, clickedSquare, size);
 
         if (newPuzzle === puzzle) return;
+
+        if (resetTimerOnFirstMove) {
+            timerSeconds = 0;
+            resetTimerOnFirstMove = false;
+            timerPaused = false;
+
+            updateTimerDisplay();
+        }
 
         if (!puzzleStarted) {
             puzzleStarted = true;
@@ -457,14 +466,19 @@ function resetStats() {
     updateTimerButton();
 }
 
-function markNewPuzzle() {
+function markNewPuzzle({ preserveTimer = false } = {}) {
     stopTimer();
 
     moveCount = 0;
-    timerSeconds = 0;
+
+    if (!preserveTimer) {
+        timerSeconds = 0;
+    }
+
     timerPaused = false;
     restoredGame = false;
     puzzleStarted = false;
+    resetTimerOnFirstMove = preserveTimer;
 
     puzzleHistory = [];
     historyIndex = -1;

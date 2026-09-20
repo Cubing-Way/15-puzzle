@@ -11,6 +11,7 @@ import {
     showSolvedMessage
 } from "./ui.js";
 
+
 import { scramblePuzzle } from "./simulator.js";
 
 const puzzleElement = document.getElementById("fifteen-puzzle");
@@ -189,7 +190,7 @@ moveHandler = createMoveHandler({
         setTimeout(() => {
             puzzle = createPuzzle(size);
 
-            markNewPuzzle();
+            markNewPuzzle({ preserveTimer: true });
             showSolvedMessage(false);
             rebuildPuzzleUI();
             savePuzzleSize();
