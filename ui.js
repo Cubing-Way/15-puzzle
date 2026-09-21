@@ -113,11 +113,12 @@ function resetHistory(puzzle) {
 
 function updateHistoryButtons() {
     const undoButton = document.getElementById("undo-button");
-    const redoButton = document.getElementById("redo-button");
 
-    if (undoButton) undoButton.disabled = historyIndex <= 0;
-    if (redoButton) redoButton.disabled = historyIndex >= puzzleHistory.length - 1;
+    if (undoButton) {
+        undoButton.disabled = historyIndex <= 0;
+    }
 }
+
 
 function createMoveHandler({
     getPuzzle,
@@ -206,57 +207,17 @@ function createMoveHandler({
     };
 }
 
-function undoMove(setPuzzle) {
-    if (historyIndex <= 0) return;
+function resetMoveCount() {
+    moveCount = 0;
 
-    historyIndex--;
-
-    const puzzle = [...puzzleHistory[historyIndex]];
-
-    setPuzzle(puzzle);
-    currentPuzzle = puzzle;
-    moveCount = Math.max(0, moveCount - 1);
-
-    updateMoveCounter();
-    renderPuzzle(puzzle);
-
-    const solved = isSolved(puzzle);
-
-    showSolvedMessage(solved);
-
-    if (!solved && !timerPaused && timerEnabled) startTimer();
-
-    updateHistoryButtons();
-    saveState();
-}
-
-function redoMove(setPuzzle) {
-    if (historyIndex >= puzzleHistory.length - 1) return;
-
-    historyIndex++;
-
-    const puzzle = [...puzzleHistory[historyIndex]];
-
-    setPuzzle(puzzle);
-    currentPuzzle = puzzle;
-    moveCount++;
-
-    updateMoveCounter();
-    renderPuzzle(puzzle);
-
-    const solved = isSolved(puzzle);
-
-    showSolvedMessage(solved);
-
-    if (solved) {
-        stopTimer();
-    } else if (!timerPaused && timerEnabled) {
-        startTimer();
+    const counter = document.getElementById("move-counter");
+    if (counter) {
+        counter.textContent = "0";
     }
 
-    updateHistoryButtons();
-    saveState();
+    updateMoveCounter();
 }
+
 
 function createOptionsUI() {
     const options = document.getElementById("options");
@@ -339,7 +300,7 @@ function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
 
             <div class="move-controls">
                 <button id="undo-button" type="button" disabled>Undo</button>
-                <button id="redo-button" type="button" disabled>Redo</button>
+                <button id="reset-moves-button" type="button">Reset</button>
             </div>
         </div>
 
@@ -359,7 +320,7 @@ function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
     document.getElementById("timer-pause-button").addEventListener("click", toggleTimer);
     document.getElementById("timer-reset-button").addEventListener("click", resetTimer);
     document.getElementById("undo-button").addEventListener("click", () => undoMove(setPuzzle));
-    document.getElementById("redo-button").addEventListener("click", () => redoMove(setPuzzle));
+    document.getElementById("reset-moves-button").addEventListener("click", resetMoveCount);
     createKeyboardControls(setPuzzle);
 
     if (initialState) {
@@ -377,6 +338,30 @@ function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
     updateTimerDisplay();
     updateTimerButton();
     updateHistoryButtons();
+}
+
+function undoMove(setPuzzle) {
+    if (historyIndex <= 0) return;
+
+    historyIndex--;
+
+    const puzzle = [...puzzleHistory[historyIndex]];
+
+    setPuzzle(puzzle);
+    currentPuzzle = puzzle;
+    moveCount = Math.max(0, moveCount - 1);
+
+    updateMoveCounter();
+    renderPuzzle(puzzle);
+
+    const solved = isSolved(puzzle);
+
+    showSolvedMessage(solved);
+
+    if (!solved && !timerPaused && timerEnabled) startTimer();
+
+    updateHistoryButtons();
+    saveState();
 }
 
 function resetTimer() {
@@ -547,17 +532,7 @@ function createKeyboardControls(setPuzzle) {
 
         if (event.key.toLowerCase() === "z") {
             event.preventDefault();
-
-            if (event.shiftKey) {
-                redoMove(setPuzzle);
-            } else {
-                undoMove(setPuzzle);
-            }
-        }
-
-        if (event.key.toLowerCase() === "y") {
-            event.preventDefault();
-            redoMove(setPuzzle);
+            undoMove(setPuzzle);
         }
     });
 }
@@ -578,7 +553,7 @@ export {
     markNewPuzzle,
     showSolvedMessage,
     undoMove,
-    redoMove,
+    resetMoveCount,
     resetHistory
 };
 
