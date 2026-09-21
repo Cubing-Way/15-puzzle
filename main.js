@@ -194,6 +194,7 @@ moveHandler = createMoveHandler({
                 preserveTimer: true,
                 preserveHistory: true
             });
+            
             showSolvedMessage(false);
             rebuildPuzzleUI();
             savePuzzleSize();

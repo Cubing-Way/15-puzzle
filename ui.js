@@ -1,5 +1,6 @@
 import { isSolved } from "./simulator.js";
 import { moveSquare } from "./puzzle.js";
+import { storeTimeForAvg } from "./averages.js";
 
 let moveCount = 0;
 let timerInterval = null;
@@ -194,6 +195,7 @@ function createMoveHandler({
 
         if (solved) {
             stopTimer();
+            storeTimeForAvg(timerSeconds)
             showSolvedMessage(true);
             stateChangeCallback?.(null);
             onSolved();
@@ -409,12 +411,13 @@ function startTimer() {
     if (timerInterval || timerPaused || !timerEnabled) return;
 
     timerInterval = setInterval(() => {
-        timerSeconds++;
+        timerSeconds += 10;
         updateTimerDisplay();
-    }, 1000);
+    }, 10);
 
     updateTimerButton();
 }
+
 
 function stopTimer() {
     clearInterval(timerInterval);
@@ -456,8 +459,9 @@ function updateTimerDisplay() {
 
     if (!timer) return;
 
-    const minutes = Math.floor(timerSeconds / 60);
-    const seconds = timerSeconds % 60;
+    const miliToSec = Math.floor(timerSeconds / 1000);
+    const minutes = Math.floor(miliToSec / 60);
+    const seconds = miliToSec % 60;
 
     timer.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
