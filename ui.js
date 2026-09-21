@@ -113,11 +113,17 @@ function resetHistory(puzzle) {
 
 function updateHistoryButtons() {
     const undoButton = document.getElementById("undo-button");
+    const redoButton = document.getElementById("redo-button");
 
     if (undoButton) {
         undoButton.disabled = historyIndex <= 0;
     }
+
+    if (redoButton) {
+        redoButton.disabled = historyIndex >= puzzleHistory.length - 1;
+    }
 }
+
 
 
 function createMoveHandler({
@@ -297,9 +303,10 @@ function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
                 <span class="stat-label">Moves</span>
                 <span id="move-counter">0</span>
             </div>
-
+            
             <div class="move-controls">
-                <button id="undo-button" type="button" disabled>Undo</button>
+                <button id="undo-button" type="button" disabled aria-label="Undo" title="Undo">←</button>
+                <button id="redo-button" type="button" disabled aria-label="Redo" title="Redo">→</button>
                 <button id="reset-moves-button" type="button">Reset</button>
             </div>
         </div>
@@ -320,7 +327,9 @@ function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
     document.getElementById("timer-pause-button").addEventListener("click", toggleTimer);
     document.getElementById("timer-reset-button").addEventListener("click", resetTimer);
     document.getElementById("undo-button").addEventListener("click", () => undoMove(setPuzzle));
+    document.getElementById("redo-button").addEventListener("click", () => redoMove(setPuzzle));
     document.getElementById("reset-moves-button").addEventListener("click", resetMoveCount);
+
     createKeyboardControls(setPuzzle);
 
     if (initialState) {
@@ -363,6 +372,35 @@ function undoMove(setPuzzle) {
     updateHistoryButtons();
     saveState();
 }
+
+function redoMove(setPuzzle) {
+    if (historyIndex >= puzzleHistory.length - 1) return;
+
+    historyIndex++;
+
+    const puzzle = [...puzzleHistory[historyIndex]];
+
+    setPuzzle(puzzle);
+    currentPuzzle = puzzle;
+    moveCount++;
+
+    updateMoveCounter();
+    renderPuzzle(puzzle);
+
+    const solved = isSolved(puzzle);
+
+    showSolvedMessage(solved);
+
+    if (solved) {
+        stopTimer();
+    } else if (!timerPaused && timerEnabled) {
+        startTimer();
+    }
+
+    updateHistoryButtons();
+    saveState();
+}
+
 
 function resetTimer() {
     stopTimer();
@@ -523,6 +561,7 @@ function createPuzzleControls(onRescramble, onSolve) {
 function createKeyboardControls(setPuzzle) {
     document.addEventListener("keydown", event => {
         const target = event.target;
+
         const isTyping =
             target instanceof HTMLInputElement ||
             target instanceof HTMLTextAreaElement ||
@@ -532,10 +571,21 @@ function createKeyboardControls(setPuzzle) {
 
         if (event.key.toLowerCase() === "z") {
             event.preventDefault();
-            undoMove(setPuzzle);
+
+            if (event.shiftKey) {
+                redoMove(setPuzzle);
+            } else {
+                undoMove(setPuzzle);
+            }
+        }
+
+        if (event.key.toLowerCase() === "y") {
+            event.preventDefault();
+            redoMove(setPuzzle);
         }
     });
 }
+
 
 export {
     createPuzzleUI,
@@ -553,6 +603,7 @@ export {
     markNewPuzzle,
     showSolvedMessage,
     undoMove,
+    redoMove,
     resetMoveCount,
     resetHistory
 };

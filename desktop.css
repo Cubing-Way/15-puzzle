@@ -200,6 +200,13 @@ body {
         minmax(0, 1fr);
 }
 
+.move-controls button#undo-button,
+.move-controls button#redo-button {
+    width: 30px;
+    font-size: 20px;
+    font-weight: 900;
+}
+
 
 #sidebar {
     width: auto;
