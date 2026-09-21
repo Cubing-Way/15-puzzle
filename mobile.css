@@ -805,6 +805,10 @@ body.dark-mode #fifteen-puzzle {
         );
 }
 
+#avgRightSidebar {
+    overflow: scroll;
+}
+
 
 /* =========================
    SMALL PHONES
