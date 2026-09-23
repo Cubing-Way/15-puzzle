@@ -5,6 +5,7 @@ function storeTimeForAvg(storedTime) {
     storedTimesArr.push(parseFloat(storedTime));
     const average = storedTimesArr.reduce((sum, n) => sum + n, 0) / storedTimesArr.length;
     const avgRightSidebar = document.getElementById("avgRightSidebar")
+    
     if(avgRightSidebar.textContent === "-") {
         avgRightSidebar.textContent = "1 - " + storedTime;
     } else {

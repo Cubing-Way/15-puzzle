@@ -4,7 +4,7 @@ import { storeTimeForAvg } from "./averages.js";
 
 let moveCount = 0;
 let timerInterval = null;
-let timerSeconds = 0;
+let elapsedTime = 0; // milliseconds
 let currentPuzzle = null;
 
 let moveCounterEnabled = true;
@@ -16,7 +16,6 @@ let timerPaused = false;
 let restoredGame = false;
 let resetTimerOnFirstMove = false;
 let resetStatsOnFirstMove = false;
-
 
 let puzzleHistory = [];
 let historyIndex = -1;
@@ -42,7 +41,9 @@ function createPuzzleUI(container, puzzle, onMove) {
 
             const clickedSquare = Number(container.dataset.clickedSquare);
 
-            if (!Number.isNaN(clickedSquare)) onMove(clickedSquare, i);
+            if (!Number.isNaN(clickedSquare)) {
+                onMove(clickedSquare, i);
+            }
 
             delete container.dataset.clickedSquare;
 
@@ -90,24 +91,42 @@ function saveState() {
 
     stateChangeCallback?.({
         moveCount,
-        timerSeconds,
+        elapsedTime,
         timerPaused,
-        puzzleHistory: puzzleHistory.map(puzzle => [...puzzle]),
+        puzzleHistory: puzzleHistory.map(state => ({
+            puzzle: [...state.puzzle],
+            moveCount: state.moveCount,
+            elapsedTime: state.elapsedTime
+        })),
         historyIndex,
         lastSavedAt: Date.now()
     });
 }
 
 function addToHistory(puzzle) {
+    // Remove redo states when a new move is made.
     puzzleHistory = puzzleHistory.slice(0, historyIndex + 1);
-    puzzleHistory.push([...puzzle]);
+
+    puzzleHistory.push({
+        puzzle: [...puzzle],
+        moveCount,
+        elapsedTime
+    });
+
     historyIndex = puzzleHistory.length - 1;
+
     updateHistoryButtons();
 }
 
 function resetHistory(puzzle) {
-    puzzleHistory = [[...puzzle]];
+    puzzleHistory = [{
+        puzzle: [...puzzle],
+        moveCount,
+        elapsedTime
+    }];
+
     historyIndex = 0;
+
     updateHistoryButtons();
 }
 
@@ -124,7 +143,35 @@ function updateHistoryButtons() {
     }
 }
 
+function restoreHistoryState(state, setPuzzle) {
+    if (!state) return false;
 
+    stopTimer();
+
+    const puzzle = [...state.puzzle];
+
+    currentPuzzle = puzzle;
+    elapsedTime = state.elapsedTime;
+    moveCount = state.moveCount;
+
+    setPuzzle(puzzle);
+
+    updateMoveCounter();
+    updateTimerDisplay();
+    renderPuzzle(puzzle);
+
+    const solved = isSolved(puzzle);
+
+    showSolvedMessage(solved);
+
+    if (solved) {
+        timerPaused = true;
+    } else if (!timerPaused && timerEnabled) {
+        startTimer();
+    }
+
+    return true;
+}
 
 function createMoveHandler({
     getPuzzle,
@@ -139,13 +186,34 @@ function createMoveHandler({
 
     if (initialState) {
         moveCount = initialState.moveCount || 0;
-        timerSeconds = initialState.timerSeconds || 0;
+        elapsedTime = initialState.elapsedTime || 0;
         timerPaused = true;
         restoredGame = true;
 
-        puzzleHistory = Array.isArray(initialState.puzzleHistory)
-            ? initialState.puzzleHistory.map(puzzle => [...puzzle])
-            : [];
+        if (Array.isArray(initialState.puzzleHistory)) {
+            puzzleHistory = initialState.puzzleHistory.map(state => {
+                if (state && Array.isArray(state.puzzle)) {
+                    return {
+                        puzzle: [...state.puzzle],
+                        moveCount: state.moveCount || 0,
+                        elapsedTime: state.elapsedTime || 0
+                    };
+                }
+
+                // Compatibility with the old history format.
+                if (Array.isArray(state)) {
+                    return {
+                        puzzle: [...state],
+                        moveCount: 0,
+                        elapsedTime: 0
+                    };
+                }
+
+                return null;
+            }).filter(Boolean);
+        } else {
+            puzzleHistory = [];
+        }
 
         historyIndex = initialState.historyIndex ?? -1;
         puzzleStarted = moveCount > 0;
@@ -165,7 +233,7 @@ function createMoveHandler({
 
         if (resetStatsOnFirstMove) {
             moveCount = 0;
-            timerSeconds = 0;
+            elapsedTime = 0;
 
             resetStatsOnFirstMove = false;
             resetTimerOnFirstMove = false;
@@ -176,16 +244,16 @@ function createMoveHandler({
             updateTimerDisplay();
         }
 
-
-
         if (!puzzleStarted) {
             puzzleStarted = true;
 
-            if (puzzleHistory.length === 0) resetHistory(puzzle);
+            if (puzzleHistory.length === 0) {
+                resetHistory(puzzle);
+            }
         }
 
         setPuzzle(newPuzzle);
-        addToHistory(newPuzzle);
+
         incrementMoveCounter();
 
         if (restoredGame) {
@@ -196,13 +264,23 @@ function createMoveHandler({
             startTimer();
         }
 
+        /*
+         * Store the state AFTER the move.
+         *
+         * moveCount and elapsedTime now represent the
+         * state that can be restored by redo.
+         */
+        addToHistory(newPuzzle);
+
         renderPuzzle(newPuzzle);
 
         const solved = isSolved(newPuzzle);
 
         if (solved) {
             stopTimer();
-            storeTimeForAvg(timerSeconds)
+
+            storeTimeForAvg(elapsedTime);
+
             showSolvedMessage(true);
             stateChangeCallback?.(null);
             onSolved();
@@ -217,13 +295,13 @@ function resetMoveCount() {
     moveCount = 0;
 
     const counter = document.getElementById("move-counter");
+
     if (counter) {
         counter.textContent = "0";
     }
 
     updateMoveCounter();
 }
-
 
 function createOptionsUI() {
     const options = document.getElementById("options");
@@ -268,7 +346,9 @@ function createOptionsUI() {
     document.getElementById("highlight-option").addEventListener("change", event => {
         highlightSolvedEnabled = event.target.checked;
 
-        if (currentPuzzle) renderPuzzle(currentPuzzle);
+        if (currentPuzzle) {
+            renderPuzzle(currentPuzzle);
+        }
     });
 
     createThemeToggle();
@@ -303,7 +383,7 @@ function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
                 <span class="stat-label">Moves</span>
                 <span id="move-counter">0</span>
             </div>
-            
+
             <div class="move-controls">
                 <button id="undo-button" type="button" disabled aria-label="Undo" title="Undo">←</button>
                 <button id="redo-button" type="button" disabled aria-label="Redo" title="Redo">→</button>
@@ -334,11 +414,31 @@ function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
 
     if (initialState) {
         moveCount = initialState.moveCount || 0;
-        timerSeconds = initialState.timerSeconds || 0;
+        elapsedTime = initialState.elapsedTime || 0;
 
-        puzzleHistory = Array.isArray(initialState.puzzleHistory)
-            ? initialState.puzzleHistory.map(puzzle => [...puzzle])
-            : [];
+        if (Array.isArray(initialState.puzzleHistory)) {
+            puzzleHistory = initialState.puzzleHistory.map(state => {
+                if (state && Array.isArray(state.puzzle)) {
+                    return {
+                        puzzle: [...state.puzzle],
+                        moveCount: state.moveCount || 0,
+                        elapsedTime: state.elapsedTime || 0
+                    };
+                }
+
+                if (Array.isArray(state)) {
+                    return {
+                        puzzle: [...state],
+                        moveCount: 0,
+                        elapsedTime: 0
+                    };
+                }
+
+                return null;
+            }).filter(Boolean);
+        } else {
+            puzzleHistory = [];
+        }
 
         historyIndex = initialState.historyIndex ?? -1;
     }
@@ -354,20 +454,12 @@ function undoMove(setPuzzle) {
 
     historyIndex--;
 
-    const puzzle = [...puzzleHistory[historyIndex]];
+    const state = puzzleHistory[historyIndex];
 
-    setPuzzle(puzzle);
-    currentPuzzle = puzzle;
-    moveCount = Math.max(0, moveCount - 1);
-
-    updateMoveCounter();
-    renderPuzzle(puzzle);
-
-    const solved = isSolved(puzzle);
-
-    showSolvedMessage(solved);
-
-    if (!solved && !timerPaused && timerEnabled) startTimer();
+    if (!restoreHistoryState(state, setPuzzle)) {
+        historyIndex++;
+        return;
+    }
 
     updateHistoryButtons();
     saveState();
@@ -378,34 +470,21 @@ function redoMove(setPuzzle) {
 
     historyIndex++;
 
-    const puzzle = [...puzzleHistory[historyIndex]];
+    const state = puzzleHistory[historyIndex];
 
-    setPuzzle(puzzle);
-    currentPuzzle = puzzle;
-    moveCount++;
-
-    updateMoveCounter();
-    renderPuzzle(puzzle);
-
-    const solved = isSolved(puzzle);
-
-    showSolvedMessage(solved);
-
-    if (solved) {
-        stopTimer();
-    } else if (!timerPaused && timerEnabled) {
-        startTimer();
+    if (!restoreHistoryState(state, setPuzzle)) {
+        historyIndex--;
+        return;
     }
 
     updateHistoryButtons();
     saveState();
 }
 
-
 function resetTimer() {
     stopTimer();
 
-    timerSeconds = 0;
+    elapsedTime = 0;
     timerPaused = false;
     restoredGame = false;
 
@@ -434,13 +513,12 @@ function startTimer() {
     if (timerInterval || timerPaused || !timerEnabled) return;
 
     timerInterval = setInterval(() => {
-        timerSeconds += 10;
+        elapsedTime += 10;
         updateTimerDisplay();
     }, 10);
 
     updateTimerButton();
 }
-
 
 function stopTimer() {
     clearInterval(timerInterval);
@@ -482,9 +560,9 @@ function updateTimerDisplay() {
 
     if (!timer) return;
 
-    const miliToSec = Math.floor(timerSeconds / 1000);
-    const minutes = Math.floor(miliToSec / 60);
-    const seconds = miliToSec % 60;
+    const totalSeconds = Math.floor(elapsedTime / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
 
     timer.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
@@ -493,7 +571,7 @@ function resetStats() {
     stopTimer();
 
     moveCount = 0;
-    timerSeconds = 0;
+    elapsedTime = 0;
     timerPaused = false;
     restoredGame = false;
 
@@ -510,7 +588,7 @@ function markNewPuzzle({
 
     if (!preserveTimer) {
         moveCount = 0;
-        timerSeconds = 0;
+        elapsedTime = 0;
     }
 
     timerPaused = false;
@@ -530,8 +608,6 @@ function markNewPuzzle({
     updateTimerButton();
     updateHistoryButtons();
 }
-
-
 
 function showSolvedMessage(solved) {
     const message = document.getElementById("solved-message");
@@ -586,6 +662,12 @@ function createKeyboardControls(setPuzzle) {
     });
 }
 
+document.querySelectorAll("select").forEach(select => {
+    select.addEventListener("change", () => {
+        select.blur();
+    });
+});
+
 
 export {
     createPuzzleUI,
@@ -607,4 +689,3 @@ export {
     resetMoveCount,
     resetHistory
 };
-
