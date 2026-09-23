@@ -279,7 +279,8 @@ function createMoveHandler({
         if (solved) {
             stopTimer();
 
-            storeTimeForAvg(elapsedTime);
+            storeTimeForAvg(elapsedTime, size);
+
 
             showSolvedMessage(true);
             stateChangeCallback?.(null);
