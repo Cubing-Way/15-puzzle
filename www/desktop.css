@@ -1,0 +1,699 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #eef1f5;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --border: #e2e8f0;
+
+    --text: #172033;
+    --muted: #64748b;
+
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+
+    --tile: #3b82f6;
+    --tile-hover: #2563eb;
+
+    --solved: #9dff00;
+
+    --sidebar-width: 250px;
+}
+
+body {
+    margin: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background: var(--bg);
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+/* =========================
+   TOP BAR
+   ========================= */
+
+#app-header {
+    width: 100%;
+    height: 68px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 28px;
+
+    background: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+}
+
+#brand {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+}
+
+#brand h1 {
+    margin: 0;
+
+    font-size: 20px;
+    font-weight: 800;
+
+    letter-spacing: -0.02em;
+}
+
+#brand p {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+#header-actions {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+/* =========================
+   DARK MODE TOGGLE
+   ========================= */
+
+#theme-toggle {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--muted);
+
+    font-size: 15px;
+}
+
+.theme-icon {
+    line-height: 1;
+}
+
+.switch {
+    position: relative;
+
+    width: 42px;
+    height: 23px;
+
+    display: inline-block;
+}
+
+.switch input {
+    width: 0;
+    height: 0;
+
+    opacity: 0;
+}
+
+.slider {
+    position: absolute;
+
+    inset: 0;
+
+    background: #cbd5e1;
+
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease;
+}
+
+.slider::before {
+    content: "";
+
+    position: absolute;
+
+    width: 17px;
+    height: 17px;
+
+    left: 3px;
+    top: 3px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 1px 3px rgba(
+            0,
+            0,
+            0,
+            0.2
+        );
+
+    transition:
+        transform 0.2s ease;
+}
+
+.switch input:checked + .slider {
+    background: var(--primary);
+}
+
+.switch input:checked + .slider::before {
+    transform:
+        translateX(19px);
+}
+
+
+/* =========================
+   MAIN LAYOUT
+   ========================= */
+
+#app {
+    width: 100%;
+    height: calc(100vh - 68px);
+
+    display: grid;
+
+    grid-template-columns:
+        var(--sidebar-width)
+        minmax(0, 1fr);
+}
+
+.move-controls button#undo-button,
+.move-controls button#redo-button {
+    width: 30px;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+
+#sidebar {
+    width: auto;
+    height: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+    padding: 18px;
+
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+}
+
+#game {
+    min-width: 0;
+    min-height: 0;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    overflow: hidden;
+}
+
+#app {
+    position: relative;
+}
+
+#avgRightSidebar {
+    position: absolute;
+
+    top: 20px;
+    right: 20px;
+
+    width: max-content;
+
+    padding: 12px;
+
+    background: transparent;
+    box-sizing: border-box;
+}
+
+#game-info {
+    width: 100%;
+    max-width: 400px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+}
+
+#game-info > #scramble-control,
+#game-info > #reset-control {
+    width: 100%;
+}
+
+#game-info > #scramble-control button,
+#game-info > #reset-control button {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 42px;
+
+    padding: 0 8px;
+}
+
+
+
+#game-info #size-select {
+    width: 100%;
+    max-width: 400px;
+}
+
+#scramble-control button,
+#reset-control button {
+    width: 100%;
+
+    min-height: 40px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.08s ease;
+}
+
+#scramble-control button:hover,
+#reset-control button:hover {
+    background: var(--surface);
+    border-color: var(--primary);
+}
+
+#scramble-control button:active,
+#reset-control button:active {
+    transform: scale(0.98);
+}
+
+
+#reset-control button {
+    background: var(--surface-2);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+#game > #stats {
+    width: 100%;
+    max-width: 400px;
+
+    margin-top: 10px;
+}
+
+
+/* Puzzle size selector */
+
+#size-select,
+#puzzle-theme-select {
+    width: 100%;
+
+    min-height: 42px;
+
+    padding: 9px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+#size-select:focus,
+#puzzle-theme-select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 2px
+        rgba(37, 99, 235, 0.12);
+}
+
+
+/* =========================
+   SIDEBAR CARDS
+   ========================= */
+
+#options,
+#controls {
+    width: 100%;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+}
+
+
+/* Options */
+
+#options {
+    padding: 16px;
+}
+
+#options h2 {
+    margin: 0 0 13px;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.option {
+    min-height: 36px;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.option + .option {
+    border-top: 1px solid var(--border);
+}
+
+.option input {
+    width: 16px;
+    height: 16px;
+
+    margin: 0 9px 0 0;
+
+    accent-color: var(--primary);
+}
+
+
+/* =========================
+   STATS
+   ========================= */
+
+/* =========================
+   STATS
+   ========================= */
+
+#stats {
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 0;
+
+    padding: 14px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+}
+
+.stat {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.stat + .stat {
+    padding-left: 16px;
+
+    border-left: 1px solid var(--border);
+}
+
+.stat-info {
+    min-width: 45px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.stat-label {
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+#move-counter,
+#timer {
+    color: var(--text);
+
+    font-size: 17px;
+    font-weight: 800;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.move-controls,
+.timer-controls {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+#stats button {
+    min-height: 30px;
+
+    padding: 0 9px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.08s ease;
+}
+
+#stats button:hover:not(:disabled) {
+    background: var(--surface);
+    border-color: var(--primary);
+}
+
+#stats button:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+#stats button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+
+
+/* =========================
+   CONTROLS
+   ========================= */
+
+#controls {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    padding: 7px;
+}
+
+#controls button {
+    width: 100%;
+
+    min-height: 40px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: var(--primary);
+    color: white;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        transform 0.08s ease;
+}
+
+#controls button:hover {
+    background: var(--primary-hover);
+}
+
+#controls button:active {
+    transform: scale(0.98);
+}
+
+#controls button:last-child {
+    background: var(--surface-2);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+#game > #controls {
+    width: auto;
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 8px;
+
+    margin-top: 20px;
+
+    padding: 0;
+
+    background: transparent;
+    border: none;
+}
+
+#game > #controls button {
+    width: auto;
+    min-width: 110px;
+
+    min-height: 42px;
+
+    padding: 0 18px;
+}
+
+
+
+/* =========================
+   SOLVED MESSAGE
+   ========================= */
+
+#solved-message {
+    position: absolute;
+
+    left: 50%;
+    bottom: 20px;
+
+    transform:
+        translate(-50%, 10px);
+
+    padding: 9px 17px;
+
+    background: var(--solved);
+    color: white;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+#solved-message.visible {
+    opacity: 1;
+
+    transform:
+        translate(-50%, 0);
+}
+
+
+/* =========================
+   DARK THEME
+   ========================= */
+
+body.dark-mode {
+    --bg: #080d18;
+    --surface: #111827;
+    --surface-2: #1e293b;
+    --border: #263449;
+
+    --text: #f8fafc;
+    --muted: #94a3b8;
+
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+
+    --tile: #3b82f6;
+    --tile-hover: #60a5fa;
+}
+
+body.dark-mode #fifteen-puzzle {
+    background: #020617;
+
+    box-shadow:
+        0 20px 50px rgba(
+            0,
+            0,
+            0,
+            0.45
+        );
+}

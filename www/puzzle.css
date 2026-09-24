@@ -1,0 +1,830 @@
+/* ============================================================
+   PUZZLE THEME SYSTEM
+   Supports 3x3 through 10x10 puzzles.
+   Add a theme class to #fifteen-puzzle.
+   ============================================================ */
+
+
+/* ============================================================
+   SHARED FOUNDATION
+   ============================================================ */
+
+#fifteen-puzzle {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+
+    min-width: 0;
+    min-height: 0;
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(var(--grid-size, 3), minmax(0, 1fr));
+
+    grid-template-rows:
+        repeat(var(--grid-size, 3), minmax(0, 1fr));
+
+    --puzzle-gap:
+        clamp(
+            3px,
+            calc(10px - (var(--grid-size, 3) * 0.65px)),
+            8px
+        );
+
+    --puzzle-radius:
+        clamp(
+            7px,
+            calc(25px - (var(--grid-size, 3) * 1.7px)),
+            21px
+        );
+
+    --tile-radius:
+        clamp(
+            2px,
+            calc(14px - (var(--grid-size, 3) * 1.15px)),
+            10px
+        );
+
+    --number-size:
+        clamp(
+            11px,
+            calc(100cqw / var(--grid-size, 3) * 0.72),
+            38px
+        );
+
+    --tile-highlight: #60a5fa;
+
+    gap: var(--puzzle-gap);
+    padding: var(--puzzle-gap);
+
+    border-radius: var(--puzzle-radius);
+
+    overflow: hidden;
+    isolation: isolate;
+
+    container-type: inline-size;
+
+    touch-action: none;
+
+    transition:
+        background 0.2s ease,
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* ============================================================
+   TILE FOUNDATION
+   ============================================================ */
+
+#fifteen-puzzle .grid-item {
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: var(--tile-radius);
+
+    font-size: var(--number-size);
+
+    font-weight: 850;
+
+    line-height: 1;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    touch-action: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.14s ease,
+        background 0.18s ease,
+        border 0.18s ease,
+        box-shadow 0.18s ease,
+        color 0.18s ease,
+        filter 0.18s ease;
+}
+
+
+#fifteen-puzzle .grid-item:hover {
+    transform: translateY(-2px);
+}
+
+
+#fifteen-puzzle .grid-item:active {
+    transform: scale(0.94);
+}
+
+
+#fifteen-puzzle .grid-item.solved {
+    color: var(--solved, #9dff00);
+
+    -webkit-text-stroke: 0;
+
+    text-shadow: none;
+}
+
+
+/* ============================================================
+   EMPTY TILE
+   ============================================================ */
+
+#fifteen-puzzle .grid-item.empty {
+    background: transparent !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+
+    transform: none !important;
+
+    filter: none !important;
+
+    cursor: default;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   01 — MODERN
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-modern {
+    --tile-highlight: #60a5fa;
+
+    background:
+        linear-gradient(
+            145deg,
+            #172554,
+            #0f172a
+        );
+
+    box-shadow:
+        0 18px 42px rgba(15, 23, 42, 0.22);
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #60a5fa,
+            #2563eb 55%,
+            #1d4ed8
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.25),
+        0 5px 12px rgba(15,23,42,.18);
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #93c5fd,
+            #3b82f6,
+            #2563eb
+        );
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item.solved {
+    color: #c6ff35;
+}
+
+
+/* ============================================================
+   02 — GLASS
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-glass {
+    --tile-highlight: rgba(255,255,255,.5);
+
+    background:
+        linear-gradient(
+            135deg,
+            #172554,
+            #312e81 55%,
+            #1e1b4b
+        );
+
+    box-shadow:
+        0 22px 50px rgba(30,27,75,.28);
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.28),
+            rgba(96,165,250,.18)
+        );
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255,255,255,.25);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.25),
+        0 6px 15px rgba(0,0,0,.12);
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.38),
+            rgba(96,165,250,.28)
+        );
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item.solved {
+    color: #d9ff69;
+
+    border-color: rgba(217,255,105,.4);
+}
+
+
+/* ============================================================
+   03 — NEON
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-neon {
+    --tile-highlight: #60a5fa;
+
+    background: #020617;
+
+    border: 1px solid #1e40af;
+
+    box-shadow:
+        0 0 0 1px rgba(59,130,246,.12),
+        0 0 28px rgba(37,99,235,.2);
+}
+
+
+#fifteen-puzzle.puzzle-neon .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #172554,
+            #1d4ed8
+        );
+
+    color: #dbeafe;
+
+    border: 1px solid rgba(96,165,250,.65);
+
+    box-shadow:
+        inset 0 0 10px rgba(96,165,250,.12),
+        0 0 7px rgba(37,99,235,.2);
+}
+
+
+#fifteen-puzzle.puzzle-neon .grid-item:hover {
+    color: #ffffff;
+
+    border-color: #60a5fa;
+
+    filter: brightness(1.12);
+}
+
+
+#fifteen-puzzle.puzzle-neon .grid-item.solved {
+    color: #9dff00;
+
+    border-color: #9dff00;
+
+    text-shadow:
+        0 0 7px rgba(157,255,0,.65);
+}
+
+
+/* ============================================================
+   04 — NEON CLEAN
+   Same cyber style without glow.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-neon-clean {
+    --tile-highlight: #60a5fa;
+
+    background: #020617;
+
+    border: 1px solid #1e40af;
+
+    box-shadow: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #172554,
+            #1d4ed8
+        );
+
+    color: #dbeafe;
+
+    border: 1px solid #60a5fa;
+
+    box-shadow: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #1e3a8a,
+            #2563eb
+        );
+
+    color: #ffffff;
+
+    border-color: #93c5fd;
+
+    box-shadow: none;
+
+    filter: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item.solved {
+    color: #9dff00;
+
+    border-color: #9dff00;
+
+    text-shadow: none;
+}
+
+
+/* ============================================================
+   05 — SOFT
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-soft {
+    --tile-highlight: #60a5fa;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #ede9fe
+        );
+
+    box-shadow:
+        0 18px 38px rgba(99,102,241,.15);
+}
+
+
+#fifteen-puzzle.puzzle-soft .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #60a5fa,
+            #3b82f6
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 0 #1d4ed8,
+        0 9px 16px rgba(37,99,235,.15);
+
+    transform: translateY(-2px);
+}
+
+
+#fifteen-puzzle.puzzle-soft .grid-item:hover {
+    transform:
+        translateY(-3px)
+        scale(1.01);
+}
+
+
+#fifteen-puzzle.puzzle-soft .grid-item:active {
+    transform:
+        translateY(2px)
+        scale(.96);
+
+    box-shadow:
+        0 2px 0 #1d4ed8;
+}
+
+
+#fifteen-puzzle.puzzle-soft .grid-item.solved {
+    color: #ecffb8;
+}
+
+
+/* ============================================================
+   06 — ARCADE
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-arcade {
+    --tile-highlight: #60a5fa;
+
+    background: #111111;
+
+    border: 3px solid #facc15;
+
+    box-shadow:
+        0 0 0 3px #111111,
+        0 0 0 6px #facc15;
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item {
+    background: #2563eb;
+
+    color: #ffffff;
+
+    border: 2px solid #60a5fa;
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.22),
+        inset -2px -2px 0 rgba(0,0,0,.2);
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item:hover {
+    background: #3b82f6;
+
+    transform: scale(.97);
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item.solved {
+    color: #faff00;
+
+    text-shadow:
+        1px 1px 0 #111111;
+}
+
+
+/* ============================================================
+   07 — MINIMAL
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-minimal {
+    --tile-highlight: #94a3b8;
+
+    background: #cbd5e1;
+
+    box-shadow:
+        0 12px 30px rgba(15,23,42,.1);
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item {
+    background: #e2e8f0;
+
+    color: #334155;
+
+    border: 1px solid #cbd5e1;
+
+    box-shadow:
+        0 2px 5px rgba(15,23,42,.06);
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item:hover {
+    background: #f1f5f9;
+
+    color: #2563eb;
+
+    transform: scale(.98);
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item.solved {
+    color: #65a30d;
+
+    background: #ecf7d6;
+
+    border-color: #bef264;
+}
+
+
+/* ============================================================
+   08 — MIDNIGHT
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-midnight {
+    --tile-highlight: #818cf8;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0f172a,
+            #020617
+        );
+
+    box-shadow:
+        0 18px 45px rgba(2,6,23,.4);
+}
+
+
+#fifteen-puzzle.puzzle-midnight .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #334155,
+            #1e293b
+        );
+
+    color: #e2e8f0;
+
+    border: 1px solid #475569;
+}
+
+
+#fifteen-puzzle.puzzle-midnight .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #475569,
+            #334155
+        );
+
+    border-color: #818cf8;
+}
+
+
+#fifteen-puzzle.puzzle-midnight .grid-item.solved {
+    color: #bef264;
+}
+
+
+/* ============================================================
+   09 — OCEAN
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-ocean {
+    --tile-highlight: #67e8f9;
+
+    background:
+        linear-gradient(
+            145deg,
+            #083344,
+            #164e63
+        );
+
+    box-shadow:
+        0 18px 40px rgba(8,51,68,.25);
+}
+
+
+#fifteen-puzzle.puzzle-ocean .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #0891b2,
+            #0369a1
+        );
+
+    color: #ecfeff;
+
+    border: 1px solid #67e8f9;
+}
+
+
+#fifteen-puzzle.puzzle-ocean .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #06b6d4,
+            #0284c7
+        );
+}
+
+
+#fifteen-puzzle.puzzle-ocean .grid-item.solved {
+    color: #bef264;
+}
+
+
+/* ============================================================
+   10 — SUNSET
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-sunset {
+    --tile-highlight: #fb923c;
+
+    background:
+        linear-gradient(
+            145deg,
+            #431407,
+            #7c2d12
+        );
+
+    box-shadow:
+        0 18px 40px rgba(124,45,18,.25);
+}
+
+
+#fifteen-puzzle.puzzle-sunset .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #f97316,
+            #ea580c
+        );
+
+    color: #fff7ed;
+
+    border: 1px solid #fb923c;
+}
+
+
+#fifteen-puzzle.puzzle-sunset .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #fb923c,
+            #f97316
+        );
+}
+
+
+#fifteen-puzzle.puzzle-sunset .grid-item.solved {
+    color: #fef08a;
+}
+
+
+/* ============================================================
+   11 — FOREST
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-forest {
+    --tile-highlight: #86efac;
+
+    background:
+        linear-gradient(
+            145deg,
+            #052e16,
+            #14532d
+        );
+
+    box-shadow:
+        0 18px 40px rgba(20,83,45,.25);
+}
+
+
+#fifteen-puzzle.puzzle-forest .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #16a34a,
+            #15803d
+        );
+
+    color: #f0fdf4;
+
+    border: 1px solid #86efac;
+}
+
+
+#fifteen-puzzle.puzzle-forest .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #22c55e,
+            #16a34a
+        );
+}
+
+
+#fifteen-puzzle.puzzle-forest .grid-item.solved {
+    color: #fef08a;
+}
+
+
+/* ============================================================
+   12 — MONOCHROME
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-monochrome {
+    --tile-highlight: #d4d4d4;
+
+    background: #171717;
+
+    box-shadow:
+        0 16px 35px rgba(0,0,0,.22);
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            #525252,
+            #262626
+        );
+
+    color: #fafafa;
+
+    border: 1px solid #737373;
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #737373,
+            #404040
+        );
+
+    border-color: #d4d4d4;
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item.solved {
+    color: #bef264;
+}
+
+
+/* ============================================================
+   EMPTY TILE
+   Keep this last so no theme can override it.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-modern .grid-item.empty,
+#fifteen-puzzle.puzzle-glass .grid-item.empty,
+#fifteen-puzzle.puzzle-neon .grid-item.empty,
+#fifteen-puzzle.puzzle-neon-clean .grid-item.empty,
+#fifteen-puzzle.puzzle-soft .grid-item.empty,
+#fifteen-puzzle.puzzle-arcade .grid-item.empty,
+#fifteen-puzzle.puzzle-minimal .grid-item.empty,
+#fifteen-puzzle.puzzle-midnight .grid-item.empty,
+#fifteen-puzzle.puzzle-ocean .grid-item.empty,
+#fifteen-puzzle.puzzle-sunset .grid-item.empty,
+#fifteen-puzzle.puzzle-forest .grid-item.empty,
+#fifteen-puzzle.puzzle-monochrome .grid-item.empty {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    filter: none !important;
+    cursor: default;
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+    #fifteen-puzzle {
+        max-width: 400px;
+    }
+
+    #fifteen-puzzle .grid-item:hover {
+        transform: none;
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    #fifteen-puzzle,
+    #fifteen-puzzle .grid-item {
+        transition: none !important;
+    }
+}

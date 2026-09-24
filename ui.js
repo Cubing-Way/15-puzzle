@@ -276,16 +276,22 @@ function createMoveHandler({
 
         const solved = isSolved(newPuzzle);
 
-        if (solved) {
-            stopTimer();
+if (solved) {
+    stopTimer();
 
-            storeTimeForAvg(elapsedTime, size);
+    storeTimeForAvg(elapsedTime, size, {
+        puzzle: newPuzzle,
+        moveCount,
+        elapsedTime,
+        puzzleHistory,
+        historyIndex
+    });
 
-
-            showSolvedMessage(true);
-            stateChangeCallback?.(null);
-            onSolved();
-        } else {
+    showSolvedMessage(true);
+    stateChangeCallback?.(null);
+    onSolved();
+}
+else {
             showSolvedMessage(false);
             saveState();
         }
