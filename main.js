@@ -32,8 +32,64 @@ const puzzleThemes = [
     "puzzle-ocean",
     "puzzle-sunset",
     "puzzle-forest",
-    "puzzle-monochrome"
+    "puzzle-monochrome",
+    "puzzle-wood",
+    "puzzle-blueprint",
+    "puzzle-candy",
+    "puzzle-lava",
+    "puzzle-aurora",
+    "puzzle-sakura",
+    "puzzle-terminal",
+    "puzzle-ice",
+    "puzzle-gold",
+    "puzzle-handheld",
+    "puzzle-chalkboard",
+    "puzzle-synthwave"
 ];
+
+
+const colorSelect = document.getElementById("puzzle-color-select");
+
+
+const puzzleColors = [
+    "red",
+    "orange",
+    "yellow",
+    "lime",
+    "green",
+    "teal",
+    "cyan",
+    "blue",
+    "purple",
+    "magenta",
+    "pink"
+];
+
+const savedColor = localStorage.getItem("puzzle-color");
+
+if (savedColor && puzzleColors.includes(savedColor)) {
+    puzzleElement.dataset.color = savedColor;
+    colorSelect.value = savedColor;
+} else {
+    puzzleElement.removeAttribute("data-color");
+    colorSelect.value = "";
+}
+
+colorSelect.addEventListener("change", () => {
+    const selectedColor = colorSelect.value;
+
+    if (!selectedColor) {
+        puzzleElement.removeAttribute("data-color");
+        localStorage.removeItem("puzzle-color");
+        return;
+    }
+
+    if (!puzzleColors.includes(selectedColor)) return;
+
+    puzzleElement.dataset.color = selectedColor;
+    localStorage.setItem("puzzle-color", selectedColor);
+});
+
 
 const savedTheme = localStorage.getItem("puzzle-theme");
 const initialTheme = puzzleThemes.includes(savedTheme)

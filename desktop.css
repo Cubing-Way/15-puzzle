@@ -1163,3 +1163,93 @@ body.dark-mode .solve-delete:hover {
         gap: 10px;
     }
 }
+
+
+/* =========================================================
+   EXPANDED SOLVES MODAL ONLY
+   ========================================================= */
+
+#solveModal .solve-sizes-container {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(160px, 1fr)
+    );
+    gap: 16px;
+    width: 100%;
+}
+
+#solveModal .solve-size-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px;
+    border: none;
+    border-radius: 0;
+}
+
+#solveModal .solve-size-title {
+    display: block;
+    text-align: left;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+
+#solveModal .solve-stats-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#solveModal .solve-stats-heading {
+    margin-bottom: 3px;
+}
+
+#solveModal .solve-stat {
+    display: block;
+}
+
+/* =========================================================
+   COMBINED SOLVE HISTORY
+   ========================================================= */
+
+#solveModal .solve-history-section {
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+#solveModal .solve-history-title {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#solveModal .solve-history-section .solve-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+#solveModal .solve-row-info {
+    flex: 1;
+}
+
+#solveModal .solve-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* =========================================================
+   SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 600px) {
+    #solveModal .solve-sizes-container {
+        grid-template-columns: 1fr;
+    }
+}

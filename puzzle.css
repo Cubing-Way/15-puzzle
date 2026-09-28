@@ -828,3 +828,1555 @@
         transition: none !important;
     }
 }
+
+/* ============================================================
+   PUZZLE THEME SYSTEM  (24 themes x 11 colors + default)
+   Supports 3x3 through 10x10 puzzles.
+
+   HOW COLOR WORKS
+   - Every theme sets its own default hue:   --theme-hue
+   - The color select sets  data-color="red" (etc.) on #fifteen-puzzle
+     which sets  --user-hue
+   - Everything in a theme is built from:    --h
+       --h = --user-hue if a color is picked, else --theme-hue
+   - "Default" = no data-color attribute -> each theme keeps its
+     own natural color (wood = brown/orange, ocean = cyan, ...)
+   ============================================================ */
+
+
+/* ============================================================
+   SHARED FOUNDATION
+   ============================================================ */
+
+#fifteen-puzzle {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+
+    min-width: 0;
+    min-height: 0;
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(var(--grid-size, 3), minmax(0, 1fr));
+
+    grid-template-rows:
+        repeat(var(--grid-size, 3), minmax(0, 1fr));
+
+    --theme-hue: 221;
+    --h: var(--user-hue, var(--theme-hue));
+
+    --puzzle-gap:
+        clamp(
+            3px,
+            calc(10px - (var(--grid-size, 3) * 0.65px)),
+            8px
+        );
+
+    --puzzle-radius:
+        clamp(
+            7px,
+            calc(25px - (var(--grid-size, 3) * 1.7px)),
+            21px
+        );
+
+    --tile-radius:
+        clamp(
+            2px,
+            calc(14px - (var(--grid-size, 3) * 1.15px)),
+            10px
+        );
+
+    --number-size:
+        clamp(
+            11px,
+            calc(100cqw / var(--grid-size, 3) * 0.72),
+            38px
+        );
+
+    --tile-highlight: hsl(var(--h) 94% 68%);
+
+    gap: var(--puzzle-gap);
+    padding: var(--puzzle-gap);
+
+    border-radius: var(--puzzle-radius);
+
+    overflow: hidden;
+    isolation: isolate;
+
+    container-type: inline-size;
+
+    touch-action: none;
+
+    transition:
+        background 0.2s ease,
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* ============================================================
+   COLOR WHEEL
+   Set by  puzzleElement.setAttribute("data-color", "red")
+   To tweak a color, just change its hue number (0-360).
+
+   Extra tuning variables (only set for the bright colors):
+   --dl         darkens the bright end of dark-tile themes
+   --ink        number color on bright-tile themes
+   --solved-ink solved-number color on bright-tile themes
+   ============================================================ */
+
+#fifteen-puzzle[data-color]            { --tint: 22%; }
+
+#fifteen-puzzle[data-color="red"]      { --user-hue: 0;   }
+#fifteen-puzzle[data-color="orange"]   { --user-hue: 26;  }
+#fifteen-puzzle[data-color="yellow"]   { --user-hue: 47;  }
+#fifteen-puzzle[data-color="lime"]     { --user-hue: 85;  }
+#fifteen-puzzle[data-color="green"]    { --user-hue: 138; }
+#fifteen-puzzle[data-color="teal"]     { --user-hue: 172; }
+#fifteen-puzzle[data-color="cyan"]     { --user-hue: 192; }
+#fifteen-puzzle[data-color="blue"]     { --user-hue: 217; }
+#fifteen-puzzle[data-color="purple"]   { --user-hue: 268; }
+#fifteen-puzzle[data-color="magenta"]  { --user-hue: 305; }
+#fifteen-puzzle[data-color="pink"]     { --user-hue: 335; }
+
+#fifteen-puzzle[data-color="yellow"],
+#fifteen-puzzle[data-color="lime"] {
+    --dl: -16%;
+    --ink: hsl(var(--h) 65% 8%);
+    --solved-ink: #ffffff;
+}
+
+
+/* ============================================================
+   TILE FOUNDATION
+   ============================================================ */
+
+#fifteen-puzzle .grid-item {
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: var(--tile-radius);
+
+    font-size: var(--number-size);
+
+    font-weight: 850;
+
+    line-height: 1;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    touch-action: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.14s ease,
+        background 0.18s ease,
+        border 0.18s ease,
+        box-shadow 0.18s ease,
+        color 0.18s ease,
+        filter 0.18s ease;
+}
+
+
+#fifteen-puzzle .grid-item:hover {
+    transform: translateY(-2px);
+}
+
+
+#fifteen-puzzle .grid-item:active {
+    transform: scale(0.94);
+}
+
+
+#fifteen-puzzle .grid-item.solved {
+    color: var(--solved, #9dff00);
+
+    -webkit-text-stroke: 0;
+
+    text-shadow: none;
+}
+
+
+/* ============================================================
+   EMPTY TILE
+   !important here beats every theme, so no per-theme list
+   is needed anymore.
+   ============================================================ */
+
+#fifteen-puzzle .grid-item.empty {
+    background: transparent !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+
+    transform: none !important;
+
+    filter: none !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+
+    cursor: default;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   01 — MODERN            default: blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-modern {
+    --theme-hue: 217;
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 57% 21%),
+            hsl(var(--h) 47% 11%)
+        );
+
+    box-shadow:
+        0 18px 42px hsl(var(--h) 47% 11% / .22);
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 94% 68%),
+            hsl(var(--h) 83% 53%) 55%,
+            hsl(var(--h) 76% 48%)
+        );
+
+    color: var(--ink, #ffffff);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.25),
+        0 5px 12px hsl(var(--h) 47% 11% / .18);
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 96% 78%),
+            hsl(var(--h) 91% 60%),
+            hsl(var(--h) 83% 53%)
+        );
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item.solved {
+    color: var(--solved-ink, #c6ff35);
+}
+
+
+/* ============================================================
+   02 — GLASS             default: indigo blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-glass {
+    --theme-hue: 226;
+
+    --tile-highlight: rgba(255,255,255,.5);
+
+    background:
+        linear-gradient(
+            135deg,
+            hsl(var(--h) 57% 21%),
+            hsl(calc(var(--h) + 17) 47% 34%) 55%,
+            hsl(calc(var(--h) + 18) 47% 20%)
+        );
+
+    box-shadow:
+        0 22px 50px hsl(calc(var(--h) + 18) 47% 20% / .28);
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.28),
+            hsl(calc(var(--h) - 13) 94% 68% / .18)
+        );
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255,255,255,.25);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.25),
+        0 6px 15px rgba(0,0,0,.12);
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.38),
+            hsl(calc(var(--h) - 13) 94% 68% / .28)
+        );
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item.solved {
+    color: #d9ff69;
+
+    border-color: rgba(217,255,105,.4);
+}
+
+
+/* ============================================================
+   03 — NEON              default: electric blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-neon {
+    --theme-hue: 224;
+
+    background: hsl(var(--h) 84% 5%);
+
+    border: 1px solid hsl(var(--h) 71% 40%);
+
+    box-shadow:
+        0 0 0 1px hsl(var(--h) 91% 60% / .12),
+        0 0 28px hsl(var(--h) 83% 53% / .2);
+}
+
+
+#fifteen-puzzle.puzzle-neon .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 57% 21%),
+            hsl(var(--h) 76% calc(48% + var(--dl, 0%)))
+        );
+
+    color: hsl(var(--h) 95% 93%);
+
+    border: 1px solid hsl(var(--h) 94% 68% / .65);
+
+    box-shadow:
+        inset 0 0 10px hsl(var(--h) 94% 68% / .12),
+        0 0 7px hsl(var(--h) 83% 53% / .2);
+}
+
+
+#fifteen-puzzle.puzzle-neon .grid-item:hover {
+    color: #ffffff;
+
+    border-color: hsl(var(--h) 94% 68%);
+
+    filter: brightness(1.12);
+}
+
+
+#fifteen-puzzle.puzzle-neon .grid-item.solved {
+    color: #9dff00;
+
+    border-color: #9dff00;
+
+    text-shadow:
+        0 0 7px rgba(157,255,0,.65);
+}
+
+
+/* ============================================================
+   04 — NEON CLEAN        default: electric blue (app default)
+   Same cyber style without glow.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-neon-clean {
+    --theme-hue: 224;
+
+    background: hsl(var(--h) 84% 5%);
+
+    border: 1px solid hsl(var(--h) 71% 40%);
+
+    box-shadow: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 57% 21%),
+            hsl(var(--h) 76% calc(48% + var(--dl, 0%)))
+        );
+
+    color: hsl(var(--h) 95% 93%);
+
+    border: 1px solid hsl(var(--h) 94% 68%);
+
+    box-shadow: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 64% 33%),
+            hsl(var(--h) 83% calc(53% + var(--dl, 0%)))
+        );
+
+    color: #ffffff;
+
+    border-color: hsl(var(--h) 96% 78%);
+
+    box-shadow: none;
+
+    filter: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item.solved {
+    color: #9dff00;
+
+    border-color: #9dff00;
+
+    text-shadow: none;
+}
+
+
+/* ============================================================
+   05 — SOFT              default: blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-soft {
+    --theme-hue: 217;
+
+    background:
+        linear-gradient(
+            135deg,
+            hsl(var(--h) 95% 93%),
+            hsl(calc(var(--h) + 34) 91% 95%)
+        );
+
+    box-shadow:
+        0 18px 38px hsl(calc(var(--h) + 20) 90% 65% / .15);
+}
+
+
+#fifteen-puzzle.puzzle-soft .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 94% 68%),
+            hsl(var(--h) 91% 60%)
+        );
+
+    color: var(--ink, #ffffff);
+
+    box-shadow:
+        0 5px 0 hsl(var(--h) 76% 48%),
+        0 9px 16px hsl(var(--h) 83% 53% / .15);
+
+    transform: translateY(-2px);
+}
+
+
+#fifteen-puzzle.puzzle-soft .grid-item:hover {
+    transform:
+        translateY(-3px)
+        scale(1.01);
+}
+
+
+#fifteen-puzzle.puzzle-soft .grid-item:active {
+    transform:
+        translateY(2px)
+        scale(.96);
+
+    box-shadow:
+        0 2px 0 hsl(var(--h) 76% 48%);
+}
+
+
+#fifteen-puzzle.puzzle-soft .grid-item.solved {
+    color: var(--solved-ink, #ecffb8);
+}
+
+
+/* ============================================================
+   06 — ARCADE            default: blue tiles, yellow frame
+   The yellow cabinet frame stays yellow in every color.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-arcade {
+    --theme-hue: 221;
+
+    background: #111111;
+
+    border: 3px solid #facc15;
+
+    box-shadow:
+        0 0 0 3px #111111,
+        0 0 0 6px #facc15;
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item {
+    background: hsl(var(--h) 83% 53%);
+
+    color: var(--ink, #ffffff);
+
+    border: 2px solid hsl(var(--h) 94% 68%);
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.22),
+        inset -2px -2px 0 rgba(0,0,0,.2);
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item:hover {
+    background: hsl(var(--h) 91% 60%);
+
+    transform: scale(.97);
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item.solved {
+    color: var(--solved-ink, #faff00);
+
+    text-shadow:
+        1px 1px 0 #111111;
+}
+
+
+/* ============================================================
+   07 — MINIMAL           default: slate grey-blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-minimal {
+    --theme-hue: 215;
+
+    --tile-highlight: hsl(var(--h) 20% 65%);
+
+    background: hsl(var(--h) 32% 84%);
+
+    box-shadow:
+        0 12px 30px hsl(var(--h) 47% 11% / .1);
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item {
+    background: hsl(var(--h) 32% 91%);
+
+    color: hsl(var(--h) 25% 27%);
+
+    border: 1px solid hsl(var(--h) 32% 84%);
+
+    box-shadow:
+        0 2px 5px hsl(var(--h) 47% 11% / .06);
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item:hover {
+    background: hsl(var(--h) 40% 96%);
+
+    color: hsl(var(--h) 83% 45%);
+
+    transform: scale(.98);
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item.solved {
+    color: #65a30d;
+
+    background: #ecf7d6;
+
+    border-color: #bef264;
+}
+
+
+/* ============================================================
+   08 — MIDNIGHT          default: dark slate + indigo hover
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-midnight {
+    --theme-hue: 222;
+
+    --tile-highlight: hsl(calc(var(--h) + 12) 89% 74%);
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 47% 11%),
+            hsl(var(--h) 60% 5%)
+        );
+
+    box-shadow:
+        0 18px 45px hsl(var(--h) 60% 5% / .4);
+}
+
+
+#fifteen-puzzle.puzzle-midnight .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 25% 27%),
+            hsl(var(--h) 33% 17%)
+        );
+
+    color: hsl(var(--h) 32% 91%);
+
+    border: 1px solid hsl(var(--h) 19% 35%);
+}
+
+
+#fifteen-puzzle.puzzle-midnight .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 19% 35%),
+            hsl(var(--h) 25% 27%)
+        );
+
+    border-color: hsl(calc(var(--h) + 12) 89% 74%);
+}
+
+
+#fifteen-puzzle.puzzle-midnight .grid-item.solved {
+    color: #bef264;
+}
+
+
+/* ============================================================
+   09 — OCEAN             default: cyan / deep sea
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-ocean {
+    --theme-hue: 196;
+
+    --tile-highlight: hsl(var(--h) 86% 67%);
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 78% 15%),
+            hsl(calc(var(--h) - 2) 65% 24%)
+        );
+
+    box-shadow:
+        0 18px 40px hsl(var(--h) 78% 15% / .25);
+}
+
+
+#fifteen-puzzle.puzzle-ocean .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 4) 91% 36%),
+            hsl(calc(var(--h) + 5) 96% 32%)
+        );
+
+    color: var(--ink, hsl(var(--h) 100% 96%));
+
+    border: 1px solid hsl(var(--h) 86% 67%);
+}
+
+
+#fifteen-puzzle.puzzle-ocean .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 7) 94% 43%),
+            hsl(calc(var(--h) + 4) 98% 39%)
+        );
+}
+
+
+#fifteen-puzzle.puzzle-ocean .grid-item.solved {
+    color: var(--solved-ink, #bef264);
+}
+
+
+/* ============================================================
+   10 — SUNSET            default: orange
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-sunset {
+    --theme-hue: 23;
+
+    --tile-highlight: hsl(calc(var(--h) + 4) 96% 61%);
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 8) 84% 15%),
+            hsl(calc(var(--h) - 8) 75% 28%)
+        );
+
+    box-shadow:
+        0 18px 40px hsl(calc(var(--h) - 8) 75% 28% / .25);
+}
+
+
+#fifteen-puzzle.puzzle-sunset .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 2) 95% 53%),
+            hsl(calc(var(--h) - 2) 90% 48%)
+        );
+
+    color: var(--ink, hsl(var(--h) 100% 96%));
+
+    border: 1px solid hsl(calc(var(--h) + 4) 96% 61%);
+}
+
+
+#fifteen-puzzle.puzzle-sunset .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 4) 96% 61%),
+            hsl(calc(var(--h) + 2) 95% 53%)
+        );
+}
+
+
+#fifteen-puzzle.puzzle-sunset .grid-item.solved {
+    color: var(--solved-ink, #fef08a);
+}
+
+
+/* ============================================================
+   11 — FOREST            default: green
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-forest {
+    --theme-hue: 142;
+
+    --tile-highlight: hsl(var(--h) 77% 73%);
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 2) 85% 10%),
+            hsl(calc(var(--h) + 2) 61% 20%)
+        );
+
+    box-shadow:
+        0 18px 40px hsl(calc(var(--h) + 2) 61% 20% / .25);
+}
+
+
+#fifteen-puzzle.puzzle-forest .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 76% 36%),
+            hsl(var(--h) 72% 29%)
+        );
+
+    color: var(--ink, hsl(var(--h) 80% 96%));
+
+    border: 1px solid hsl(var(--h) 77% 73%);
+}
+
+
+#fifteen-puzzle.puzzle-forest .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 71% 45%),
+            hsl(var(--h) 76% 36%)
+        );
+}
+
+
+#fifteen-puzzle.puzzle-forest .grid-item.solved {
+    color: var(--solved-ink, #fef08a);
+}
+
+
+/* ============================================================
+   12 — MONOCHROME        default: pure grey
+   Picking a color adds a soft tint (--tint) to the greys.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-monochrome {
+    --theme-hue: 0;
+
+    --mono-s: var(--tint, 0%);
+
+    --tile-highlight: hsl(var(--h) var(--mono-s) 83%);
+
+    background: hsl(var(--h) var(--mono-s) 9%);
+
+    box-shadow:
+        0 16px 35px rgba(0,0,0,.22);
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) var(--mono-s) 32%),
+            hsl(var(--h) var(--mono-s) 15%)
+        );
+
+    color: hsl(var(--h) calc(var(--mono-s) * .5) 98%);
+
+    border: 1px solid hsl(var(--h) var(--mono-s) 45%);
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) var(--mono-s) 45%),
+            hsl(var(--h) var(--mono-s) 25%)
+        );
+
+    border-color: hsl(var(--h) var(--mono-s) 83%);
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item.solved {
+    color: #bef264;
+}
+
+
+/* ============================================================
+   13 — WOOD              default: brown / orange
+   Walnut board, maple tiles.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-wood {
+    --theme-hue: 28;
+
+    --tile-highlight: hsl(calc(var(--h) + 8) 60% 60%);
+
+    background:
+        repeating-linear-gradient(
+            92deg,
+            rgba(0,0,0,.05) 0 3px,
+            transparent 3px 9px
+        ),
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 6) 43% 26%),
+            hsl(calc(var(--h) - 5) 51% 16%)
+        );
+
+    box-shadow:
+        inset 0 0 0 2px hsl(calc(var(--h) - 4) 66% 10%),
+        0 18px 40px hsl(calc(var(--h) - 4) 66% 10% / .35);
+}
+
+#fifteen-puzzle.puzzle-wood .grid-item {
+    background:
+        repeating-linear-gradient(
+            88deg,
+            hsl(var(--h) 60% 30% / .08) 0 2px,
+            transparent 2px 7px
+        ),
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 9) 72% 76%),
+            hsl(calc(var(--h) + 7) 61% 63%)
+        );
+
+    color: hsl(calc(var(--h) - 2) 60% 18%);
+
+    border: 1px solid hsl(calc(var(--h) + 7) 49% 48%);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.45),
+        0 3px 0 hsl(calc(var(--h) + 4) 58% 34%),
+        0 6px 10px rgba(0,0,0,.25);
+}
+
+#fifteen-puzzle.puzzle-wood .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 9) 82% 82%),
+            hsl(calc(var(--h) + 7) 66% 68%)
+        );
+}
+
+#fifteen-puzzle.puzzle-wood .grid-item.solved {
+    color: #2f6b12;
+}
+
+
+/* ============================================================
+   14 — BLUEPRINT         default: cyanotype blue
+   Technical drawing: light lines on deep color.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-blueprint {
+    --theme-hue: 213;
+
+    --tile-highlight: #ffffff;
+    --tile-radius: 2px;
+
+    background:
+        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px)
+            0 0 / 20px 20px,
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)
+            0 0 / 20px 20px,
+        hsl(var(--h) 81% 25%);
+
+    border: 2px solid hsl(var(--h) 95% 93%);
+
+    box-shadow: 0 14px 34px hsl(var(--h) 81% 25% / .35);
+}
+
+#fifteen-puzzle.puzzle-blueprint .grid-item {
+    background: rgba(255,255,255,.04);
+
+    color: hsl(var(--h) 100% 97%);
+
+    border: 1.5px dashed hsl(var(--h) 95% 93% / .85);
+
+    font-family: "Courier New", ui-monospace, monospace;
+
+    box-shadow: none;
+}
+
+#fifteen-puzzle.puzzle-blueprint .grid-item:hover {
+    background: rgba(255,255,255,.14);
+
+    border-style: solid;
+}
+
+#fifteen-puzzle.puzzle-blueprint .grid-item.solved {
+    color: #fde68a;
+
+    border-color: #fde68a;
+}
+
+
+/* ============================================================
+   15 — CANDY             default: pink + violet + mint
+   Three tile colors spread around the wheel from --h.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-candy {
+    --theme-hue: 330;
+
+    --tile-highlight: hsl(var(--h) 90% 76%);
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 4) 87% 88%),
+            hsl(calc(var(--h) - 101) 94% 89%)
+        );
+
+    box-shadow:
+        0 18px 38px hsl(var(--h) 81% 60% / .2);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 86% 70%),
+            hsl(var(--h) 81% 60%)
+        );
+
+    color: #ffffff;
+
+    text-shadow: 0 1px 2px rgba(0,0,0,.3);
+
+    border: 2px solid hsl(var(--h) 87% 94%);
+
+    box-shadow:
+        0 5px 0 hsl(var(--h) 80% 40%),
+        0 9px 14px hsl(var(--h) 80% 40% / .25);
+
+    transform: translateY(-2px);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item:nth-child(3n+2) {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 72) 92% 76%),
+            hsl(calc(var(--h) - 72) 90% 66%)
+        );
+
+    box-shadow:
+        0 5px 0 hsl(calc(var(--h) - 72) 70% 42%),
+        0 9px 14px hsl(calc(var(--h) - 72) 70% 42% / .25);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item:nth-child(3n) {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 157) 77% 64%),
+            hsl(calc(var(--h) - 157) 80% 40%)
+        );
+
+    box-shadow:
+        0 5px 0 hsl(calc(var(--h) - 157) 80% 26%),
+        0 9px 14px hsl(calc(var(--h) - 157) 80% 26% / .25);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item:hover {
+    transform: translateY(-4px);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item:active {
+    transform: translateY(2px) scale(.96);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item.solved {
+    color: #fef9c3;
+}
+
+
+/* ============================================================
+   16 — LAVA              default: red-orange
+   Charcoal rock with glowing edges.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-lava {
+    --theme-hue: 14;
+
+    --tile-highlight: hsl(calc(var(--h) + 17) 97% 72%);
+
+    background: hsl(var(--h) 50% 5%);
+
+    border: 1px solid hsl(calc(var(--h) - 14) 63% 31%);
+
+    box-shadow:
+        0 0 34px hsl(calc(var(--h) - 14) 84% 60% / .22),
+        0 18px 40px rgba(0,0,0,.45);
+}
+
+#fifteen-puzzle.puzzle-lava .grid-item {
+    background:
+        linear-gradient(
+            160deg,
+            hsl(var(--h) 52% 15%),
+            hsl(var(--h) 52% 7%)
+        );
+
+    color: hsl(calc(var(--h) + 20) 100% 92%);
+
+    border: 1px solid hsl(calc(var(--h) + 7) 90% 48%);
+
+    box-shadow:
+        inset 0 -6px 14px hsl(calc(var(--h) - 14) 84% 60% / .28),
+        0 0 8px hsl(calc(var(--h) + 7) 90% 48% / .25);
+}
+
+#fifteen-puzzle.puzzle-lava .grid-item:hover {
+    background:
+        linear-gradient(
+            160deg,
+            hsl(var(--h) 60% 21%),
+            hsl(var(--h) 60% 11%)
+        );
+
+    border-color: hsl(calc(var(--h) + 17) 97% 72%);
+
+    box-shadow:
+        inset 0 -6px 16px hsl(calc(var(--h) + 11) 93% 55% / .45),
+        0 0 14px hsl(calc(var(--h) + 11) 93% 55% / .4);
+}
+
+#fifteen-puzzle.puzzle-lava .grid-item.solved {
+    color: #fde047;
+
+    border-color: #fde047;
+}
+
+
+/* ============================================================
+   17 — AURORA            default: teal into violet
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-aurora {
+    --theme-hue: 172;
+
+    --tile-highlight: hsl(var(--h) 77% 82%);
+
+    background:
+        radial-gradient(
+            circle at 20% 0%,
+            hsl(var(--h) 66% 50% / .35),
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            hsl(calc(var(--h) + 86) 92% 76% / .35),
+            transparent 55%
+        ),
+        hsl(calc(var(--h) + 43) 65% 7%);
+
+    box-shadow: 0 20px 46px hsl(calc(var(--h) + 43) 65% 7% / .5);
+}
+
+#fifteen-puzzle.puzzle-aurora .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 66% 50% / .32),
+            hsl(calc(var(--h) + 86) 90% 66% / .32)
+        );
+
+    color: hsl(var(--h) 100% 96%);
+
+    border: 1px solid hsl(var(--h) 77% 82% / .5);
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+#fifteen-puzzle.puzzle-aurora .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 66% 50% / .5),
+            hsl(calc(var(--h) + 86) 90% 66% / .5)
+        );
+
+    border-color: hsl(var(--h) 77% 82%);
+}
+
+#fifteen-puzzle.puzzle-aurora .grid-item.solved {
+    color: #d9f99d;
+
+    border-color: #d9f99d;
+}
+
+
+/* ============================================================
+   18 — SAKURA            default: rose pink
+   Pale petals on soft blush.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-sakura {
+    --theme-hue: 350;
+
+    --tile-highlight: hsl(var(--h) 96% 82%);
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 2) 100% 94%),
+            hsl(calc(var(--h) - 23) 87% 94%)
+        );
+
+    box-shadow:
+        0 16px 34px hsl(calc(var(--h) - 20) 87% 70% / .18);
+}
+
+#fifteen-puzzle.puzzle-sakura .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 5) 100% 97%),
+            hsl(calc(var(--h) + 1) 96% 90%)
+        );
+
+    color: hsl(calc(var(--h) - 9) 79% 35%);
+
+    border: 1px solid hsl(var(--h) 96% 82%);
+
+    box-shadow:
+        0 3px 8px hsl(calc(var(--h) - 4) 90% 60% / .12);
+}
+
+#fifteen-puzzle.puzzle-sakura .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            hsl(calc(var(--h) + 1) 96% 90%)
+        );
+
+    color: hsl(calc(var(--h) - 7) 83% 41%);
+}
+
+#fifteen-puzzle.puzzle-sakura .grid-item.solved {
+    color: #4d7c0f;
+
+    background:
+        linear-gradient(145deg, #f7fee7, #d9f99d);
+
+    border-color: #a3e635;
+}
+
+
+/* ============================================================
+   19 — TERMINAL          default: green phosphor
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-terminal {
+    --theme-hue: 142;
+
+    --tile-highlight: hsl(var(--h) 69% 58%);
+    --tile-radius: 2px;
+
+    background: hsl(var(--h) 90% 2%);
+
+    border: 1px solid hsl(var(--h) 64% 24%);
+
+    box-shadow: 0 0 0 1px hsl(var(--h) 85% 10%);
+}
+
+#fifteen-puzzle.puzzle-terminal .grid-item {
+    background: hsl(var(--h) 78% 5%);
+
+    color: hsl(var(--h) 69% 58%);
+
+    border: 1px solid hsl(var(--h) 72% 29%);
+
+    font-family: "Courier New", ui-monospace, monospace;
+
+    text-shadow: 0 0 6px hsl(var(--h) 69% 58% / .55);
+}
+
+#fifteen-puzzle.puzzle-terminal .grid-item:hover {
+    background: hsl(var(--h) 85% 10%);
+
+    color: hsl(var(--h) 79% 85%);
+
+    border-color: hsl(var(--h) 69% 58%);
+}
+
+#fifteen-puzzle.puzzle-terminal .grid-item.solved {
+    color: #fef08a;
+
+    border-color: #fef08a;
+
+    text-shadow: 0 0 6px rgba(254,240,138,.5);
+}
+
+
+/* ============================================================
+   20 — ICE               default: pale sky blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-ice {
+    --theme-hue: 201;
+
+    --tile-highlight: hsl(var(--h) 95% 74%);
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 3) 94% 94%),
+            hsl(var(--h) 94% 86%)
+        );
+
+    box-shadow:
+        0 16px 36px hsl(calc(var(--h) - 9) 80% 31% / .2);
+}
+
+#fifteen-puzzle.puzzle-ice .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.95),
+            hsl(var(--h) 94% 86% / .85)
+        );
+
+    color: hsl(var(--h) 90% 23%);
+
+    border: 1px solid rgba(255,255,255,.9);
+
+    box-shadow:
+        inset 0 1px 2px #ffffff,
+        0 4px 10px hsl(calc(var(--h) - 9) 80% 31% / .2);
+}
+
+#fifteen-puzzle.puzzle-ice .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            hsl(calc(var(--h) + 3) 94% 94%)
+        );
+
+    color: hsl(var(--h) 96% 32%);
+}
+
+#fifteen-puzzle.puzzle-ice .grid-item.solved {
+    color: #15803d;
+}
+
+
+/* ============================================================
+   21 — GOLD              default: gold on black lacquer
+   Pick blue for sapphire, red for ruby, etc.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-gold {
+    --theme-hue: 43;
+
+    --tile-highlight: hsl(var(--h) 96% 56%);
+
+    background: hsl(var(--h) 20% 4%);
+
+    border: 2px solid hsl(calc(var(--h) - 17) 93% 37%);
+
+    box-shadow:
+        0 0 0 3px hsl(var(--h) 20% 4%),
+        0 0 0 4px hsl(var(--h) 85% 45%),
+        0 18px 40px rgba(0,0,0,.45);
+}
+
+#fifteen-puzzle.puzzle-gold .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 6% 15%),
+            hsl(var(--h) 6% 7%)
+        );
+
+    color: hsl(var(--h) 91% 60%);
+
+    border: 1px solid hsl(calc(var(--h) - 8) 92% 33%);
+
+    box-shadow:
+        inset 0 1px 0 hsl(var(--h) 96% 56% / .25);
+}
+
+#fifteen-puzzle.puzzle-gold .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 6% 23%),
+            hsl(var(--h) 6% 11%)
+        );
+
+    color: hsl(calc(var(--h) + 5) 97% 77%);
+
+    border-color: hsl(var(--h) 96% 56%);
+}
+
+#fifteen-puzzle.puzzle-gold .grid-item.solved {
+    color: #86efac;
+
+    border-color: #4ade80;
+}
+
+
+/* ============================================================
+   22 — HANDHELD          default: green LCD
+   Light shade is --h, dark shade is 48 degrees further.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-handheld {
+    --theme-hue: 72;
+
+    --tile-highlight: hsl(var(--h) 84% 37%);
+    --tile-radius: 0px;
+
+    background: hsl(var(--h) 84% 37%);
+
+    border: 4px solid hsl(calc(var(--h) + 48) 34% 28%);
+
+    box-shadow: 0 10px 0 hsl(calc(var(--h) + 48) 79% 14%);
+}
+
+#fifteen-puzzle.puzzle-handheld .grid-item {
+    background: hsl(var(--h) 85% 40%);
+
+    color: hsl(calc(var(--h) + 48) 79% 14%);
+
+    border: 3px solid hsl(calc(var(--h) + 48) 34% 28%);
+
+    font-family: "Courier New", ui-monospace, monospace;
+
+    font-weight: 900;
+
+    box-shadow:
+        inset -3px -3px 0 hsl(var(--h) 84% 37%);
+}
+
+#fifteen-puzzle.puzzle-handheld .grid-item:hover {
+    background: hsl(var(--h) 73% 47%);
+
+    transform: none;
+}
+
+#fifteen-puzzle.puzzle-handheld .grid-item.solved {
+    background: hsl(calc(var(--h) + 48) 79% 14%);
+
+    color: hsl(var(--h) 85% 40%);
+}
+
+
+/* ============================================================
+   23 — CHALKBOARD        default: slate green board
+   The wooden frame and chalk stay the same in every color.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-chalkboard {
+    --theme-hue: 160;
+
+    --tile-highlight: #f8fafc;
+
+    background: hsl(var(--h) 33% 18%);
+
+    border: 6px solid #8b6b45;
+
+    box-shadow:
+        inset 0 0 30px rgba(0,0,0,.35),
+        0 14px 30px rgba(0,0,0,.3);
+}
+
+#fifteen-puzzle.puzzle-chalkboard .grid-item {
+    background: rgba(255,255,255,.03);
+
+    color: #f8fafc;
+
+    border: 2px solid rgba(248,250,252,.75);
+
+    font-family: "Comic Sans MS", "Chalkboard SE", "Segoe Print", cursive;
+
+    font-weight: 700;
+
+    box-shadow: none;
+}
+
+#fifteen-puzzle.puzzle-chalkboard .grid-item:hover {
+    background: rgba(255,255,255,.12);
+}
+
+#fifteen-puzzle.puzzle-chalkboard .grid-item.solved {
+    color: #fde68a;
+
+    border-color: #fde68a;
+}
+
+
+/* ============================================================
+   24 — SYNTHWAVE         default: hot pink + violet, cyan edge
+   Violet and the edge accent are offsets from --h, so picking
+   a color shifts the whole palette together.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-synthwave {
+    --theme-hue: 336;
+
+    --tile-highlight: hsl(calc(var(--h) - 148) 86% 53%);
+
+    background:
+        linear-gradient(
+            180deg,
+            hsl(calc(var(--h) - 61) 82% 11%) 0%,
+            hsl(calc(var(--h) - 62) 76% 18%) 60%,
+            hsl(calc(var(--h) - 51) 78% 22%) 100%
+        );
+
+    border: 1px solid hsl(calc(var(--h) - 44) 84% 49%);
+
+    box-shadow:
+        0 0 26px hsl(calc(var(--h) - 44) 84% 49% / .3),
+        0 18px 40px hsl(calc(var(--h) - 61) 82% 11% / .5);
+}
+
+#fifteen-puzzle.puzzle-synthwave .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) 80% 40%),
+            hsl(calc(var(--h) - 64) 74% 47%)
+        );
+
+    color: #ffffff;
+
+    border: 1px solid hsl(calc(var(--h) - 148) 86% 53%);
+
+    box-shadow:
+        0 0 8px hsl(calc(var(--h) - 148) 86% 53% / .35),
+        inset 0 1px 1px rgba(255,255,255,.25);
+
+    text-shadow: 0 0 8px hsl(calc(var(--h) - 148) 86% 53% / .7);
+}
+
+#fifteen-puzzle.puzzle-synthwave .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 3) 71% 51%),
+            hsl(calc(var(--h) - 65) 81% 56%)
+        );
+
+    box-shadow:
+        0 0 14px hsl(calc(var(--h) - 148) 86% 53% / .6),
+        inset 0 1px 1px rgba(255,255,255,.25);
+}
+
+#fifteen-puzzle.puzzle-synthwave .grid-item.solved {
+    color: #fef08a;
+
+    border-color: #fef08a;
+
+    text-shadow: 0 0 8px rgba(254,240,138,.7);
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+    #fifteen-puzzle {
+        max-width: 400px;
+    }
+
+    #fifteen-puzzle .grid-item:hover {
+        transform: none;
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    #fifteen-puzzle,
+    #fifteen-puzzle .grid-item {
+        transition: none !important;
+    }
+}
+
