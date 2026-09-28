@@ -1,0 +1,47 @@
+/* =========================
+   OPTIONS
+   ========================= */
+
+#options {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 12px 14px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+}
+
+#options h2 {
+    margin: 0 0 8px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+.option {
+    display: inline-flex;
+    align-items: center;
+
+    margin-right: 13px;
+
+    font-size: 12px;
+}
+
+.option input {
+    width: 17px;
+    height: 17px;
+
+    margin: 0 6px 0 0;
+
+    accent-color: var(--primary);
+}
+
+

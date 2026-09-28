@@ -1,0 +1,65 @@
+/* ============================================================
+   13 — SAKURA            default: rose pink
+   Pale petals on soft blush.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-sakura {
+    --theme-hue: 350;
+
+    --tile-highlight: hsl(var(--h) calc(96% * var(--sat, 1)) calc(82% * var(--fk, 1) + var(--fb, 0%)));
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 2) calc(100% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 23) calc(87% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 2) calc(100% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 23) calc(87% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    box-shadow:
+        0 16px 34px hsl(calc(var(--h) - 20) calc(87% * var(--sat, 1)) calc(70% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.18) * var(--soft, 1)));
+
+    --board-shadow:
+        0 16px 34px hsl(calc(var(--h) - 20) calc(87% * var(--sat, 1)) calc(70% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.18) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-sakura .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 5) calc(100% * var(--sat, 1)) calc(97% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) + 1) calc(96% * var(--sat, 1)) calc(90% * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: hsl(calc(var(--h) - 9) calc(79% * var(--sat, 1)) calc((35% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1px solid hsl(var(--h) calc(96% * var(--sat, 1)) calc(82% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 3px 8px hsl(calc(var(--h) - 4) calc(90% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.12) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-sakura .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) + 1) calc(96% * var(--sat, 1)) calc(90% * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: hsl(calc(var(--h) - 7) calc(83% * var(--sat, 1)) calc((41% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
+}
+
+#fifteen-puzzle.puzzle-sakura .grid-item.solved {
+    color: #4d7c0f;
+
+    border-color: #a3e635;
+}
+
+

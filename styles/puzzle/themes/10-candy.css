@@ -1,0 +1,95 @@
+/* ============================================================
+   10 — CANDY             default: pink + violet + mint
+   Three tile colors spread around the wheel from --h.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-candy {
+    --theme-hue: 330;
+
+    --tile-highlight: hsl(var(--h) calc(90% * var(--sat, 1)) calc(76% * var(--fk, 1) + var(--fb, 0%)));
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 4) calc(87% * var(--sat, 1)) calc(88% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 101) calc(94% * var(--sat, 1)) calc(89% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 4) calc(87% * var(--sat, 1)) calc(88% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 101) calc(94% * var(--sat, 1)) calc(89% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    box-shadow:
+        0 18px 38px hsl(var(--h) calc(81% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
+
+    --board-shadow:
+        0 18px 38px hsl(var(--h) calc(81% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(86% * var(--sat, 1)) calc((70% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(81% * var(--sat, 1)) calc((60% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: var(--numc, var(--num, #ffffff));
+
+    text-shadow: 0 1px 2px rgba(0,0,0,.3);
+
+    border: 2px solid hsl(var(--h) calc(87% * var(--sat, 1)) calc(94% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 5px 0 hsl(var(--h) calc(80% * var(--sat, 1)) calc(40% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 9px 14px hsl(var(--h) calc(80% * var(--sat, 1)) calc(40% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
+
+    transform: translateY(-2px);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item:nth-child(3n+2) {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 72) calc(92% * var(--sat, 1)) calc((76% + var(--dc2, var(--dc, 0%))) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) - 72) calc(90% * var(--sat, 1)) calc((66% + var(--dc2, var(--dc, 0%))) * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: var(--numc2, var(--numc, var(--num, #ffffff)));
+
+    box-shadow:
+        0 5px 0 hsl(calc(var(--h) - 72) calc(70% * var(--sat, 1)) calc(42% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 9px 14px hsl(calc(var(--h) - 72) calc(70% * var(--sat, 1)) calc(42% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item:nth-child(3n) {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 157) calc(77% * var(--sat, 1)) calc((64% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) - 157) calc(80% * var(--sat, 1)) calc((40% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: var(--numc3, var(--numc, var(--num, #ffffff)));
+
+    box-shadow:
+        0 5px 0 hsl(calc(var(--h) - 157) calc(80% * var(--sat, 1)) calc(26% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 9px 14px hsl(calc(var(--h) - 157) calc(80% * var(--sat, 1)) calc(26% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item:hover {
+    transform: translateY(-4px);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item:active {
+    transform: translateY(2px) scale(.96);
+}
+
+#fifteen-puzzle.puzzle-candy .grid-item.solved {
+    color: #fef9c3;
+}
+
+

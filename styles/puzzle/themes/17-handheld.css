@@ -1,0 +1,50 @@
+/* ============================================================
+   17 — HANDHELD          default: green LCD
+   Light shade is --h, dark shade is 48 degrees further.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-handheld {
+    --theme-hue: 72;
+
+    --tile-highlight: hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--fk, 1) + var(--fb, 0%)));
+    --tile-radius: 0px;
+
+    background: hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 4px solid hsl(calc(var(--h) + 48) calc(34% * var(--sat, 1)) calc(28% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 10px 0 hsl(calc(var(--h) + 48) calc(79% * var(--sat, 1)) calc(14% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+
+    --board-shadow:
+        0 10px 0 hsl(calc(var(--h) + 48) calc(79% * var(--sat, 1)) calc(14% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+}
+
+#fifteen-puzzle.puzzle-handheld .grid-item {
+    background: hsl(var(--h) calc(85% * var(--sat, 1)) calc((40% + var(--hl, 0%)) * var(--fk, 1) + var(--fb, 0%)));
+
+    color: hsl(calc(var(--h) + 48) calc(79% * var(--sat, 1)) calc(14% * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 3px solid hsl(calc(var(--h) + 48) calc(34% * var(--sat, 1)) calc(28% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    font-family: "Courier New", ui-monospace, monospace;
+
+    font-weight: 900;
+
+    box-shadow:
+        inset -3px -3px 0 hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+}
+
+#fifteen-puzzle.puzzle-handheld .grid-item:hover {
+    background: hsl(var(--h) calc(73% * var(--sat, 1)) calc((47% + var(--hl, 0%)) * var(--fk, 1) + var(--fb, 0%)));
+
+    transform: none;
+}
+
+#fifteen-puzzle.puzzle-handheld .grid-item.solved {
+    color: #15803d;
+}
+
+

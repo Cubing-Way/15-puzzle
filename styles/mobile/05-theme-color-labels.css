@@ -1,0 +1,37 @@
+/* =========================
+   THEME / COLOR LABELS
+   ========================= */
+
+.select-field {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    margin: 0;
+}
+
+.select-label {
+    flex: 0 0 auto;
+
+    white-space: nowrap;
+
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.select-field select {
+    flex: 1 1 auto;
+
+    margin: 0;
+}
+

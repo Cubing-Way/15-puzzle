@@ -1,0 +1,34 @@
+/* =========================================================
+   COMBINED SOLVE HISTORY
+   ========================================================= */
+
+#solveModal .solve-history-section {
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+#solveModal .solve-history-title {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#solveModal .solve-history-section .solve-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+#solveModal .solve-row-info {
+    flex: 1;
+}
+
+#solveModal .solve-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+

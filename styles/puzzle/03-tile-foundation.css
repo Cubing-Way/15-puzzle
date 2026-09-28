@@ -1,0 +1,69 @@
+/* ============================================================
+   TILE FOUNDATION
+   ============================================================ */
+
+#fifteen-puzzle .grid-item {
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: var(--tile-radius);
+
+    font-size: var(--number-size);
+
+    font-weight: 850;
+
+    line-height: 1;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    touch-action: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.14s ease,
+        background 0.18s ease,
+        border 0.18s ease,
+        box-shadow 0.18s ease,
+        color 0.18s ease,
+        filter 0.18s ease;
+}
+
+
+#fifteen-puzzle .grid-item:hover {
+    transform: translateY(-2px);
+}
+
+
+#fifteen-puzzle .grid-item:active {
+    transform: scale(0.94);
+}
+
+
+#fifteen-puzzle .grid-item.solved {
+    color: var(--solved, #9dff00);
+
+    -webkit-text-stroke: 0;
+
+    text-shadow: none;
+}
+
+

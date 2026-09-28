@@ -1,0 +1,10 @@
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    #fifteen-puzzle,
+    #fifteen-puzzle .grid-item {
+        transition: none !important;
+    }
+}

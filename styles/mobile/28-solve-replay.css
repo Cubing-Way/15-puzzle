@@ -1,0 +1,114 @@
+/* =========================================================
+   SOLVE REPLAY
+   ========================================================= */
+
+#solveReplayPuzzle {
+    display: grid;
+
+    width: min(400px, 100%);
+
+    margin: 0 auto 20px;
+
+    gap: 4px;
+}
+
+.solve-replay-tile {
+    aspect-ratio: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-size: clamp(20px, 6vw, 34px);
+    font-weight: 700;
+
+    overflow: hidden;
+}
+
+.solve-replay-tile.solved {
+    color: var(--solved);
+    border-color: var(--solved);
+}
+
+.solve-replay-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.solve-replay-button {
+    width: 42px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 1.25rem;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.solve-replay-button:hover:not(:disabled) {
+    background: var(--surface);
+    border-color: var(--primary);
+}
+
+.solve-replay-button:active:not(:disabled) {
+    transform: scale(0.96);
+}
+
+.solve-replay-button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.solve-replay-move {
+    min-width: 100px;
+
+    text-align: center;
+
+    color: var(--text);
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.solve-replay-time {
+    display: block;
+
+    margin-top: 12px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    font-variant-numeric: tabular-nums;
+}
+
+

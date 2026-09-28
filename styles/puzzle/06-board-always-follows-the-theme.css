@@ -1,0 +1,16 @@
+/* ============================================================
+   BOARD ALWAYS FOLLOWS THE THEME
+   Each theme stores its board look in --board-bg / --board-shadow.
+   This rule is strong enough to beat the dark-mode board rule in
+   mobile.css (body.dark-mode #fifteen-puzzle), so the board keeps
+   the theme's color in light and dark mode. You can delete that
+   rule from mobile.css if you like; this file no longer needs it.
+   ============================================================ */
+
+html body #fifteen-puzzle[class*="puzzle-"] {
+    background: var(--board-bg);
+
+    box-shadow: var(--board-shadow);
+}
+
+

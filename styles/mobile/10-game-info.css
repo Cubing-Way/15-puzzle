@@ -1,0 +1,77 @@
+/* =========================
+   GAME INFO
+   ========================= */
+   
+#game-info {
+    width: 100%;
+    max-width: 400px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 6px;
+
+    margin-bottom: 8px;
+}
+
+#game-info > #scramble-control,
+#game-info > #reset-control {
+    width: 100%;
+}
+
+#game-info > #scramble-control button,
+#game-info > #reset-control button {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 44px;
+
+    padding: 0 4px;
+
+    font-size: 12px;
+}
+
+#game-info > #size-select {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 44px;
+
+    padding: 8px 5px;
+
+    font-size: 12px;
+}
+
+#scramble-control button,
+#reset-control button {
+    min-height: 44px;
+
+    padding: 0 4px;
+
+    border-radius: 14px;
+
+    background: var(--surface);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+#scramble-control button:hover,
+#reset-control button:hover {
+    background: var(--surface-2);
+    border-color: var(--primary);
+}
+
+
+#reset-control button {
+    background: var(--surface);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+
+

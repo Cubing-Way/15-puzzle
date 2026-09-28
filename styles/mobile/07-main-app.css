@@ -1,0 +1,19 @@
+/* =========================
+   MAIN APP
+   ========================= */
+
+#app {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    overflow: hidden;
+}
+
+
+

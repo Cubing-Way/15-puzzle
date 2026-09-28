@@ -1,0 +1,59 @@
+/* ============================================================
+   09 — BLUEPRINT         default: cyanotype blue
+   Technical drawing: light lines on deep color.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-blueprint {
+    --theme-hue: 213;
+
+    --tile-highlight: rgb(var(--w, 255 255 255));
+    --tile-radius: 2px;
+
+    background:
+        linear-gradient(rgb(var(--w, 255 255 255) / .08) 1px, transparent 1px)
+            0 0 / 20px 20px,
+        linear-gradient(90deg, rgb(var(--w, 255 255 255) / .08) 1px, transparent 1px)
+            0 0 / 20px 20px,
+        hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg:
+        linear-gradient(rgb(var(--w, 255 255 255) / .08) 1px, transparent 1px)
+            0 0 / 20px 20px,
+        linear-gradient(90deg, rgb(var(--w, 255 255 255) / .08) 1px, transparent 1px)
+            0 0 / 20px 20px,
+        hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 2px solid hsl(var(--h) calc(95% * var(--sat, 1)) calc(93% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 14px 34px hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1)));
+
+    --board-shadow:
+        0 14px 34px hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-blueprint .grid-item {
+    background: rgb(var(--w, 255 255 255) / .04);
+
+    color: hsl(var(--h) calc(100% * var(--sat, 1)) calc(97% * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1.5px dashed hsl(var(--h) calc(95% * var(--sat, 1)) calc(93% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))) / .85);
+
+    font-family: "Courier New", ui-monospace, monospace;
+
+    box-shadow: none;
+}
+
+#fifteen-puzzle.puzzle-blueprint .grid-item:hover {
+    background: rgb(var(--w, 255 255 255) / .14);
+
+    border-style: solid;
+}
+
+#fifteen-puzzle.puzzle-blueprint .grid-item.solved {
+    color: #fde68a;
+
+    border-color: #fde68a;
+}
+
+

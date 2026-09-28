@@ -1,0 +1,20 @@
+/* =========================
+   DARK THEME
+   ========================= */
+
+body.dark-mode {
+    --bg: #080d18;
+    --surface: #111827;
+    --surface-2: #1e293b;
+    --border: #263449;
+
+    --text: #f8fafc;
+    --muted: #94a3b8;
+
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+
+    --tile: #3b82f6;
+    --tile-hover: #60a5fa;
+}
+

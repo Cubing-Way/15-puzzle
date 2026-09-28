@@ -1,0 +1,41 @@
+/* =========================================================
+   SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 600px) {
+    #solveModal .solve-sizes-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.select-field {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 0;
+}
+
+.select-label {
+    flex: 0 0 46px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.select-field select {
+    flex: 1;
+    min-width: 0;
+
+    margin: 0;
+}

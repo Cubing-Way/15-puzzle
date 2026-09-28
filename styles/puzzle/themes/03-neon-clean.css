@@ -1,0 +1,63 @@
+/* ============================================================
+   03 — NEON CLEAN        default: electric blue (app default)
+   Same cyber style without glow.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-neon-clean {
+    --theme-hue: 224;
+
+    background: hsl(var(--h) calc(84% * var(--sat, 1)) calc(5% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(var(--h) calc(84% * var(--sat, 1)) calc(5% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 1px solid hsl(var(--h) calc(71% * var(--sat, 1)) calc(40% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow: none;
+
+    --board-shadow: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(76% * var(--sat, 1)) calc((48% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: hsl(var(--h) calc(95% * var(--sat, 1)) calc(93% * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1px solid hsl(var(--h) calc(94% * var(--sat, 1)) calc(68% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(64% * var(--sat, 1)) calc(33% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: var(--num, #ffffff);
+
+    border-color: hsl(var(--h) calc(96% * var(--sat, 1)) calc(78% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow: none;
+
+    filter: none;
+}
+
+
+#fifteen-puzzle.puzzle-neon-clean .grid-item.solved {
+    color: #9dff00;
+
+    border-color: #9dff00;
+
+    text-shadow: none;
+}
+
+

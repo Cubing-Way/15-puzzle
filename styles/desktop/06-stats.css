@@ -1,0 +1,118 @@
+/* =========================
+   STATS
+   ========================= */
+
+/* =========================
+   STATS
+   ========================= */
+
+#stats {
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 0;
+
+    padding: 14px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+}
+
+.stat {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.stat + .stat {
+    padding-left: 16px;
+
+    border-left: 1px solid var(--border);
+}
+
+.stat-info {
+    min-width: 45px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.stat-label {
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+#move-counter,
+#timer {
+    color: var(--text);
+
+    font-size: 17px;
+    font-weight: 800;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.move-controls,
+.timer-controls {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+#stats button {
+    min-height: 30px;
+
+    padding: 0 9px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.08s ease;
+}
+
+#stats button:hover:not(:disabled) {
+    background: var(--surface);
+    border-color: var(--primary);
+}
+
+#stats button:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+#stats button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+
+

@@ -1,0 +1,29 @@
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+    .solve-modal,
+    .solve-details-modal {
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    .solve-modal-title {
+        font-size: 1.1rem;
+    }
+
+    .solve-replay-controls {
+        gap: 6px;
+    }
+
+    .solve-replay-move {
+        min-width: 80px;
+        font-size: 0.9rem;
+    }
+
+    .solve-replay-button {
+        width: 38px;
+        height: 36px;
+    }
+}

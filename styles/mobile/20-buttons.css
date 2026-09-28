@@ -1,0 +1,48 @@
+/* =========================
+   BUTTONS
+   ========================= */
+
+#controls {
+    width: 100%;
+    max-width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+}
+
+#controls button {
+    min-width: 0;
+
+    min-height: 49px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: var(--primary);
+    color: white;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    touch-action: manipulation;
+}
+
+#controls button:active {
+    transform: scale(0.97);
+}
+
+#controls button:last-child {
+    background: var(--surface);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+

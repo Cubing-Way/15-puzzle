@@ -1,0 +1,63 @@
+/* ============================================================
+   15 — ICE               default: pale sky blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-ice {
+    --theme-hue: 201;
+
+    --tile-highlight: hsl(var(--h) calc(95% * var(--sat, 1)) calc(74% * var(--fk, 1) + var(--fb, 0%)));
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 3) calc(94% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc(86% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 3) calc(94% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc(86% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    box-shadow:
+        0 16px 36px hsl(calc(var(--h) - 9) calc(80% * var(--sat, 1)) calc(31% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
+
+    --board-shadow:
+        0 16px 36px hsl(calc(var(--h) - 9) calc(80% * var(--sat, 1)) calc(31% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-ice .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--fk, 1) + var(--fb, 0%)) / .95),
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc(86% * var(--fk, 1) + var(--fb, 0%)) / .85)
+        );
+
+    color: hsl(var(--h) calc(90% * var(--sat, 1)) calc((23% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1px solid hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))) / .9);
+
+    box-shadow:
+        inset 0 1px 2px hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / var(--soft, 1)),
+        0 4px 10px hsl(calc(var(--h) - 9) calc(80% * var(--sat, 1)) calc(31% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-ice .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) + 3) calc(94% * var(--sat, 1)) calc(94% * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: hsl(var(--h) calc(96% * var(--sat, 1)) calc((32% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
+}
+
+#fifteen-puzzle.puzzle-ice .grid-item.solved {
+    color: #15803d;
+}
+
+

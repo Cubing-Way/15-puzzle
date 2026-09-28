@@ -1,0 +1,89 @@
+/* ============================================================
+   PUZZLE THEME SYSTEM  (19 themes x 13 colors + default)
+   Supports 3x3 through 10x10 puzzles.
+
+   HOW COLOR WORKS
+   - Every theme sets its own default hue:   --theme-hue
+   - The color select sets  data-color="red" (etc.) on #fifteen-puzzle
+     which sets  --user-hue
+   - Everything in a theme is built from:    --h
+       --h = --user-hue if a color is picked, else --theme-hue
+   - "Default" = no data-color attribute -> each theme keeps its
+     own natural color (wood = brown/orange, ocean = cyan, ...)
+   ============================================================ */
+
+
+/* ============================================================
+   SHARED FOUNDATION
+   ============================================================ */
+
+#fifteen-puzzle {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+
+    min-width: 0;
+    min-height: 0;
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(var(--grid-size, 3), minmax(0, 1fr));
+
+    grid-template-rows:
+        repeat(var(--grid-size, 3), minmax(0, 1fr));
+
+    --theme-hue: 221;
+    --h: var(--user-hue, var(--theme-hue));
+
+    --puzzle-gap:
+        clamp(
+            3px,
+            calc(10px - (var(--grid-size, 3) * 0.65px)),
+            8px
+        );
+
+    --puzzle-radius:
+        clamp(
+            7px,
+            calc(25px - (var(--grid-size, 3) * 1.7px)),
+            21px
+        );
+
+    --tile-radius:
+        clamp(
+            2px,
+            calc(14px - (var(--grid-size, 3) * 1.15px)),
+            10px
+        );
+
+    --number-size:
+        clamp(
+            11px,
+            calc(100cqw / var(--grid-size, 3) * 0.72),
+            38px
+        );
+
+    --tile-highlight: hsl(var(--h) 94% 68%);
+
+    gap: var(--puzzle-gap);
+    padding: var(--puzzle-gap);
+
+    border-radius: var(--puzzle-radius);
+
+    overflow: hidden;
+    isolation: isolate;
+
+    container-type: inline-size;
+
+    touch-action: none;
+
+    transition:
+        background 0.2s ease,
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+

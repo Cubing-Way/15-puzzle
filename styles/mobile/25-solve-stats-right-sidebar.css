@@ -1,0 +1,128 @@
+/* =========================================================
+   SOLVE STATS / RIGHT SIDEBAR
+   ========================================================= */
+
+#avgRightSidebar {
+    color: var(--text);
+    font-size: 1rem;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    overflow: auto;
+}
+
+.solve-size-section {
+    margin-bottom: 14px;
+}
+
+.solve-size-title {
+    display: block;
+    margin-bottom: 4px;
+
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.solve-stat {
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+.solve-recent-title {
+    display: block;
+
+    margin: 16px 0 8px;
+
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.solve-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.solve-preview-info {
+    min-width: 0;
+
+    color: var(--text);
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: 1rem;
+}
+
+.solve-delete {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 1px solid transparent;
+    border-radius: 6px;
+
+    background: transparent;
+    color: var(--muted);
+
+    font-family: inherit;
+    font-size: 1.25rem;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.solve-delete:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+body.dark-mode .solve-delete:hover {
+    background: #451a1a;
+    color: #f87171;
+    border-color: #7f1d1d;
+}
+
+#expandSolvesButton {
+    min-height: 38px;
+
+    margin-top: 10px;
+    padding: 0 13px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+#expandSolvesButton:hover {
+    background: var(--surface);
+    border-color: var(--primary);
+}
+
+#expandSolvesButton:active {
+    transform: scale(0.97);
+}
+
+

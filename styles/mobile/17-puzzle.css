@@ -1,0 +1,47 @@
+/* =========================
+   PUZZLE
+   ========================= */
+
+#fifteen-puzzle {
+    --grid-size: 3;
+
+    width: 100%;
+    max-width: 500px;
+
+    aspect-ratio: 1 / 1;
+
+    height: auto;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            var(--grid-size),
+            minmax(0, 1fr)
+        );
+
+    grid-template-rows:
+        repeat(
+            var(--grid-size),
+            minmax(0, 1fr)
+        );
+
+    gap: 0;
+
+    padding: 0;
+
+    background: #0f172a;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    touch-action: none;
+
+    container-type: inline-size;
+}
+
+

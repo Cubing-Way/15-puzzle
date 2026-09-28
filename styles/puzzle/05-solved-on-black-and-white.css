@@ -1,0 +1,31 @@
+/* ============================================================
+   SOLVED ON BLACK AND WHITE
+   Solved pieces only change their number color (green / yellow
+   per theme), never the tile. These rules just swap in a green
+   that stays readable where black or white makes the tile very
+   dark or very light.
+   ============================================================ */
+
+/* black: dark green numbers become light green on the dark tiles */
+#fifteen-puzzle.puzzle-wood[data-color="black"] .grid-item.solved,
+#fifteen-puzzle.puzzle-ice[data-color="black"] .grid-item.solved,
+#fifteen-puzzle.puzzle-minimal[data-color="black"] .grid-item.solved,
+#fifteen-puzzle.puzzle-sakura[data-color="black"] .grid-item.solved,
+#fifteen-puzzle.puzzle-handheld[data-color="black"] .grid-item.solved {
+    color: #86efac;
+}
+
+/* white: lime / pale yellow numbers become dark green on the white tiles */
+#fifteen-puzzle.puzzle-modern[data-color="white"] .grid-item.solved,
+#fifteen-puzzle.puzzle-soft[data-color="white"] .grid-item.solved,
+#fifteen-puzzle.puzzle-arcade[data-color="white"] .grid-item.solved,
+#fifteen-puzzle.puzzle-candy[data-color="white"] .grid-item.solved,
+#fifteen-puzzle.puzzle-synthwave[data-color="white"] .grid-item.solved {
+    color: #3f6212;
+
+    border-color: #65a30d;
+
+    text-shadow: none;
+}
+
+

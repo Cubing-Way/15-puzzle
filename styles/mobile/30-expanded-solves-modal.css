@@ -1,0 +1,56 @@
+/* =========================================================
+   EXPANDED SOLVES MODAL
+   ========================================================= */
+
+#solveModal .solve-sizes-container {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(160px, 1fr)
+        );
+
+    gap: 16px;
+
+    width: 100%;
+}
+
+#solveModal .solve-size-section {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 0;
+}
+
+#solveModal .solve-size-title {
+    display: block;
+
+    margin-bottom: 4px;
+
+    text-align: left;
+
+    font-size: 1.1rem;
+}
+
+#solveModal .solve-stats-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+#solveModal .solve-stats-heading {
+    margin-bottom: 3px;
+}
+
+#solveModal .solve-stat {
+    display: block;
+}
+
+

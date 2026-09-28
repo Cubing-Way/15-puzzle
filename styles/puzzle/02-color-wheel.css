@@ -1,0 +1,77 @@
+/* ============================================================
+   COLOR WHEEL
+   Set by  puzzleElement.setAttribute("data-color", "red")
+   To tweak a color, just change its hue number (0-360).
+   Black and white are special: see BLACK & WHITE near the end.
+
+   Extra tuning variables (only set for the bright colors):
+   --dl         darkens the bright end of dark-tile themes
+   --ink        number color on bright-tile themes
+   --solved-ink solved-number color on bright-tile themes
+   ============================================================ */
+
+#fifteen-puzzle[data-color]            { --tint: 22%; }
+
+#fifteen-puzzle[data-color="red"]      { --user-hue: 0;   }
+#fifteen-puzzle[data-color="orange"]   { --user-hue: 26;  }
+#fifteen-puzzle[data-color="yellow"]   { --user-hue: 47;  }
+#fifteen-puzzle[data-color="lime"]     { --user-hue: 85;  }
+#fifteen-puzzle[data-color="green"]    { --user-hue: 138; }
+#fifteen-puzzle[data-color="teal"]     { --user-hue: 172; }
+#fifteen-puzzle[data-color="cyan"]     { --user-hue: 192; }
+#fifteen-puzzle[data-color="blue"]     { --user-hue: 217; }
+#fifteen-puzzle[data-color="purple"]   { --user-hue: 268; }
+#fifteen-puzzle[data-color="magenta"]  { --user-hue: 305; }
+#fifteen-puzzle[data-color="pink"]     { --user-hue: 335; }
+
+/* Light hues (bright tiles): dark numbers instead of white ones */
+#fifteen-puzzle[data-color="yellow"],
+#fifteen-puzzle[data-color="lime"],
+#fifteen-puzzle[data-color="orange"],
+#fifteen-puzzle[data-color="green"],
+#fifteen-puzzle[data-color="teal"],
+#fifteen-puzzle[data-color="cyan"] {
+    --ink: hsl(var(--h) 65% 8%);
+}
+
+/* Candy / Synthwave: dark numbers where the hue is light enough.
+   Candy has three tile colors: --numc (1st), --numc2 (2nd), --numc3 (3rd). */
+#fifteen-puzzle[data-color="yellow"],
+#fifteen-puzzle[data-color="lime"],
+#fifteen-puzzle[data-color="green"],
+#fifteen-puzzle[data-color="teal"],
+#fifteen-puzzle[data-color="cyan"] {
+    --numc: hsl(var(--h) 65% 8%);
+    --dc: 10%;
+}
+
+#fifteen-puzzle[data-color="yellow"] {
+    --numc3: #ffffff;
+}
+
+/* blue / purple: candy's 2nd tile lands on green / cyan, give it dark numbers */
+#fifteen-puzzle[data-color="blue"],
+#fifteen-puzzle[data-color="purple"] {
+    --numc2: hsl(var(--h) 65% 8%);
+    --dc2: 0%;
+}
+
+/* Per-color tuning so numbers stay readable (each is a lightness shift)
+   --dl  neon-clean, aurora  (light numbers on dark tiles: darken the bright end)
+   --dn  modern, soft, arcade  (bright tiles)
+   --dc  candy, synthwave  (candy also has --dc2 for its 2nd tile color)
+   --hl  handheld  (dark numbers on light tiles: lighten the tile)
+   --td  minimal, sakura, ice, wood  (dark numbers on pale tiles: darken the number) */
+#fifteen-puzzle[data-color="red"]     { --dn: -4%;  --dc: -12%; --hl: 18%; --dl: -6%; }
+#fifteen-puzzle[data-color="orange"]  { --dn: 6%;   --dc: -30%; --hl: 6%;  --dl: -4%; }
+#fifteen-puzzle[data-color="yellow"]  { --dn: 0%;   --dc: 0%;   --dl: -18%; --td: -8%; }
+#fifteen-puzzle[data-color="lime"]    { --dn: 0%;   --dl: -24%; --td: -12%; }
+#fifteen-puzzle[data-color="green"]   { --dn: 0%;   --dl: -12%; --td: -10%; }
+#fifteen-puzzle[data-color="teal"]    { --dn: 0%;   --dl: -14%; --td: -12%; }
+#fifteen-puzzle[data-color="cyan"]    { --dn: 2%;   --dl: -8%;  --td: -8%; }
+#fifteen-puzzle[data-color="blue"]    { --dn: -6%;  --dc: -30%; --hl: 6%;  }
+#fifteen-puzzle[data-color="purple"]  { --dn: -2%;  --dc: -26%; --hl: 18%; }
+#fifteen-puzzle[data-color="magenta"] { --dn: -8%;  --dc: -28%; }
+#fifteen-puzzle[data-color="pink"]    { --dn: -4%;  --dc: -28%; --hl: 6%;  --dl: -20%; }
+
+

@@ -1,0 +1,76 @@
+/* ============================================================
+   12 — AURORA            default: teal into violet
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-aurora {
+    --theme-hue: 172;
+
+    --tile-highlight: hsl(var(--h) calc(77% * var(--sat, 1)) calc(82% * var(--fk, 1) + var(--fb, 0%)));
+
+    background:
+        radial-gradient(
+            circle at 20% 0%,
+            hsl(var(--h) calc(66% * var(--sat, 1)) calc(50% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))) / .35),
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            hsl(calc(var(--h) + 86) calc(92% * var(--sat, 1)) calc(76% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))) / .35),
+            transparent 55%
+        ),
+        hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg:
+        radial-gradient(
+            circle at 20% 0%,
+            hsl(var(--h) calc(66% * var(--sat, 1)) calc(50% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))) / .35),
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            hsl(calc(var(--h) + 86) calc(92% * var(--sat, 1)) calc(76% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))) / .35),
+            transparent 55%
+        ),
+        hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    box-shadow:
+        0 20px 46px hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
+
+    --board-shadow:
+        0 20px 46px hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-aurora .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(66% * var(--sat, 1)) calc((50% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)) / .32),
+            hsl(calc(var(--h) + 86) calc(90% * var(--sat, 1)) calc((66% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)) / .32)
+        );
+
+    color: hsl(var(--h) calc(100% * var(--sat, 1)) calc(96% * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1px solid hsl(var(--h) calc(77% * var(--sat, 1)) calc(82% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))) / .5);
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+#fifteen-puzzle.puzzle-aurora .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(66% * var(--sat, 1)) calc((50% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)) / .5),
+            hsl(calc(var(--h) + 86) calc(90% * var(--sat, 1)) calc((66% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)) / .5)
+        );
+
+    border-color: hsl(var(--h) calc(77% * var(--sat, 1)) calc(82% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+}
+
+#fifteen-puzzle.puzzle-aurora .grid-item.solved {
+    color: #d9f99d;
+
+    border-color: #d9f99d;
+}
+
+

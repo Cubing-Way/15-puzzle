@@ -1,0 +1,49 @@
+/* ============================================================
+   06 — MINIMAL           default: slate grey-blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-minimal {
+    --theme-hue: 215;
+
+    --tile-highlight: hsl(var(--h) calc(20% * var(--sat, 1)) calc(65% * var(--fk, 1) + var(--fb, 0%)));
+
+    background: hsl(var(--h) calc(32% * var(--sat, 1)) calc(84% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(var(--h) calc(32% * var(--sat, 1)) calc(84% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    box-shadow:
+        0 12px 30px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.1) * var(--soft, 1)));
+
+    --board-shadow:
+        0 12px 30px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.1) * var(--soft, 1)));
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item {
+    background: hsl(var(--h) calc(32% * var(--sat, 1)) calc(91% * var(--fk, 1) + var(--fb, 0%)));
+
+    color: hsl(var(--h) calc(25% * var(--sat, 1)) calc((27% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1px solid hsl(var(--h) calc(32% * var(--sat, 1)) calc(84% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 2px 5px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.06) * var(--soft, 1)));
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item:hover {
+    background: hsl(var(--h) calc(40% * var(--sat, 1)) calc(96% * var(--fk, 1) + var(--fb, 0%)));
+
+    color: hsl(var(--h) calc(83% * var(--sat, 1)) calc((45% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
+
+    transform: scale(.98);
+}
+
+
+#fifteen-puzzle.puzzle-minimal .grid-item.solved {
+    color: #65a30d;
+
+    border-color: #bef264;
+}
+
+

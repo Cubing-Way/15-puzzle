@@ -1,0 +1,64 @@
+/* ============================================================
+   11 — LAVA              default: red-orange
+   Charcoal rock with glowing edges.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-lava {
+    --theme-hue: 14;
+
+    --tile-highlight: hsl(calc(var(--h) + 17) calc(97% * var(--sat, 1)) calc(72% * var(--fk, 1) + var(--fb, 0%)));
+
+    background: hsl(var(--h) calc(50% * var(--sat, 1)) calc(5% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(var(--h) calc(50% * var(--sat, 1)) calc(5% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 1px solid hsl(calc(var(--h) - 14) calc(63% * var(--sat, 1)) calc(31% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 0 34px hsl(calc(var(--h) - 14) calc(84% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.22) * var(--soft, 1))),
+        0 18px 40px rgb(0 0 0 / calc((calc(.45 * var(--sa, 1))) * var(--soft, 1)));
+
+    --board-shadow:
+        0 0 34px hsl(calc(var(--h) - 14) calc(84% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.22) * var(--soft, 1))),
+        0 18px 40px rgb(0 0 0 / calc((calc(.45 * var(--sa, 1))) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-lava .grid-item {
+    background:
+        linear-gradient(
+            160deg,
+            hsl(var(--h) calc(52% * var(--sat, 1)) calc(15% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(52% * var(--sat, 1)) calc(7% * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: hsl(calc(var(--h) + 20) calc(100% * var(--sat, 1)) calc(92% * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1px solid hsl(calc(var(--h) + 7) calc(90% * var(--sat, 1)) calc(48% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        inset 0 -6px 14px hsl(calc(var(--h) - 14) calc(84% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.28) * var(--soft, 1))),
+        0 0 8px hsl(calc(var(--h) + 7) calc(90% * var(--sat, 1)) calc(48% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-lava .grid-item:hover {
+    background:
+        linear-gradient(
+            160deg,
+            hsl(var(--h) calc(60% * var(--sat, 1)) calc(21% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(60% * var(--sat, 1)) calc(11% * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    border-color: hsl(calc(var(--h) + 17) calc(97% * var(--sat, 1)) calc(72% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        inset 0 -6px 16px hsl(calc(var(--h) + 11) calc(93% * var(--sat, 1)) calc(55% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.45) * var(--soft, 1))),
+        0 0 14px hsl(calc(var(--h) + 11) calc(93% * var(--sat, 1)) calc(55% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.4) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-lava .grid-item.solved {
+    color: #fde047;
+
+    border-color: #fde047;
+}
+
+

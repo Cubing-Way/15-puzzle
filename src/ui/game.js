@@ -1,6 +1,8 @@
-import { isSolved } from "./simulator.js";
-import { moveSquare } from "./puzzle.js";
-import { storeTimeForAvg } from "./averages.js";
+import { isSolved } from "../core/simulator.js";
+import { moveSquare } from "../core/puzzle.js";
+import { storeTimeForAvg } from "../solves/sidebar.js";
+import { createThemeToggle } from "../theme/darkMode.js";
+import { showSolvedMessage } from "./solvedMessage.js";
 
 let moveCount = 0;
 let timerInterval = null;
@@ -20,49 +22,6 @@ let resetStatsOnFirstMove = false;
 let puzzleHistory = [];
 let historyIndex = -1;
 let stateChangeCallback = null;
-
-function createPuzzleUI(container, puzzle, onMove) {
-    puzzle.forEach((square, i) => {
-        const squareDiv = document.createElement("div");
-
-        squareDiv.id = "Square-" + (i + 1);
-        squareDiv.classList.add("grid-item");
-        squareDiv.textContent = square === puzzle.length ? "" : square;
-        squareDiv.classList.toggle("empty", square === puzzle.length);
-
-        squareDiv.addEventListener("pointerdown", event => {
-            event.preventDefault();
-            container.dataset.clickedSquare = i;
-            squareDiv.setPointerCapture(event.pointerId);
-        });
-
-        squareDiv.addEventListener("pointerup", event => {
-            event.preventDefault();
-
-            const clickedSquare = Number(container.dataset.clickedSquare);
-
-            if (!Number.isNaN(clickedSquare)) {
-                onMove(clickedSquare, i);
-            }
-
-            delete container.dataset.clickedSquare;
-
-            if (squareDiv.hasPointerCapture(event.pointerId)) {
-                squareDiv.releasePointerCapture(event.pointerId);
-            }
-        });
-
-        squareDiv.addEventListener("pointercancel", event => {
-            delete container.dataset.clickedSquare;
-
-            if (squareDiv.hasPointerCapture(event.pointerId)) {
-                squareDiv.releasePointerCapture(event.pointerId);
-            }
-        });
-
-        container.appendChild(squareDiv);
-    });
-}
 
 function renderPuzzle(puzzle) {
     currentPuzzle = puzzle;
@@ -361,24 +320,6 @@ function createOptionsUI() {
     createThemeToggle();
 }
 
-function createThemeToggle() {
-    const toggle = document.getElementById("dark-mode-option");
-
-    if (!toggle) return;
-
-    const darkMode = localStorage.getItem("dark-mode") === "true";
-
-    toggle.checked = darkMode;
-    document.body.classList.toggle("dark-mode", darkMode);
-
-    toggle.addEventListener("change", event => {
-        const enabled = event.target.checked;
-
-        document.body.classList.toggle("dark-mode", enabled);
-        localStorage.setItem("dark-mode", enabled);
-    });
-}
-
 function createStatsUI(setPuzzle, { onStateChange, initialState } = {}) {
     const stats = document.getElementById("stats");
 
@@ -616,31 +557,6 @@ function markNewPuzzle({
     updateHistoryButtons();
 }
 
-function showSolvedMessage(solved) {
-    const message = document.getElementById("solved-message");
-
-    if (!message) return;
-
-    message.textContent = solved ? "Solved! 🎉" : "";
-    message.classList.toggle("visible", solved);
-}
-
-function createPuzzleControls(onRescramble, onSolve) {
-    const scrambleControl = document.getElementById("scramble-control");
-    const resetControl = document.getElementById("reset-control");
-
-    scrambleControl.innerHTML = `
-        <button id="rescramble-button" type="button">Scramble</button>
-    `;
-
-    resetControl.innerHTML = `
-        <button id="solve-button" type="button">Solve</button>
-    `;
-
-    document.getElementById("rescramble-button").addEventListener("click", onRescramble);
-    document.getElementById("solve-button").addEventListener("click", onSolve);
-}
-
 function createKeyboardControls(setPuzzle) {
     document.addEventListener("keydown", event => {
         const target = event.target;
@@ -669,17 +585,8 @@ function createKeyboardControls(setPuzzle) {
     });
 }
 
-document.querySelectorAll("select").forEach(select => {
-    select.addEventListener("change", () => {
-        select.blur();
-    });
-});
-
-
 export {
-    createPuzzleUI,
     renderPuzzle,
-    createPuzzleControls,
     createMoveHandler,
     createOptionsUI,
     createStatsUI,
@@ -690,7 +597,6 @@ export {
     resetStats,
     resetTimer,
     markNewPuzzle,
-    showSolvedMessage,
     undoMove,
     redoMove,
     resetMoveCount,

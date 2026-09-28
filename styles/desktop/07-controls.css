@@ -1,0 +1,77 @@
+/* =========================
+   CONTROLS
+   ========================= */
+
+#controls {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    padding: 7px;
+}
+
+#controls button {
+    width: 100%;
+
+    min-height: 40px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: var(--primary);
+    color: white;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        transform 0.08s ease;
+}
+
+#controls button:hover {
+    background: var(--primary-hover);
+}
+
+#controls button:active {
+    transform: scale(0.98);
+}
+
+#controls button:last-child {
+    background: var(--surface-2);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+#game > #controls {
+    width: auto;
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 8px;
+
+    margin-top: 20px;
+
+    padding: 0;
+
+    background: transparent;
+    border: none;
+}
+
+#game > #controls button {
+    width: auto;
+    min-width: 110px;
+
+    min-height: 42px;
+
+    padding: 0 18px;
+}
+
+
+

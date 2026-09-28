@@ -1,0 +1,79 @@
+/* ============================================================
+   19 — SYNTHWAVE         default: hot pink + violet, cyan edge
+   Violet and the edge accent are offsets from --h, so picking
+   a color shifts the whole palette together.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-synthwave {
+    --theme-hue: 336;
+
+    --tile-highlight: hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--fk, 1) + var(--fb, 0%)));
+
+    background:
+        linear-gradient(
+            180deg,
+            hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 0%,
+            hsl(calc(var(--h) - 62) calc(76% * var(--sat, 1)) calc(18% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 60%,
+            hsl(calc(var(--h) - 51) calc(78% * var(--sat, 1)) calc(22% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 100%
+        );
+
+    --board-bg:
+        linear-gradient(
+            180deg,
+            hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 0%,
+            hsl(calc(var(--h) - 62) calc(76% * var(--sat, 1)) calc(18% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 60%,
+            hsl(calc(var(--h) - 51) calc(78% * var(--sat, 1)) calc(22% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 100%
+        );
+
+    border: 1px solid hsl(calc(var(--h) - 44) calc(84% * var(--sat, 1)) calc(49% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 0 26px hsl(calc(var(--h) - 44) calc(84% * var(--sat, 1)) calc(49% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.3) * var(--soft, 1))),
+        0 18px 40px hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
+
+    --board-shadow:
+        0 0 26px hsl(calc(var(--h) - 44) calc(84% * var(--sat, 1)) calc(49% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.3) * var(--soft, 1))),
+        0 18px 40px hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-synthwave .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(80% * var(--sat, 1)) calc((40% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) - 64) calc(74% * var(--sat, 1)) calc((47% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: var(--numc, var(--num, #ffffff));
+
+    border: 1px solid hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 0 8px hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1))),
+        inset 0 1px 1px rgba(255, 255, 255, calc((.25) * var(--soft, 1)));
+
+    text-shadow: 0 0 8px hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--tk, 1) + var(--tb, 0%)) / .7);
+}
+
+#fifteen-puzzle.puzzle-synthwave .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 3) calc(71% * var(--sat, 1)) calc((51% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) - 65) calc(81% * var(--sat, 1)) calc((56% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    box-shadow:
+        0 0 14px hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.6) * var(--soft, 1))),
+        inset 0 1px 1px rgba(255, 255, 255, calc((.25) * var(--soft, 1)));
+}
+
+#fifteen-puzzle.puzzle-synthwave .grid-item.solved {
+    color: #fef08a;
+
+    border-color: #fef08a;
+
+    text-shadow: 0 0 8px rgba(254,240,138,.7);
+}
+
+

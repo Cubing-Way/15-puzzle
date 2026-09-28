@@ -1,0 +1,91 @@
+/* ============================================================
+   BLACK & WHITE
+
+   Both work like the other colors, with multipliers instead of a
+   hue (every theme color is an hsl()):
+
+     --sat        saturation multiplier          (0 = greys)
+     --fk / --fb  tile lightness   = L * fk + fb
+     --bk / --bb  board lightness                (falls back to fk / fb)
+     --lk / --lb  border lightness               (falls back to fk / fb)
+     --sk / --sb  shadow lightness               (falls back to fk / fb)
+     --tk / --tb  number lightness = L * tk + tb
+     --soft       strength of blurred shadows and glows (1 = as themed)
+
+   This block must stay AFTER all themes so it wins ties.
+   ============================================================ */
+
+/* ---- BLACK: same look, dark grey instead of a hue ---- */
+
+#fifteen-puzzle[data-color="black"] {
+    --tint: 0%;
+    --sat: 0;
+    --fk: .22;
+    --fb: 0%;
+}
+
+/* themes whose numbers are dark on light tiles -> flip numbers to light */
+#fifteen-puzzle.puzzle-minimal[data-color="black"],
+#fifteen-puzzle.puzzle-sakura[data-color="black"],
+#fifteen-puzzle.puzzle-ice[data-color="black"],
+#fifteen-puzzle.puzzle-wood[data-color="black"],
+#fifteen-puzzle.puzzle-handheld[data-color="black"] {
+    --tk: -.6;
+    --tb: 100%;
+}
+
+
+/* ---- WHITE: white takes the place of the theme's color ----
+   Works like picking any other color: the theme keeps its own
+   structure, and whatever normally carries the theme's color
+   turns white.
+
+   Lightness is stretched (L * 2.2 - 20%). Browsers clamp hsl
+   lightness at 0% and 100%, so:
+     bright parts (L 55%+)  -> pure white  (modern / soft / candy tiles,
+                                            neon lines, arcade frame ...)
+     mid parts              -> light greys (gradients stay visible)
+     dark parts (L < 10%)   -> near black  (lava rock, gold lacquer,
+                                            terminal screen ...)
+   Boards keep the theme's own lightness, shadows / 3D edges too.
+
+   The rest are the same readability knobs the bright colors
+   (yellow, lime ...) already use. */
+
+#fifteen-puzzle[data-color="white"] {
+    --tint: 0%;
+    --sat: 0;
+
+    /* tiles */
+    --fk: 2.2;
+    --fb: -20%;
+
+    /* board: theme's own lightness */
+    --bk: 1;
+    --bb: 0%;
+
+    /* lines, borders, frames */
+    --lk: 2.2;
+    --lb: -20%;
+
+    /* shadows and 3D edges: as themed */
+    --sk: 1;
+    --sb: 0%;
+
+    /* numbers: light ones go full white, dark ones stay dark */
+    --tk: 1.6;
+    --tb: 0%;
+
+    /* dark numbers on the white tiles */
+    --ink: hsl(0 0% 10%);
+    --numc: hsl(0 0% 10%);
+
+    /* same kind of per-theme tuning the other colors get */
+    --dn: 0%;
+    --dl: -24%;
+    --dc: 10%;
+    --hl: 6%;
+    --td: -8%;
+}
+
+

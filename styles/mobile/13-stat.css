@@ -1,0 +1,25 @@
+/* =========================
+   STAT
+   ========================= */
+
+.stat {
+    min-width: 0;
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+/* Separate the two stat sections */
+
+.stat + .stat {
+    padding-left: 12px;
+
+    border-left: 1px solid var(--border);
+}
+
+

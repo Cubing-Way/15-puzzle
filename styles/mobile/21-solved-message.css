@@ -1,0 +1,47 @@
+/* =========================
+   SOLVED MESSAGE
+   ========================= */
+
+#solved-message {
+    position: fixed;
+
+    left: 50%;
+
+    bottom:
+        calc(
+            20px +
+            env(safe-area-inset-bottom)
+        );
+
+    transform:
+        translate(-50%, 10px);
+
+    padding: 11px 20px;
+
+    background: var(--solved);
+    color: #172033;
+
+    border-radius: 999px;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+    z-index: 10;
+}
+
+#solved-message.visible {
+    opacity: 1;
+
+    transform:
+        translate(-50%, 0);
+}
+
+

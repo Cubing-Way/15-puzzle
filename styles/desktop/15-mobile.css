@@ -1,0 +1,33 @@
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 700px) {
+    #avgRightSidebar {
+        top: 10px;
+        right: 10px;
+
+        max-width: calc(100% - 20px);
+    }
+
+    #solveModal,
+    #solveDetailsModal {
+        padding: 10px;
+    }
+
+    .solve-modal,
+    .solve-details-modal {
+        max-height: 90vh;
+        padding: 16px;
+    }
+
+    #solveReplayPuzzle {
+        gap: 4px;
+    }
+
+    .solve-replay-controls {
+        gap: 10px;
+    }
+}
+
+

@@ -1,0 +1,54 @@
+/* =========================
+   SIDEBAR CARDS
+   ========================= */
+
+#options,
+#controls {
+    width: 100%;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+}
+
+
+/* Options */
+
+#options {
+    padding: 16px;
+}
+
+#options h2 {
+    margin: 0 0 13px;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.option {
+    min-height: 36px;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.option + .option {
+    border-top: 1px solid var(--border);
+}
+
+.option input {
+    width: 16px;
+    height: 16px;
+
+    margin: 0 9px 0 0;
+
+    accent-color: var(--primary);
+}
+
+

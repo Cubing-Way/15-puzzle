@@ -1,0 +1,78 @@
+/* =========================
+   SOLVE DAY GROUPS
+   ========================= */
+
+.solve-day {
+    margin-bottom: 20px;
+}
+
+.solve-day-title {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.solve-row {
+    min-height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 5px 0;
+
+    border-top: 1px solid var(--border);
+}
+
+.solve-row-info {
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: var(--text);
+
+    font-size: 1rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.solve-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.solve-view-button {
+    min-height: 32px;
+
+    padding: 0 10px;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.solve-view-button:hover {
+    background: var(--surface);
+    border-color: var(--primary);
+}
+
+

@@ -1,0 +1,47 @@
+/* =========================================================
+   MOBILE MODAL ADJUSTMENTS
+   ========================================================= */
+
+@media (max-width: 600px) {
+    #solveModal .solve-sizes-container {
+        display: grid;
+        grid-auto-flow: column;          /* every block goes in its own column, one row */
+        grid-template-columns: none;     /* cancel the repeat(auto-fit...) / 2-col layout */
+        grid-auto-columns: minmax(150px, 1fr);
+        gap: 8px;
+
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+    }
+
+    #solveModal .solve-size-section {
+        min-width: 150px;
+        padding: 10px;
+    }
+}
+
+
+    #solveModal .solve-size-section {
+        padding: 10px 0;
+    }
+
+    #solveModal .solve-history-section {
+        margin-top: 14px;
+    }
+
+    .solve-row {
+        gap: 8px;
+    }
+
+    .solve-row-actions {
+        gap: 5px;
+    }
+
+    .solve-view-button {
+        min-height: 34px;
+        padding: 0 8px;
+    }
+
+
+

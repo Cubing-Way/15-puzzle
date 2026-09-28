@@ -1,0 +1,32 @@
+/* =========================
+   SMALL PHONES
+   ========================= */
+
+@media (max-width: 360px) {
+
+    body {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #header-actions {
+        gap: 5px;
+    }
+
+    #fifteen-puzzle {
+        max-width: 100%;
+
+        border-radius: 14px;
+    }
+
+    .grid-item {
+        border-width: 1px;
+
+        font-size: clamp(
+            9px,
+            7.5cqw,
+            32px
+        );
+    }
+}
+

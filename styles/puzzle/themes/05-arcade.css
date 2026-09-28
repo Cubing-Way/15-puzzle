@@ -1,0 +1,52 @@
+/* ============================================================
+   05 — ARCADE            default: blue tiles, yellow frame
+   The yellow cabinet frame stays yellow in every color.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-arcade {
+    --theme-hue: 221;
+
+    background: hsl(0 calc(0% * var(--sat, 1)) calc(7% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(0 calc(0% * var(--sat, 1)) calc(7% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 3px solid hsl(48 calc(96% * var(--sat, 1)) calc(53% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 0 0 3px hsl(0 calc(0% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 0 0 6px hsl(48 calc(96% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+
+    --board-shadow:
+        0 0 0 3px hsl(0 calc(0% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 0 0 6px hsl(48 calc(96% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item {
+    background: hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)));
+
+    color: var(--ink, #ffffff);
+
+    border: 2px solid hsl(var(--h) calc(94% * var(--sat, 1)) calc(68% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.22),
+        inset -2px -2px 0 rgb(0 0 0 / calc(.2 * var(--sa, 1)));
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item:hover {
+    background: hsl(var(--h) calc(91% * var(--sat, 1)) calc((60% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)));
+
+    transform: scale(.97);
+}
+
+
+#fifteen-puzzle.puzzle-arcade .grid-item.solved {
+    color: var(--solved-ink, #faff00);
+
+    text-shadow:
+        1px 1px 0 #111111;
+}
+
+

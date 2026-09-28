@@ -1,0 +1,15 @@
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+    #fifteen-puzzle {
+        max-width: 400px;
+    }
+
+    #fifteen-puzzle .grid-item:hover {
+        transform: none;
+    }
+}
+
+

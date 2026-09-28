@@ -1,0 +1,55 @@
+/* ============================================================
+   07 — MONOCHROME        default: pure grey
+   Picking a color adds a soft tint (--tint) to the greys.
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-monochrome {
+    --theme-hue: 0;
+
+    --mono-s: var(--tint, 0%);
+
+    --tile-highlight: hsl(var(--h) var(--mono-s) calc(83% * var(--fk, 1) + var(--fb, 0%)));
+
+    background: hsl(var(--h) var(--mono-s) calc(9% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(var(--h) var(--mono-s) calc(9% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    box-shadow:
+        0 16px 35px rgb(0 0 0 / calc((calc(.22 * var(--sa, 1))) * var(--soft, 1)));
+
+    --board-shadow:
+        0 16px 35px rgb(0 0 0 / calc((calc(.22 * var(--sa, 1))) * var(--soft, 1)));
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) var(--mono-s) calc(32% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) var(--mono-s) calc(15% * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: hsl(var(--h) calc(var(--mono-s) * .5) calc(98% * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1px solid hsl(var(--h) var(--mono-s) calc(45% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) var(--mono-s) calc(45% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) var(--mono-s) calc(25% * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    border-color: hsl(var(--h) var(--mono-s) calc(83% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+}
+
+
+#fifteen-puzzle.puzzle-monochrome .grid-item.solved {
+    color: #bef264;
+}
+
+

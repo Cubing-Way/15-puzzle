@@ -1,0 +1,71 @@
+/* ============================================================
+   02 — GLASS             default: indigo blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-glass {
+    --theme-hue: 226;
+
+    --tile-highlight: rgb(var(--w, 255 255 255) / .5);
+
+    background:
+        linear-gradient(
+            135deg,
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) + 17) calc(47% * var(--sat, 1)) calc(34% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 55%,
+            hsl(calc(var(--h) + 18) calc(47% * var(--sat, 1)) calc(20% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            135deg,
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) + 17) calc(47% * var(--sat, 1)) calc(34% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 55%,
+            hsl(calc(var(--h) + 18) calc(47% * var(--sat, 1)) calc(20% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    box-shadow:
+        0 22px 50px hsl(calc(var(--h) + 18) calc(47% * var(--sat, 1)) calc(20% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.28) * var(--soft, 1)));
+
+    --board-shadow:
+        0 22px 50px hsl(calc(var(--h) + 18) calc(47% * var(--sat, 1)) calc(20% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.28) * var(--soft, 1)));
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item {
+    background:
+        linear-gradient(
+            135deg,
+            rgb(var(--w, 255 255 255) / .28),
+            hsl(calc(var(--h) - 13) calc(94% * var(--sat, 1)) calc(68% * var(--fk, 1) + var(--fb, 0%)) / .18)
+        );
+
+    color: var(--num, #ffffff);
+
+    border: 1px solid rgb(var(--w, 255 255 255) / .25);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    box-shadow:
+        inset 0 1px 1px rgb(var(--w, 255 255 255) / calc((.25) * var(--soft, 1))),
+        0 6px 15px rgb(0 0 0 / calc((calc(.12 * var(--sa, 1))) * var(--soft, 1)));
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgb(var(--w, 255 255 255) / .38),
+            hsl(calc(var(--h) - 13) calc(94% * var(--sat, 1)) calc(68% * var(--fk, 1) + var(--fb, 0%)) / .28)
+        );
+}
+
+
+#fifteen-puzzle.puzzle-glass .grid-item.solved {
+    color: #d9ff69;
+
+    border-color: rgba(217,255,105,.4);
+}
+
+

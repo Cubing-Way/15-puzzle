@@ -1,0 +1,62 @@
+/* ============================================================
+   01 — MODERN            default: blue
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-modern {
+    --theme-hue: 217;
+
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    box-shadow:
+        0 18px 42px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.22) * var(--soft, 1)));
+
+    --board-shadow:
+        0 18px 42px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.22) * var(--soft, 1)));
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc((68% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))) 55%,
+            hsl(var(--h) calc(76% * var(--sat, 1)) calc((48% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)))
+        );
+
+    color: var(--ink, #ffffff);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, calc((.25) * var(--soft, 1))),
+        0 5px 12px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.18) * var(--soft, 1)));
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item:hover {
+    background:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(96% * var(--sat, 1)) calc((78% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(91% * var(--sat, 1)) calc((60% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)))
+        );
+}
+
+
+#fifteen-puzzle.puzzle-modern .grid-item.solved {
+    color: var(--solved-ink, #c6ff35);
+}
+
+

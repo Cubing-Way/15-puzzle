@@ -1,0 +1,52 @@
+/* ============================================================
+   14 — TERMINAL          default: green phosphor
+   ============================================================ */
+
+#fifteen-puzzle.puzzle-terminal {
+    --theme-hue: 142;
+
+    --tile-highlight: hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--fk, 1) + var(--fb, 0%)));
+    --tile-radius: 2px;
+
+    background: hsl(var(--h) calc(90% * var(--sat, 1)) calc(2% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(var(--h) calc(90% * var(--sat, 1)) calc(2% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 1px solid hsl(var(--h) calc(64% * var(--sat, 1)) calc(24% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 0 0 1px hsl(var(--h) calc(85% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+
+    --board-shadow:
+        0 0 0 1px hsl(var(--h) calc(85% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+}
+
+#fifteen-puzzle.puzzle-terminal .grid-item {
+    background: hsl(var(--h) calc(78% * var(--sat, 1)) calc(5% * var(--fk, 1) + var(--fb, 0%)));
+
+    color: hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--tk, 1) + var(--tb, 0%)));
+
+    border: 1px solid hsl(var(--h) calc(72% * var(--sat, 1)) calc(29% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    font-family: "Courier New", ui-monospace, monospace;
+
+    text-shadow: 0 0 6px hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--tk, 1) + var(--tb, 0%)) / .55);
+}
+
+#fifteen-puzzle.puzzle-terminal .grid-item:hover {
+    background: hsl(var(--h) calc(85% * var(--sat, 1)) calc(10% * var(--fk, 1) + var(--fb, 0%)));
+
+    color: hsl(var(--h) calc(79% * var(--sat, 1)) calc(85% * var(--tk, 1) + var(--tb, 0%)));
+
+    border-color: hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+}
+
+#fifteen-puzzle.puzzle-terminal .grid-item.solved {
+    color: #fef08a;
+
+    border-color: #fef08a;
+
+    text-shadow: 0 0 6px rgba(254,240,138,.5);
+}
+
+
