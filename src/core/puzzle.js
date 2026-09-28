@@ -13,8 +13,8 @@ function moveSquare(puzzle, square, size) {
     const sameRow = Math.floor(square / size) === Math.floor(blank / size);
     const sameColumn = square % size === blank % size;
 
-    // Not in the same row or column
-    if (!sameRow && !sameColumn) return puzzle;
+    // The blank itself, or not in the same row or column: nothing moves
+    if (square === blank || (!sameRow && !sameColumn)) return puzzle;
 
     // Walk from the blank toward the clicked tile: ±1 along a row, ±size along a column
     const step = Math.sign(square - blank) * (sameRow ? 1 : size);

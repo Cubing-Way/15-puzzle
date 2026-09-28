@@ -414,6 +414,8 @@ function createOptionsUI() {
             startTimer();
         }
 
+        // Enable or disable Pause/Resume to match
+        updateTimerButton();
         saveProgress();
     });
 
