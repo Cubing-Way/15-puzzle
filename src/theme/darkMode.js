@@ -24,5 +24,5 @@ function createThemeToggle() {
     });
 }
 
-// Used by ui/game.js
+// Used by main.js
 export { createThemeToggle };

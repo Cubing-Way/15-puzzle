@@ -1,94 +1,45 @@
 // Builds a solved puzzle: tiles 1 to size², where the highest number is the blank
 function createPuzzle(size) {
-    // Tiles in solved order
-    const puzzle = [];
-
-    // Fill 1 up to size * size
-    for (let i = 1; i <= size * size; i++) {
-        puzzle.push(i);
-    }
-
-    return puzzle;
+    return Array.from({ length: size * size }, (_, i) => i + 1);
 }
 
-// True when two positions touch horizontally or vertically (not used yet)
-function areAdjacent(square1, square2, size) {
-    // Row and column of the first position
-    const row1 = Math.floor(square1 / size);
-    const col1 = square1 % size;
-
-    // Row and column of the second position
-    const row2 = Math.floor(square2 / size);
-    const col2 = square2 % size;
-
-    // Adjacent means exactly one step apart
-    return Math.abs(row1 - row2) + Math.abs(col1 - col2) === 1;
-}
-
-// Slides the clicked tile (and any tiles between it and the blank) toward the blank
-function moveSquare(puzzle, square1, size) {
+// Slides the clicked tile (and any tiles between it and the blank) toward the blank;
+// returns the same array when the tile isn't in line with the blank
+function moveSquare(puzzle, square, size) {
     // Position of the blank (the tile numbered size²)
     const blank = puzzle.indexOf(size * size);
 
-    // Row and column of the clicked tile
-    const row1 = Math.floor(square1 / size);
-    const col1 = square1 % size;
+    // Is the clicked tile in the blank's row or column?
+    const sameRow = Math.floor(square / size) === Math.floor(blank / size);
+    const sameColumn = square % size === blank % size;
 
-    // Row and column of the blank
-    const blankRow = Math.floor(blank / size);
-    const blankCol = blank % size;
+    // Not in the same row or column
+    if (!sameRow && !sameColumn) return puzzle;
+
+    // Walk from the blank toward the clicked tile: ±1 along a row, ±size along a column
+    const step = Math.sign(square - blank) * (sameRow ? 1 : size);
 
     // Work on a copy so the original stays unchanged
     const newPuzzle = [...puzzle];
 
-    // Same row: move horizontally toward the blank
-    if (row1 === blankRow) {
-        if (col1 < blankCol) {
-            // Move tiles to the right
-            for (let col = blankCol; col > col1; col--) {
-                newPuzzle[row1 * size + col] =
-                    newPuzzle[row1 * size + col - 1];
-            }
-        } else if (col1 > blankCol) {
-            // Move tiles to the left
-            for (let col = blankCol; col < col1; col++) {
-                newPuzzle[row1 * size + col] =
-                    newPuzzle[row1 * size + col + 1];
-            }
-        }
-
-        // The blank ends up where the user clicked
-        newPuzzle[square1] = size * size;
-        return newPuzzle;
+    // Shift each tile on the way one place toward the blank
+    for (let i = blank; i !== square; i += step) {
+        newPuzzle[i] = newPuzzle[i + step];
     }
 
-    // Same column: move tiles toward the blank
-    if (col1 === blankCol) {
-        if (row1 < blankRow) {
-            // Move tiles down
-            for (let row = blankRow; row > row1; row--) {
-                newPuzzle[row * size + col1] =
-                    newPuzzle[(row - 1) * size + col1];
-            }
-        } else if (row1 > blankRow) {
-            // Move tiles up
-            for (let row = blankRow; row < row1; row++) {
-                newPuzzle[row * size + col1] =
-                    newPuzzle[(row + 1) * size + col1];
-            }
-        }
+    // The blank ends up where the user clicked
+    newPuzzle[square] = size * size;
+    return newPuzzle;
+}
 
-        // The blank ends up where the user clicked
-        newPuzzle[square1] = size * size;
-        return newPuzzle;
-    }
-
-    // Not in the same row or column
-    return puzzle;
+// True when every tile is in its home position
+function isSolved(puzzle) {
+    return puzzle.every((square, i) => square === i + 1);
 }
 
 // Functions other modules can import
 export {
     createPuzzle,
-    moveSquare
+    moveSquare,
+    isSolved
 };

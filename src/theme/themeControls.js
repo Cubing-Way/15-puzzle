@@ -30,23 +30,8 @@ const puzzleThemeColors = {
 const puzzleThemes = Object.keys(puzzleThemeColors);
 const DEFAULT_THEME = "puzzle-neon-clean";
 
-// Valid values of the color select
-const puzzleColors = [
-    "default",
-    "black",
-    "white",
-    "red",
-    "orange",
-    "yellow",
-    "lime",
-    "green",
-    "teal",
-    "cyan",
-    "blue",
-    "purple",
-    "magenta",
-    "pink"
-];
+// Valid values of the color select (its options in index.html)
+const puzzleColors = [...colorSelect.options].map(option => option.value);
 
 // Swaps the board's theme class and keeps the select in sync
 function applyTheme(theme) {
@@ -59,14 +44,9 @@ function applyTheme(theme) {
 
 // Applies the selected color; "default" follows the theme, any other choice stays as picked
 function applyColor() {
-    // Current values of both selects
-    const choice = colorSelect.value;
-    const theme = themeSelect.value;
-
     // Resolve "default" to the theme's own color
-    const color = choice === "default"
-        ? puzzleThemeColors[theme]
-        : choice;
+    const choice = colorSelect.value;
+    const color = choice === "default" ? puzzleThemeColors[themeSelect.value] : choice;
 
     // "natural": drop the attribute so the theme's original colors show
     if (color === "natural") {
@@ -77,45 +57,35 @@ function applyColor() {
     }
 }
 
+// Applies the theme and color saved from the last visit, and saves new picks
+function initThemeControls() {
+    // Use the saved theme and color if they're valid, otherwise the defaults
+    const savedTheme = localStorage.getItem("puzzle-theme");
+    const savedColor = localStorage.getItem("puzzle-color");
 
-// ---- initial state ----
-
-// Theme and color saved from the last visit
-const savedTheme = localStorage.getItem("puzzle-theme");
-const savedColor = localStorage.getItem("puzzle-color");
-
-// Use the saved theme if it's valid, otherwise the default
-applyTheme(puzzleThemes.includes(savedTheme) ? savedTheme : DEFAULT_THEME);
-
-// Use the saved color if it's valid, otherwise "default", then apply it
-colorSelect.value = puzzleColors.includes(savedColor) ? savedColor : "default";
-applyColor();
-
-
-// ---- changes ----
-
-// Theme picked: apply it, save it, refresh the color
-themeSelect.addEventListener("change", () => {
-    // Chosen theme class
-    const selectedTheme = themeSelect.value;
-
-    // Ignore unknown values
-    if (!puzzleThemes.includes(selectedTheme)) return;
-
-    // Apply and remember it
-    applyTheme(selectedTheme);
-    localStorage.setItem("puzzle-theme", selectedTheme);
-
-    // Re-apply the color: "default" follows the new theme, a picked color (e.g. black) stays
+    applyTheme(puzzleThemes.includes(savedTheme) ? savedTheme : DEFAULT_THEME);
+    colorSelect.value = puzzleColors.includes(savedColor) ? savedColor : "default";
     applyColor();
-});
 
-// Color picked: apply it and save it
-colorSelect.addEventListener("change", () => {
-    // Ignore unknown values
-    if (!puzzleColors.includes(colorSelect.value)) return;
+    // Theme picked: apply it, save it, refresh the color ("default" follows the new theme, a picked color stays)
+    themeSelect.addEventListener("change", () => {
+        // Ignore unknown values
+        if (!puzzleThemes.includes(themeSelect.value)) return;
 
-    // Apply and remember it
-    applyColor();
-    localStorage.setItem("puzzle-color", colorSelect.value);
-});
+        applyTheme(themeSelect.value);
+        localStorage.setItem("puzzle-theme", themeSelect.value);
+        applyColor();
+    });
+
+    // Color picked: apply it and save it
+    colorSelect.addEventListener("change", () => {
+        // Ignore unknown values
+        if (!puzzleColors.includes(colorSelect.value)) return;
+
+        applyColor();
+        localStorage.setItem("puzzle-color", colorSelect.value);
+    });
+}
+
+// Used by main.js
+export { initThemeControls };

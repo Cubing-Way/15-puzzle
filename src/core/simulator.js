@@ -46,14 +46,5 @@ function scramblePuzzle(size, moves = size * size * 100) {
     return puzzle;
 }
 
-
-// True when every tile is in its home position
-function isSolved(puzzle) {
-    return puzzle.every((square, i) => square === i + 1);
-}
-
-// Functions other modules can import
-export {
-    scramblePuzzle,
-    isSolved
-};
+// Used by main.js
+export { scramblePuzzle };

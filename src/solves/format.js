@@ -14,12 +14,5 @@ function formatSolveTime(seconds) {
     return `${secs.toFixed(2)}s`;
 }
 
-// Formats a "YYYY-MM-DD" string as a long local date (not used yet)
-function formatDate(dateString) {
-    // Parse it as local midnight
-    const date = new Date(`${dateString}T00:00:00`);
-    return date.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
-}
-
 // Used by the sidebar and both modals
-export { formatSolveTime, formatDate };
+export { formatSolveTime };
