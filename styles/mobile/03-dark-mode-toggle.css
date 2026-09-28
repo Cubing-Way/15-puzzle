@@ -1,7 +1,6 @@
-/* =========================
-   DARK MODE
-   ========================= */
+/* ===== DARK MODE ===== */
 
+/* Dark-mode switch with sun and moon icons */
 #theme-toggle {
     display: flex;
     align-items: center;
@@ -15,10 +14,12 @@
     flex-shrink: 0;
 }
 
+/* Sun and moon icons */
 .theme-icon {
     line-height: 1;
 }
 
+/* Switch container */
 .switch {
     position: relative;
 
@@ -30,6 +31,7 @@
     flex-shrink: 0;
 }
 
+/* Real checkbox, hidden behind the switch */
 .switch input {
     width: 0;
     height: 0;
@@ -37,6 +39,7 @@
     opacity: 0;
 }
 
+/* Switch track */
 .slider {
     position: absolute;
 
@@ -52,6 +55,7 @@
         background-color 0.2s ease;
 }
 
+/* Switch knob */
 .slider::before {
     content: "";
 
@@ -71,10 +75,12 @@
         transform 0.2s ease;
 }
 
+/* Switch track when dark mode is on */
 .switch input:checked + .slider {
     background: var(--primary);
 }
 
+/* Switch knob moved over when dark mode is on */
 .switch input:checked + .slider::before {
     transform:
         translateX(17px);

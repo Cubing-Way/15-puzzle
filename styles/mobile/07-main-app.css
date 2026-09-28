@@ -1,7 +1,6 @@
-/* =========================
-   MAIN APP
-   ========================= */
+/* ===== MAIN APP ===== */
 
+/* Main area: options, game, solves */
 #app {
     width: 100%;
     max-width: 100%;

@@ -1,7 +1,6 @@
-/* =========================
-   STAT BUTTONS
-   ========================= */
+/* ===== STAT BUTTONS ===== */
 
+/* Stat panel buttons */
 #stats button {
     width: 100%;
     min-width: 0;
@@ -30,6 +29,7 @@
 }
 
 
+/* Disabled stat buttons (e.g. undo with no history) */
 #stats button:disabled {
     opacity: 0.45;
 

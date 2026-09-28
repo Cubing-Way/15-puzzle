@@ -1,7 +1,6 @@
-/* =========================
-   DARK THEME
-   ========================= */
+/* ===== DARK THEME ===== */
 
+/* Color variables for dark mode */
 body.dark-mode {
     --bg: #080d18;
     --surface: #111827;

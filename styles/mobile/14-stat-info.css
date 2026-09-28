@@ -1,7 +1,6 @@
-/* =========================
-   STAT INFO
-   ========================= */
+/* ===== STAT INFO ===== */
 
+/* Label and value of a stat */
 .stat-info {
     min-width: 0;
 
@@ -12,6 +11,7 @@
 }
 
 
+/* Stat label (Moves / Time) */
 .stat-label {
     color: var(--muted);
 
@@ -24,6 +24,7 @@
 }
 
 
+/* Move count and time values */
 #move-counter,
 #timer {
     min-width: 0;

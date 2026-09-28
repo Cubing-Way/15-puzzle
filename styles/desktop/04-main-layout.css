@@ -1,7 +1,6 @@
-/* =========================
-   MAIN LAYOUT
-   ========================= */
+/* ===== MAIN LAYOUT ===== */
 
+/* Main area: options, game, solves */
 #app {
     width: 100%;
     height: calc(100vh - 68px);
@@ -13,6 +12,7 @@
         minmax(0, 1fr);
 }
 
+/* Undo and redo arrow buttons */
 .move-controls button#undo-button,
 .move-controls button#redo-button {
     width: 30px;
@@ -21,6 +21,7 @@
 }
 
 
+/* Left sidebar (options) */
 #sidebar {
     width: auto;
     height: 100%;
@@ -36,6 +37,7 @@
     border-right: 1px solid var(--border);
 }
 
+/* Center column with the board */
 #game {
     min-width: 0;
     min-height: 0;
@@ -50,10 +52,12 @@
     overflow: hidden;
 }
 
+/* Main area: options, game, solves */
 #app {
     position: relative;
 }
 
+/* Right sidebar (today's averages, recent solves) */
 #avgRightSidebar {
     position: absolute;
 
@@ -68,6 +72,7 @@
     box-sizing: border-box;
 }
 
+/* Bar above the board: size select, Scramble, Solve */
 #game-info {
     width: 100%;
     max-width: 400px;
@@ -82,11 +87,13 @@
     margin-bottom: 10px;
 }
 
+/* Scramble and Solve button holders */
 #game-info > #scramble-control,
 #game-info > #reset-control {
     width: 100%;
 }
 
+/* Scramble and Solve buttons inside the bar */
 #game-info > #scramble-control button,
 #game-info > #reset-control button {
     width: 100%;
@@ -99,11 +106,13 @@
 
 
 
+/* Size select inside the bar */
 #game-info #size-select {
     width: 100%;
     max-width: 400px;
 }
 
+/* Scramble and Solve buttons */
 #scramble-control button,
 #reset-control button {
     width: 100%;
@@ -128,18 +137,21 @@
         transform 0.08s ease;
 }
 
+/* Scramble and Solve buttons on hover */
 #scramble-control button:hover,
 #reset-control button:hover {
     background: var(--surface);
     border-color: var(--primary);
 }
 
+/* Scramble and Solve buttons while pressed */
 #scramble-control button:active,
 #reset-control button:active {
     transform: scale(0.98);
 }
 
 
+/* Solve button */
 #reset-control button {
     background: var(--surface-2);
     color: var(--text);
@@ -147,6 +159,7 @@
     border: 1px solid var(--border);
 }
 
+/* Stats panels under the board */
 #game > #stats {
     width: 100%;
     max-width: 400px;
@@ -159,6 +172,7 @@
 
 /* Puzzle size, theme and color selectors */
 
+/* Size, theme and color selects */
 #size-select,
 #puzzle-theme-select,
 #puzzle-color-select {
@@ -183,6 +197,7 @@
     outline: none;
 }
 
+/* Selects while focused */
 #size-select:focus,
 #puzzle-theme-select:focus,
 #puzzle-color-select:focus {

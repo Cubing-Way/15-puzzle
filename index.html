@@ -1,48 +1,61 @@
 <!DOCTYPE html>
+<!-- 15 Puzzle simulator: the JS in src/ fills most of the empty containers below -->
 <html lang="en">
 <head>
+    <!-- Text encoding -->
     <meta charset="UTF-8">
 
+    <!-- Fit the page to the device width (phones) -->
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
+    <!-- Browser tab title -->
     <title>15 Puzzle Sim</title>
 
+    <!-- Desktop layout (screens wider than 600px) -->
     <link
         rel="stylesheet"
         href="styles/desktop/index.css"
         media="(min-width: 601px)"
     >
 
+    <!-- Mobile layout (screens up to 600px wide) -->
     <link
         rel="stylesheet"
         href="styles/mobile/index.css"
         media="(max-width: 600px)"
     >
 
+    <!-- Board and tile themes for all screens (?v=2 skips an old cached copy) -->
     <link
         rel="stylesheet"
         href="styles/puzzle/index.css?v=2"
     >
-    
+
 </head>
 
 <body>
 
+    <!-- Top bar: title, theme/color selects, dark-mode switch -->
     <header id="app-header">
 
+        <!-- App name and subtitle -->
         <div id="brand">
             <h1>15 Puzzle</h1>
             <p>Puzzle Simulator</p>
         </div>
 
+        <!-- Right side of the top bar -->
         <div id="header-actions">
 
-            
+
+<!-- Board theme picker (values are the theme classes in styles/puzzle/themes) -->
 <div class="select-field">
+    <!-- Label for the select below -->
     <span id="puzzle-theme-label" class="select-label">Theme</span>
+    <!-- One option per theme -->
     <select id="puzzle-theme-select" aria-labelledby="puzzle-theme-label">
         <option value="puzzle-neon-clean">Default</option>
         <option value="puzzle-modern">Modern</option>
@@ -66,8 +79,11 @@
     </select>
 </div>
 
+<!-- Tile color picker ("Default" uses the theme's own color) -->
 <div class="select-field">
+    <!-- Label for the select below -->
     <span id="puzzle-color-label" class="select-label">Color</span>
+    <!-- One option per color -->
     <select id="puzzle-color-select" aria-labelledby="puzzle-color-label">
         <option value="default">Default</option>
         <option value="black">Black</option>
@@ -85,19 +101,24 @@
         <option value="pink">Pink</option>
     </select>
 </div>
+            <!-- Light/dark switch (wired in src/theme/darkMode.js) -->
             <div id="theme-toggle">
 
+                <!-- Sun icon (light side) -->
                 <span class="theme-icon">☀</span>
 
+                <!-- Checkbox styled as a sliding switch -->
                 <label class="switch">
                     <input
                         type="checkbox"
                         id="dark-mode-option"
                     >
 
+                    <!-- Visible track and knob of the switch -->
                     <span class="slider"></span>
                 </label>
 
+                <!-- Moon icon (dark side) -->
                 <span class="theme-icon">☾</span>
 
             </div>
@@ -106,36 +127,49 @@
 
     </header>
 
+    <!-- Main area: options, game, solves -->
     <main id="app">
 
+        <!-- Left sidebar -->
         <aside id="sidebar">
 
+            <!-- Options checkboxes (filled by createOptionsUI) -->
             <div id="options"></div>
 
         </aside>
 
+        <!-- Center column: the game -->
         <section id="game">
+            <!-- Bar above the board: size select, Scramble, Solve -->
             <div id="game-info">
-                
+
+                <!-- Puzzle size (the 3×3 to 10×10 options are added by main.js) -->
                 <select
                     id="size-select"
                     aria-label="Puzzle size"
                 ></select>
 
+                <!-- Scramble button goes here (createPuzzleControls) -->
                 <div id="scramble-control"></div>
 
+               <!-- Solve button goes here (createPuzzleControls) -->
                <div id="reset-control"></div>
             </div>
 
+            <!-- The board: tiles added by createPuzzleUI, theme class set by themeControls.js -->
             <div id="fifteen-puzzle" class="puzzle-neon-clean"></div>
 
+            <!-- Moves and Time panels (filled by createStatsUI) -->
             <div id="stats"></div>
 
+            <!-- "Solved!" message (showSolvedMessage) -->
             <div id="solved-message"></div>
 
         </section>
+        <!-- Right sidebar: today's averages and recent solves (src/solves/sidebar.js) -->
         <aside id="avgRightSidebar">-</aside>
     </main>
+    <!-- App entry point (ES module) -->
     <script type="module" src="src/main.js"></script>
 </body>
 </html>

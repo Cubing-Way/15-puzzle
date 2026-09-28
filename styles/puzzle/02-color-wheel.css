@@ -1,27 +1,29 @@
-/* ============================================================
-   COLOR WHEEL
-   Set by  puzzleElement.setAttribute("data-color", "red")
-   To tweak a color, just change its hue number (0-360).
-   Black and white are special: see BLACK & WHITE near the end.
+/* ===== COLOR WHEEL ===== one hue per data-color value; --dl, --ink, --solved-ink tune bright colors */
 
-   Extra tuning variables (only set for the bright colors):
-   --dl         darkens the bright end of dark-tile themes
-   --ink        number color on bright-tile themes
-   --solved-ink solved-number color on bright-tile themes
-   ============================================================ */
-
+/* Any picked color: build the theme from its hue */
 #fifteen-puzzle[data-color]            { --tint: 22%; }
 
+/* Red: its hue and readability tweaks */
 #fifteen-puzzle[data-color="red"]      { --user-hue: 0;   }
+/* Orange: its hue and readability tweaks */
 #fifteen-puzzle[data-color="orange"]   { --user-hue: 26;  }
+/* Yellow: its hue and readability tweaks */
 #fifteen-puzzle[data-color="yellow"]   { --user-hue: 47;  }
+/* Lime: its hue and readability tweaks */
 #fifteen-puzzle[data-color="lime"]     { --user-hue: 85;  }
+/* Green: its hue and readability tweaks */
 #fifteen-puzzle[data-color="green"]    { --user-hue: 138; }
+/* Teal: its hue and readability tweaks */
 #fifteen-puzzle[data-color="teal"]     { --user-hue: 172; }
+/* Cyan: its hue and readability tweaks */
 #fifteen-puzzle[data-color="cyan"]     { --user-hue: 192; }
+/* Blue: its hue and readability tweaks */
 #fifteen-puzzle[data-color="blue"]     { --user-hue: 217; }
+/* Purple: its hue and readability tweaks */
 #fifteen-puzzle[data-color="purple"]   { --user-hue: 268; }
+/* Magenta: its hue and readability tweaks */
 #fifteen-puzzle[data-color="magenta"]  { --user-hue: 305; }
+/* Pink: its hue and readability tweaks */
 #fifteen-puzzle[data-color="pink"]     { --user-hue: 335; }
 
 /* Light hues (bright tiles): dark numbers instead of white ones */
@@ -34,8 +36,7 @@
     --ink: hsl(var(--h) 65% 8%);
 }
 
-/* Candy / Synthwave: dark numbers where the hue is light enough.
-   Candy has three tile colors: --numc (1st), --numc2 (2nd), --numc3 (3rd). */
+/* Candy / Synthwave: dark numbers where the hue is light (Candy tiles: --numc, --numc2, --numc3) */
 #fifteen-puzzle[data-color="yellow"],
 #fifteen-puzzle[data-color="lime"],
 #fifteen-puzzle[data-color="green"],
@@ -45,6 +46,7 @@
     --dc: 10%;
 }
 
+/* Yellow: its hue and readability tweaks */
 #fifteen-puzzle[data-color="yellow"] {
     --numc3: #ffffff;
 }
@@ -56,22 +58,27 @@
     --dc2: 0%;
 }
 
-/* Per-color tuning so numbers stay readable (each is a lightness shift)
-   --dl  neon-clean, aurora  (light numbers on dark tiles: darken the bright end)
-   --dn  modern, soft, arcade  (bright tiles)
-   --dc  candy, synthwave  (candy also has --dc2 for its 2nd tile color)
-   --hl  handheld  (dark numbers on light tiles: lighten the tile)
-   --td  minimal, sakura, ice, wood  (dark numbers on pale tiles: darken the number) */
+/* Per-color lightness tweaks: --dl neon/aurora, --dn modern/soft/arcade, --dc candy/synthwave, --hl handheld, --td pale */
 #fifteen-puzzle[data-color="red"]     { --dn: -4%;  --dc: -12%; --hl: 18%; --dl: -6%; }
+/* Orange: its hue and readability tweaks */
 #fifteen-puzzle[data-color="orange"]  { --dn: 6%;   --dc: -30%; --hl: 6%;  --dl: -4%; }
+/* Yellow: its hue and readability tweaks */
 #fifteen-puzzle[data-color="yellow"]  { --dn: 0%;   --dc: 0%;   --dl: -18%; --td: -8%; }
+/* Lime: its hue and readability tweaks */
 #fifteen-puzzle[data-color="lime"]    { --dn: 0%;   --dl: -24%; --td: -12%; }
+/* Green: its hue and readability tweaks */
 #fifteen-puzzle[data-color="green"]   { --dn: 0%;   --dl: -12%; --td: -10%; }
+/* Teal: its hue and readability tweaks */
 #fifteen-puzzle[data-color="teal"]    { --dn: 0%;   --dl: -14%; --td: -12%; }
+/* Cyan: its hue and readability tweaks */
 #fifteen-puzzle[data-color="cyan"]    { --dn: 2%;   --dl: -8%;  --td: -8%; }
+/* Blue: its hue and readability tweaks */
 #fifteen-puzzle[data-color="blue"]    { --dn: -6%;  --dc: -30%; --hl: 6%;  }
+/* Purple: its hue and readability tweaks */
 #fifteen-puzzle[data-color="purple"]  { --dn: -2%;  --dc: -26%; --hl: 18%; }
+/* Magenta: its hue and readability tweaks */
 #fifteen-puzzle[data-color="magenta"] { --dn: -8%;  --dc: -28%; }
+/* Pink: its hue and readability tweaks */
 #fifteen-puzzle[data-color="pink"]    { --dn: -4%;  --dc: -28%; --hl: 6%;  --dl: -20%; }
 
 

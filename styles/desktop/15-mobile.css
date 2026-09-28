@@ -1,8 +1,8 @@
-/* =========================
-   MOBILE
-   ========================= */
+/* ===== MOBILE ===== */
 
+/* Narrow desktop windows (601–700px wide) */
 @media (max-width: 700px) {
+    /* Right sidebar (today's averages, recent solves) */
     #avgRightSidebar {
         top: 10px;
         right: 10px;
@@ -10,21 +10,25 @@
         max-width: calc(100% - 20px);
     }
 
+    /* Dark overlays behind the All Solves and replay modals */
     #solveModal,
     #solveDetailsModal {
         padding: 10px;
     }
 
+    /* Both modal boxes */
     .solve-modal,
     .solve-details-modal {
         max-height: 90vh;
         padding: 16px;
     }
 
+    /* Replay board */
     #solveReplayPuzzle {
         gap: 4px;
     }
 
+    /* Replay controls row (← move →) */
     .solve-replay-controls {
         gap: 10px;
     }

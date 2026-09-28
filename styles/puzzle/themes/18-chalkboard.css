@@ -1,8 +1,6 @@
-/* ============================================================
-   18 — CHALKBOARD        default: slate green board
-   The wooden frame and chalk stay the same in every color.
-   ============================================================ */
+/* ===== 18 — CHALKBOARD (default: slate green board) ===== frame and chalk stay the same in every color */
 
+/* Chalkboard theme: board */
 #fifteen-puzzle.puzzle-chalkboard {
     --theme-hue: 160;
 
@@ -23,6 +21,7 @@
         0 14px 30px rgb(0 0 0 / calc((calc(.3 * var(--sa, 1))) * var(--soft, 1)));
 }
 
+/* Chalkboard theme: tiles */
 #fifteen-puzzle.puzzle-chalkboard .grid-item {
     background: rgb(var(--w, 255 255 255) / .03);
 
@@ -37,10 +36,12 @@
     box-shadow: none;
 }
 
+/* Chalkboard theme: tile on hover */
 #fifteen-puzzle.puzzle-chalkboard .grid-item:hover {
     background: rgb(var(--w, 255 255 255) / .12);
 }
 
+/* Chalkboard theme: tile in its home spot */
 #fifteen-puzzle.puzzle-chalkboard .grid-item.solved {
     color: #fde68a;
 

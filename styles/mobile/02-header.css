@@ -1,7 +1,6 @@
-/* =========================
-   HEADER
-   ========================= */
+/* ===== HEADER ===== */
 
+/* Top bar */
 #app-header {
     width: 100%;
     max-width: 100%;
@@ -16,10 +15,12 @@
     padding: 13px 0 15px;
 }
 
+/* App name block in the top bar */
 #brand {
     min-width: 0;
 }
 
+/* App title */
 #brand h1 {
     margin: 0;
 
@@ -29,6 +30,7 @@
     white-space: nowrap;
 }
 
+/* Subtitle under the title */
 #brand p {
     margin: 2px 0 0;
 
@@ -37,6 +39,7 @@
     font-size: 10px;
 }
 
+/* Right side of the top bar (selects and dark-mode switch) */
 #header-actions {
     min-width: 0;
 

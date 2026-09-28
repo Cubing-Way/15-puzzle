@@ -1,9 +1,6 @@
-/* ============================================================
-   19 — SYNTHWAVE         default: hot pink + violet, cyan edge
-   Violet and the edge accent are offsets from --h, so picking
-   a color shifts the whole palette together.
-   ============================================================ */
+/* ===== 19 — SYNTHWAVE (default: hot pink + violet, cyan edge) ===== violet and the edge shift with --h */
 
+/* Synthwave theme: board */
 #fifteen-puzzle.puzzle-synthwave {
     --theme-hue: 336;
 
@@ -36,6 +33,7 @@
         0 18px 40px hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
 }
 
+/* Synthwave theme: tiles */
 #fifteen-puzzle.puzzle-synthwave .grid-item {
     background:
         linear-gradient(
@@ -55,6 +53,7 @@
     text-shadow: 0 0 8px hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--tk, 1) + var(--tb, 0%)) / .7);
 }
 
+/* Synthwave theme: tile on hover */
 #fifteen-puzzle.puzzle-synthwave .grid-item:hover {
     background:
         linear-gradient(
@@ -68,6 +67,7 @@
         inset 0 1px 1px rgba(255, 255, 255, calc((.25) * var(--soft, 1)));
 }
 
+/* Synthwave theme: tile in its home spot */
 #fifteen-puzzle.puzzle-synthwave .grid-item.solved {
     color: #fef08a;
 

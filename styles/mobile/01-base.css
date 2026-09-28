@@ -1,8 +1,10 @@
+/* All elements (box sizing and base resets) */
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
+/* Page root: no margins, no sideways scrolling */
 html,
 body {
     margin: 0;
@@ -14,6 +16,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Color variables (light mode) */
 :root {
     --bg: #f1f5f9;
     --surface: #ffffff;
@@ -31,6 +34,7 @@ body {
     --solved: #a3e635;
 }
 
+/* Page body */
 body {
     min-height: 100vh;
 

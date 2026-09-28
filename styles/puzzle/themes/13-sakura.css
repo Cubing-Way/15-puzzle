@@ -1,8 +1,6 @@
-/* ============================================================
-   13 — SAKURA            default: rose pink
-   Pale petals on soft blush.
-   ============================================================ */
+/* ===== 13 — SAKURA (default: rose pink) ===== pale petals on soft blush */
 
+/* Sakura theme: board */
 #fifteen-puzzle.puzzle-sakura {
     --theme-hue: 350;
 
@@ -29,6 +27,7 @@
         0 16px 34px hsl(calc(var(--h) - 20) calc(87% * var(--sat, 1)) calc(70% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.18) * var(--soft, 1)));
 }
 
+/* Sakura theme: tiles */
 #fifteen-puzzle.puzzle-sakura .grid-item {
     background:
         linear-gradient(
@@ -45,6 +44,7 @@
         0 3px 8px hsl(calc(var(--h) - 4) calc(90% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.12) * var(--soft, 1)));
 }
 
+/* Sakura theme: tile on hover */
 #fifteen-puzzle.puzzle-sakura .grid-item:hover {
     background:
         linear-gradient(
@@ -56,6 +56,7 @@
     color: hsl(calc(var(--h) - 7) calc(83% * var(--sat, 1)) calc((41% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 }
 
+/* Sakura theme: tile in its home spot */
 #fifteen-puzzle.puzzle-sakura .grid-item.solved {
     color: #4d7c0f;
 

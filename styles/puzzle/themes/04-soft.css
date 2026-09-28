@@ -1,7 +1,6 @@
-/* ============================================================
-   04 — SOFT              default: blue
-   ============================================================ */
+/* ===== 04 — SOFT (default: blue) ===== */
 
+/* Soft theme: board */
 #fifteen-puzzle.puzzle-soft {
     --theme-hue: 217;
 
@@ -27,6 +26,7 @@
 }
 
 
+/* Soft theme: tiles */
 #fifteen-puzzle.puzzle-soft .grid-item {
     background:
         linear-gradient(
@@ -45,6 +45,7 @@
 }
 
 
+/* Soft theme: tile on hover */
 #fifteen-puzzle.puzzle-soft .grid-item:hover {
     transform:
         translateY(-3px)
@@ -52,6 +53,7 @@
 }
 
 
+/* Soft theme: tile while pressed */
 #fifteen-puzzle.puzzle-soft .grid-item:active {
     transform:
         translateY(2px)
@@ -62,6 +64,7 @@
 }
 
 
+/* Soft theme: tile in its home spot */
 #fifteen-puzzle.puzzle-soft .grid-item.solved {
     color: var(--solved-ink, #ecffb8);
 }

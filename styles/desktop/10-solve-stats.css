@@ -1,16 +1,17 @@
-/* =========================
-   SOLVE STATS
-   ========================= */
+/* ===== SOLVE STATS ===== */
 
+/* Right sidebar (today's averages, recent solves) */
 #avgRightSidebar {
     color: var(--text);
     font-size: 1rem;
 }
 
+/* Stats card for one puzzle size */
 .solve-size-section {
     margin-bottom: 14px;
 }
 
+/* Size title on a card (e.g. 4x4) */
 .solve-size-title {
     display: block;
     margin-bottom: 4px;
@@ -18,12 +19,14 @@
     font-weight: 800;
 }
 
+/* One stat line (average, best, σ, count) */
 .solve-stat {
     color: var(--muted);
     line-height: 1.5;
     font-size: 1rem;
 }
 
+/* "Today" heading in the right sidebar */
 .solve-recent-title {
     display: block;
     margin: 16px 0 8px;
@@ -31,6 +34,7 @@
     font-weight: 800;
 }
 
+/* Recent solve row in the right sidebar */
 .solve-preview {
     display: flex;
     align-items: center;
@@ -39,12 +43,14 @@
     margin-top: 5px;
 }
 
+/* Time and size in a recent solve row */
 .solve-preview-info {
     color: var(--text);
     white-space: nowrap;
     font-size: 1rem;
 }
 
+/* × delete-solve button */
 .solve-delete {
     width: 28px;
     height: 28px;
@@ -73,18 +79,21 @@
         border-color 0.15s ease;
 }
 
+/* × delete button on hover */
 .solve-delete:hover {
     background: #fee2e2;
     color: #dc2626;
     border-color: #fecaca;
 }
 
+/* × delete button on hover in dark mode */
 body.dark-mode .solve-delete:hover {
     background: #451a1a;
     color: #f87171;
     border-color: #7f1d1d;
 }
 
+/* "Expand Solves" button */
 #expandSolvesButton {
     min-height: 38px;
 
@@ -109,11 +118,13 @@ body.dark-mode .solve-delete:hover {
         transform 0.08s ease;
 }
 
+/* "Expand Solves" button on hover */
 #expandSolvesButton:hover {
     background: var(--surface);
     border-color: var(--primary);
 }
 
+/* "Expand Solves" button while pressed */
 #expandSolvesButton:active {
     transform: scale(0.97);
 }

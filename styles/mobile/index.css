@@ -1,3 +1,4 @@
+/* Mobile styles (screens up to 600px), imported in cascade order */
 @import url("01-base.css");
 @import url("02-header.css");
 @import url("03-dark-mode-toggle.css");

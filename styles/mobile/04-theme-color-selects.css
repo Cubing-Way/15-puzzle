@@ -1,7 +1,6 @@
-/* =========================
-   THEME / COLOR SELECTS
-   ========================= */
+/* ===== THEME / COLOR SELECTS ===== */
 
+/* Theme and color selects */
 #puzzle-theme-select,
 #puzzle-color-select {
     width: 100%;
@@ -33,11 +32,13 @@
         box-shadow .2s ease;
 }
 
+/* Theme and color selects on hover */
 #puzzle-theme-select:hover,
 #puzzle-color-select:hover {
     border-color: var(--primary);
 }
 
+/* Theme and color selects while focused */
 #puzzle-theme-select:focus,
 #puzzle-color-select:focus {
     border-color: var(--primary);

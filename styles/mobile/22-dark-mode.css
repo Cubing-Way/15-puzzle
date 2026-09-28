@@ -1,7 +1,6 @@
-/* =========================
-   DARK MODE
-   ========================= */
+/* ===== DARK MODE ===== */
 
+/* Color variables for dark mode */
 body.dark-mode {
     --bg: #080d18;
     --surface: #111827;
@@ -19,6 +18,7 @@ body.dark-mode {
     --solved: #bef264;
 }
 
+/* Board in dark mode (the theme's board rule wins over this) */
 body.dark-mode #fifteen-puzzle {
     background: #020617;
 
@@ -31,6 +31,7 @@ body.dark-mode #fifteen-puzzle {
         );
 }
 
+/* Right sidebar (today's averages, recent solves) */
 #avgRightSidebar {
     overflow: scroll;
 }

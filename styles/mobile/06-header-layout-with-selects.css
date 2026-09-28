@@ -1,26 +1,27 @@
-/* =========================
-   HEADER LAYOUT WITH SELECTS
-   Title on the first row, the selects and dark-mode toggle
-   wrap onto their own full-width row instead of overlapping.
-   ========================= */
+/* ===== HEADER LAYOUT WITH SELECTS ===== title on top, selects and switch wrap onto their own row */
 
+/* Always applies here: this file only loads up to 600px */
 @media (max-width: 700px) {
+    /* Top bar */
     #app-header {
         flex-wrap: wrap;
 
         row-gap: 10px;
     }
 
+    /* App name block in the top bar */
     #brand {
         flex: 1 1 auto;
         min-width: 0;
     }
 
+    /* App title */
     #brand h1 {
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
+    /* Right side of the top bar (selects and dark-mode switch) */
     #header-actions {
         flex: 1 1 100%;
 
@@ -31,12 +32,14 @@
         gap: 8px;
     }
 
+    /* Theme/Color fields in the top bar */
     #header-actions .select-field {
         flex: 1 1 140px;
 
         width: auto;
     }
 
+    /* Dark-mode switch in the top bar */
     #header-actions #theme-toggle {
         flex: 0 0 auto;
 

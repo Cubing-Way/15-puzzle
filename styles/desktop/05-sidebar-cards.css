@@ -1,7 +1,6 @@
-/* =========================
-   SIDEBAR CARDS
-   ========================= */
+/* ===== SIDEBAR CARDS ===== */
 
+/* Sidebar cards (#controls isn't used by the page right now) */
 #options,
 #controls {
     width: 100%;
@@ -16,10 +15,12 @@
 
 /* Options */
 
+/* Options card */
 #options {
     padding: 16px;
 }
 
+/* Options title */
 #options h2 {
     margin: 0 0 13px;
 
@@ -27,6 +28,7 @@
     font-weight: 800;
 }
 
+/* One option row (checkbox + label) */
 .option {
     min-height: 36px;
 
@@ -38,10 +40,12 @@
     cursor: pointer;
 }
 
+/* Space between option rows */
 .option + .option {
     border-top: 1px solid var(--border);
 }
 
+/* Option checkbox */
 .option input {
     width: 16px;
     height: 16px;

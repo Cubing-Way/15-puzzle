@@ -1,7 +1,6 @@
-/* =========================
-   TILES
-   ========================= */
+/* ===== TILES ===== */
 
+/* Board tile */
 .grid-item {
     width: 100%;
     height: 100%;
@@ -36,10 +35,12 @@
     touch-action: none;
 }
 
+/* Tile while pressed */
 .grid-item:active {
     transform: scale(0.93);
 }
 
+/* Tile in its home spot (highlight) */
 .grid-item.solved {
     background: var(--tile);
     color: var(--solved);

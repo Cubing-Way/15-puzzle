@@ -1,8 +1,6 @@
-/* ============================================================
-   11 — LAVA              default: red-orange
-   Charcoal rock with glowing edges.
-   ============================================================ */
+/* ===== 11 — LAVA (default: red-orange) ===== charcoal rock with glowing edges */
 
+/* Lava theme: board */
 #fifteen-puzzle.puzzle-lava {
     --theme-hue: 14;
 
@@ -23,6 +21,7 @@
         0 18px 40px rgb(0 0 0 / calc((calc(.45 * var(--sa, 1))) * var(--soft, 1)));
 }
 
+/* Lava theme: tiles */
 #fifteen-puzzle.puzzle-lava .grid-item {
     background:
         linear-gradient(
@@ -40,6 +39,7 @@
         0 0 8px hsl(calc(var(--h) + 7) calc(90% * var(--sat, 1)) calc(48% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
 }
 
+/* Lava theme: tile on hover */
 #fifteen-puzzle.puzzle-lava .grid-item:hover {
     background:
         linear-gradient(
@@ -55,6 +55,7 @@
         0 0 14px hsl(calc(var(--h) + 11) calc(93% * var(--sat, 1)) calc(55% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.4) * var(--soft, 1)));
 }
 
+/* Lava theme: tile in its home spot */
 #fifteen-puzzle.puzzle-lava .grid-item.solved {
     color: #fde047;
 

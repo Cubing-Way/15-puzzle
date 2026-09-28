@@ -1,7 +1,6 @@
-/* =========================
-   GAME
-   ========================= */
+/* ===== GAME ===== */
 
+/* Center column with the board */
 #game {
     width: 100%;
     max-width: 100%;

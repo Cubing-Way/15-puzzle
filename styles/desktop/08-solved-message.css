@@ -1,7 +1,6 @@
-/* =========================
-   SOLVED MESSAGE
-   ========================= */
+/* ===== SOLVED MESSAGE ===== */
 
+/* "Solved!" message under the board */
 #solved-message {
     position: absolute;
 
@@ -30,6 +29,7 @@
         transform 0.2s ease;
 }
 
+/* "Solved!" message while shown */
 #solved-message.visible {
     opacity: 1;
 

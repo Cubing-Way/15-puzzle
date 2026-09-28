@@ -1,24 +1,27 @@
-/* =========================
-   SMALL PHONES
-   ========================= */
+/* ===== SMALL PHONES ===== */
 
+/* Very small phones (360px wide or less) */
 @media (max-width: 360px) {
 
+    /* Page body */
     body {
         padding-left: 10px;
         padding-right: 10px;
     }
 
+    /* Right side of the top bar (selects and dark-mode switch) */
     #header-actions {
         gap: 5px;
     }
 
+    /* The board */
     #fifteen-puzzle {
         max-width: 100%;
 
         border-radius: 14px;
     }
 
+    /* Board tile */
     .grid-item {
         border-width: 1px;
 

@@ -1,9 +1,6 @@
-/* ============================================================
-   EMPTY TILE
-   !important here beats every theme, so no per-theme list
-   is needed anymore.
-   ============================================================ */
+/* ===== EMPTY TILE ===== !important beats every theme, so no per-theme rules are needed */
 
+/* Empty slot, the same in every theme */
 #fifteen-puzzle .grid-item.empty {
     background: transparent !important;
 

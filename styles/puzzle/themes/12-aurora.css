@@ -1,7 +1,6 @@
-/* ============================================================
-   12 — AURORA            default: teal into violet
-   ============================================================ */
+/* ===== 12 — AURORA (default: teal into violet) ===== */
 
+/* Aurora theme: board */
 #fifteen-puzzle.puzzle-aurora {
     --theme-hue: 172;
 
@@ -40,6 +39,7 @@
         0 20px 46px hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
 }
 
+/* Aurora theme: tiles */
 #fifteen-puzzle.puzzle-aurora .grid-item {
     background:
         linear-gradient(
@@ -56,6 +56,7 @@
     -webkit-backdrop-filter: blur(6px);
 }
 
+/* Aurora theme: tile on hover */
 #fifteen-puzzle.puzzle-aurora .grid-item:hover {
     background:
         linear-gradient(
@@ -67,6 +68,7 @@
     border-color: hsl(var(--h) calc(77% * var(--sat, 1)) calc(82% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 }
 
+/* Aurora theme: tile in its home spot */
 #fifteen-puzzle.puzzle-aurora .grid-item.solved {
     color: #d9f99d;
 

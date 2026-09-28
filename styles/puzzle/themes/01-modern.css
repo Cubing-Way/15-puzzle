@@ -1,7 +1,6 @@
-/* ============================================================
-   01 — MODERN            default: blue
-   ============================================================ */
+/* ===== 01 — MODERN (default: blue) ===== */
 
+/* Modern theme: board */
 #fifteen-puzzle.puzzle-modern {
     --theme-hue: 217;
 
@@ -27,6 +26,7 @@
 }
 
 
+/* Modern theme: tiles */
 #fifteen-puzzle.puzzle-modern .grid-item {
     background:
         linear-gradient(
@@ -44,6 +44,7 @@
 }
 
 
+/* Modern theme: tile on hover */
 #fifteen-puzzle.puzzle-modern .grid-item:hover {
     background:
         linear-gradient(
@@ -55,6 +56,7 @@
 }
 
 
+/* Modern theme: tile in its home spot */
 #fifteen-puzzle.puzzle-modern .grid-item.solved {
     color: var(--solved-ink, #c6ff35);
 }

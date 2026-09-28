@@ -1,11 +1,6 @@
-/* =========================
-   STATS
-   ========================= */
+/* ===== STATS ===== */
 
-/* =========================
-   STATS
-   ========================= */
-
+/* Moves and Time panels */
 #stats {
     min-width: 0;
 
@@ -25,6 +20,7 @@
     border-radius: 11px;
 }
 
+/* One stat panel (Moves or Time) */
 .stat {
     min-width: 0;
 
@@ -34,12 +30,14 @@
     gap: 14px;
 }
 
+/* Space between the two stat panels */
 .stat + .stat {
     padding-left: 16px;
 
     border-left: 1px solid var(--border);
 }
 
+/* Label and value of a stat */
 .stat-info {
     min-width: 45px;
 
@@ -49,6 +47,7 @@
     gap: 2px;
 }
 
+/* Stat label (Moves / Time) */
 .stat-label {
     color: var(--muted);
 
@@ -59,6 +58,7 @@
     letter-spacing: 0.08em;
 }
 
+/* Move count and time values */
 #move-counter,
 #timer {
     color: var(--text);
@@ -69,6 +69,7 @@
     font-variant-numeric: tabular-nums;
 }
 
+/* Button rows under Moves and Time */
 .move-controls,
 .timer-controls {
     display: flex;
@@ -77,6 +78,7 @@
     gap: 5px;
 }
 
+/* Stat panel buttons */
 #stats button {
     min-height: 30px;
 
@@ -100,15 +102,18 @@
         transform 0.08s ease;
 }
 
+/* Stat buttons on hover */
 #stats button:hover:not(:disabled) {
     background: var(--surface);
     border-color: var(--primary);
 }
 
+/* Stat buttons while pressed */
 #stats button:active:not(:disabled) {
     transform: scale(0.97);
 }
 
+/* Disabled stat buttons (e.g. undo with no history) */
 #stats button:disabled {
     opacity: 0.45;
     cursor: default;

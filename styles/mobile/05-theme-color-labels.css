@@ -1,7 +1,6 @@
-/* =========================
-   THEME / COLOR LABELS
-   ========================= */
+/* ===== THEME / COLOR LABELS ===== */
 
+/* Theme/Color field (label + select) */
 .select-field {
     width: 100%;
     min-width: 0;
@@ -14,6 +13,7 @@
     margin: 0;
 }
 
+/* Small label before a select (Theme, Color) */
 .select-label {
     flex: 0 0 auto;
 
@@ -29,6 +29,7 @@
     letter-spacing: 0.08em;
 }
 
+/* The select inside a field */
 .select-field select {
     flex: 1 1 auto;
 

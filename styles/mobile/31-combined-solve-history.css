@@ -1,7 +1,6 @@
-/* =========================================================
-   COMBINED SOLVE HISTORY
-   ========================================================= */
+/* ===== COMBINED SOLVE HISTORY ===== */
 
+/* All Solves: Solve History list */
 #solveModal .solve-history-section {
     width: 100%;
 
@@ -11,12 +10,14 @@
     border-top: 1px solid var(--border);
 }
 
+/* All Solves: "Solve History" heading */
 #solveModal .solve-history-title {
     display: block;
 
     margin-bottom: 10px;
 }
 
+/* All Solves: one row in the history */
 #solveModal .solve-history-section .solve-row {
     width: 100%;
 
@@ -28,10 +29,12 @@
     gap: 12px;
 }
 
+/* All Solves: number, time and size in a row */
 #solveModal .solve-row-info {
     flex: 1;
 }
 
+/* All Solves: View and × buttons in a row */
 #solveModal .solve-row-actions {
     display: flex;
     align-items: center;

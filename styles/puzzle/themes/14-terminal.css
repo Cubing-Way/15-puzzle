@@ -1,7 +1,6 @@
-/* ============================================================
-   14 — TERMINAL          default: green phosphor
-   ============================================================ */
+/* ===== 14 — TERMINAL (default: green phosphor) ===== */
 
+/* Terminal theme: board */
 #fifteen-puzzle.puzzle-terminal {
     --theme-hue: 142;
 
@@ -21,6 +20,7 @@
         0 0 0 1px hsl(var(--h) calc(85% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
 }
 
+/* Terminal theme: tiles */
 #fifteen-puzzle.puzzle-terminal .grid-item {
     background: hsl(var(--h) calc(78% * var(--sat, 1)) calc(5% * var(--fk, 1) + var(--fb, 0%)));
 
@@ -33,6 +33,7 @@
     text-shadow: 0 0 6px hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--tk, 1) + var(--tb, 0%)) / .55);
 }
 
+/* Terminal theme: tile on hover */
 #fifteen-puzzle.puzzle-terminal .grid-item:hover {
     background: hsl(var(--h) calc(85% * var(--sat, 1)) calc(10% * var(--fk, 1) + var(--fb, 0%)));
 
@@ -41,6 +42,7 @@
     border-color: hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 }
 
+/* Terminal theme: tile in its home spot */
 #fifteen-puzzle.puzzle-terminal .grid-item.solved {
     color: #fef08a;
 

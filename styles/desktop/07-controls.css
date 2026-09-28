@@ -1,7 +1,6 @@
-/* =========================
-   CONTROLS
-   ========================= */
+/* ===== CONTROLS ===== */
 
+/* Controls panel (not used by the page right now) */
 #controls {
     display: flex;
     flex-direction: column;
@@ -11,6 +10,7 @@
     padding: 7px;
 }
 
+/* Controls panel buttons (not used right now) */
 #controls button {
     width: 100%;
 
@@ -33,14 +33,17 @@
         transform 0.08s ease;
 }
 
+/* Controls panel buttons on hover (not used right now) */
 #controls button:hover {
     background: var(--primary-hover);
 }
 
+/* Controls panel buttons while pressed (not used right now) */
 #controls button:active {
     transform: scale(0.98);
 }
 
+/* Last controls panel button (not used right now) */
 #controls button:last-child {
     background: var(--surface-2);
     color: var(--text);
@@ -48,6 +51,7 @@
     border: 1px solid var(--border);
 }
 
+/* Controls panel in the game column (not used right now) */
 #game > #controls {
     width: auto;
 
@@ -64,6 +68,7 @@
     border: none;
 }
 
+/* Controls panel buttons in the game column (not used right now) */
 #game > #controls button {
     width: auto;
     min-width: 110px;

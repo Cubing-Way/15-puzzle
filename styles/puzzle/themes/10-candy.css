@@ -1,8 +1,6 @@
-/* ============================================================
-   10 — CANDY             default: pink + violet + mint
-   Three tile colors spread around the wheel from --h.
-   ============================================================ */
+/* ===== 10 — CANDY (default: pink + violet + mint) ===== three tile colors spread around the wheel from --h */
 
+/* Candy theme: board */
 #fifteen-puzzle.puzzle-candy {
     --theme-hue: 330;
 
@@ -29,6 +27,7 @@
         0 18px 38px hsl(var(--h) calc(81% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
 }
 
+/* Candy theme: tiles */
 #fifteen-puzzle.puzzle-candy .grid-item {
     background:
         linear-gradient(
@@ -50,6 +49,7 @@
     transform: translateY(-2px);
 }
 
+/* Candy theme: 2nd tile color (tiles 2, 5, 8...) */
 #fifteen-puzzle.puzzle-candy .grid-item:nth-child(3n+2) {
     background:
         linear-gradient(
@@ -65,6 +65,7 @@
         0 9px 14px hsl(calc(var(--h) - 72) calc(70% * var(--sat, 1)) calc(42% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
 }
 
+/* Candy theme: 3rd tile color (tiles 3, 6, 9...) */
 #fifteen-puzzle.puzzle-candy .grid-item:nth-child(3n) {
     background:
         linear-gradient(
@@ -80,14 +81,17 @@
         0 9px 14px hsl(calc(var(--h) - 157) calc(80% * var(--sat, 1)) calc(26% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
 }
 
+/* Candy theme: tile on hover */
 #fifteen-puzzle.puzzle-candy .grid-item:hover {
     transform: translateY(-4px);
 }
 
+/* Candy theme: tile while pressed */
 #fifteen-puzzle.puzzle-candy .grid-item:active {
     transform: translateY(2px) scale(.96);
 }
 
+/* Candy theme: tile in its home spot */
 #fifteen-puzzle.puzzle-candy .grid-item.solved {
     color: #fef9c3;
 }

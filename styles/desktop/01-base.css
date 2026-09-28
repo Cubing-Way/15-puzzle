@@ -1,7 +1,9 @@
+/* All elements (box sizing and base resets) */
 * {
     box-sizing: border-box;
 }
 
+/* Color variables (light mode) */
 :root {
     --bg: #eef1f5;
     --surface: #ffffff;
@@ -22,6 +24,7 @@
     --sidebar-width: 250px;
 }
 
+/* Page body */
 body {
     margin: 0;
 

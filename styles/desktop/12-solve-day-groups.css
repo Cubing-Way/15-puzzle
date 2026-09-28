@@ -1,11 +1,11 @@
-/* =========================
-   SOLVE DAY GROUPS
-   ========================= */
+/* ===== SOLVE DAY GROUPS ===== */
 
+/* Solves grouped by day (not used by the page right now) */
 .solve-day {
     margin-bottom: 20px;
 }
 
+/* Day heading (not used by the page right now) */
 .solve-day-title {
     display: block;
 
@@ -15,6 +15,7 @@
     font-weight: 800;
 }
 
+/* One solve in the history list */
 .solve-row {
     min-height: 40px;
 
@@ -29,6 +30,7 @@
     border-top: 1px solid var(--border);
 }
 
+/* Number, time and size of a solve */
 .solve-row-info {
     min-width: 0;
 
@@ -41,6 +43,7 @@
     text-overflow: ellipsis;
 }
 
+/* View and × buttons of a solve */
 .solve-row-actions {
     display: flex;
     align-items: center;
@@ -48,6 +51,7 @@
     flex-shrink: 0;
 }
 
+/* View (replay) button */
 .solve-view-button {
     min-height: 32px;
 
@@ -70,6 +74,7 @@
         border-color 0.15s ease;
 }
 
+/* View button on hover */
 .solve-view-button:hover {
     background: var(--surface);
     border-color: var(--primary);

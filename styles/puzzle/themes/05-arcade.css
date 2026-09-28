@@ -1,8 +1,6 @@
-/* ============================================================
-   05 — ARCADE            default: blue tiles, yellow frame
-   The yellow cabinet frame stays yellow in every color.
-   ============================================================ */
+/* ===== 05 — ARCADE (default: blue tiles, yellow frame) ===== the frame stays yellow in every color */
 
+/* Arcade theme: board */
 #fifteen-puzzle.puzzle-arcade {
     --theme-hue: 221;
 
@@ -22,6 +20,7 @@
 }
 
 
+/* Arcade theme: tiles */
 #fifteen-puzzle.puzzle-arcade .grid-item {
     background: hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)));
 
@@ -35,6 +34,7 @@
 }
 
 
+/* Arcade theme: tile on hover */
 #fifteen-puzzle.puzzle-arcade .grid-item:hover {
     background: hsl(var(--h) calc(91% * var(--sat, 1)) calc((60% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)));
 
@@ -42,6 +42,7 @@
 }
 
 
+/* Arcade theme: tile in its home spot */
 #fifteen-puzzle.puzzle-arcade .grid-item.solved {
     color: var(--solved-ink, #faff00);
 

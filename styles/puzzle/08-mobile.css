@@ -1,12 +1,13 @@
-/* ============================================================
-   MOBILE
-   ============================================================ */
+/* ===== MOBILE ===== */
 
+/* Phones (600px wide or less) */
 @media (max-width: 600px) {
+    /* The board */
     #fifteen-puzzle {
         max-width: 400px;
     }
 
+    /* Tile on hover (all themes) */
     #fifteen-puzzle .grid-item:hover {
         transform: none;
     }

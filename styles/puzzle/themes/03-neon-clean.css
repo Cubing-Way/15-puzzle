@@ -1,8 +1,6 @@
-/* ============================================================
-   03 — NEON CLEAN        default: electric blue (app default)
-   Same cyber style without glow.
-   ============================================================ */
+/* ===== 03 — NEON CLEAN (default: electric blue, app default) ===== same cyber style without glow */
 
+/* Neon Clean theme: board */
 #fifteen-puzzle.puzzle-neon-clean {
     --theme-hue: 224;
 
@@ -18,6 +16,7 @@
 }
 
 
+/* Neon Clean theme: tiles */
 #fifteen-puzzle.puzzle-neon-clean .grid-item {
     background:
         linear-gradient(
@@ -34,6 +33,7 @@
 }
 
 
+/* Neon Clean theme: tile on hover */
 #fifteen-puzzle.puzzle-neon-clean .grid-item:hover {
     background:
         linear-gradient(
@@ -52,6 +52,7 @@
 }
 
 
+/* Neon Clean theme: tile in its home spot */
 #fifteen-puzzle.puzzle-neon-clean .grid-item.solved {
     color: #9dff00;
 

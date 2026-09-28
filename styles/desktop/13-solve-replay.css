@@ -1,7 +1,6 @@
-/* =========================
-   SOLVE REPLAY
-   ========================= */
+/* ===== SOLVE REPLAY ===== */
 
+/* Replay board */
 #solveReplayPuzzle {
     display: grid;
 
@@ -12,6 +11,7 @@
     gap: 6px;
 }
 
+/* Replay tile */
 .solve-replay-tile {
     aspect-ratio: 1;
 
@@ -29,11 +29,13 @@
     font-weight: 700;
 }
 
+/* Replay tile in its home spot */
 .solve-replay-tile.solved {
     color: var(--solved);
     border-color: var(--solved);
 }
 
+/* Replay controls row (← move →) */
 .solve-replay-controls {
     display: flex;
     align-items: center;
@@ -42,6 +44,7 @@
     gap: 14px;
 }
 
+/* Replay ← and → buttons */
 .solve-replay-button {
     width: 42px;
     height: 38px;
@@ -70,20 +73,24 @@
         transform 0.08s ease;
 }
 
+/* Replay buttons on hover */
 .solve-replay-button:hover:not(:disabled) {
     background: var(--surface);
     border-color: var(--primary);
 }
 
+/* Replay buttons while pressed */
 .solve-replay-button:active:not(:disabled) {
     transform: scale(0.96);
 }
 
+/* Replay buttons at the first or last step */
 .solve-replay-button:disabled {
     opacity: 0.35;
     cursor: default;
 }
 
+/* "Move X / Y" label */
 .solve-replay-move {
     min-width: 130px;
 
@@ -97,6 +104,7 @@
     font-variant-numeric: tabular-nums;
 }
 
+/* Time label under the replay */
 .solve-replay-time {
     display: block;
 

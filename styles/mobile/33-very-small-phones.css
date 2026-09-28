@@ -1,27 +1,31 @@
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
+/* ===== VERY SMALL PHONES ===== */
 
+/* Very small phones (360px wide or less) */
 @media (max-width: 360px) {
+    /* Both modal boxes */
     .solve-modal,
     .solve-details-modal {
         padding: 12px;
         border-radius: 10px;
     }
 
+    /* Modal title */
     .solve-modal-title {
         font-size: 1.1rem;
     }
 
+    /* Replay controls row (← move →) */
     .solve-replay-controls {
         gap: 6px;
     }
 
+    /* "Move X / Y" label */
     .solve-replay-move {
         min-width: 80px;
         font-size: 0.9rem;
     }
 
+    /* Replay ← and → buttons */
     .solve-replay-button {
         width: 38px;
         height: 36px;

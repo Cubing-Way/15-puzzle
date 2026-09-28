@@ -1,8 +1,6 @@
-/* ============================================================
-   16 — GOLD              default: gold on black lacquer
-   Pick blue for sapphire, red for ruby, etc.
-   ============================================================ */
+/* ===== 16 — GOLD (default: gold on black lacquer) ===== pick blue for sapphire, red for ruby */
 
+/* Gold theme: board */
 #fifteen-puzzle.puzzle-gold {
     --theme-hue: 43;
 
@@ -25,6 +23,7 @@
         0 18px 40px rgb(0 0 0 / calc((calc(.45 * var(--sa, 1))) * var(--soft, 1)));
 }
 
+/* Gold theme: tiles */
 #fifteen-puzzle.puzzle-gold .grid-item {
     background:
         linear-gradient(
@@ -41,6 +40,7 @@
         inset 0 1px 0 hsl(var(--h) calc(96% * var(--sat, 1)) calc(56% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / .25);
 }
 
+/* Gold theme: tile on hover */
 #fifteen-puzzle.puzzle-gold .grid-item:hover {
     background:
         linear-gradient(
@@ -54,6 +54,7 @@
     border-color: hsl(var(--h) calc(96% * var(--sat, 1)) calc(56% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 }
 
+/* Gold theme: tile in its home spot */
 #fifteen-puzzle.puzzle-gold .grid-item.solved {
     color: #86efac;
 

@@ -1,7 +1,6 @@
-/* =========================
-   BUTTONS
-   ========================= */
+/* ===== BUTTONS ===== */
 
+/* Controls panel (not used by the page right now) */
 #controls {
     width: 100%;
     max-width: 100%;
@@ -14,6 +13,7 @@
     gap: 8px;
 }
 
+/* Controls panel buttons (not used right now) */
 #controls button {
     min-width: 0;
 
@@ -33,10 +33,12 @@
     touch-action: manipulation;
 }
 
+/* Controls panel buttons while pressed (not used right now) */
 #controls button:active {
     transform: scale(0.97);
 }
 
+/* Last controls panel button (not used right now) */
 #controls button:last-child {
     background: var(--surface);
 

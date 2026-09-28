@@ -1,7 +1,6 @@
-/* =========================
-   OPTIONS
-   ========================= */
+/* ===== OPTIONS ===== */
 
+/* Options card */
 #options {
     width: 100%;
     max-width: 100%;
@@ -15,6 +14,7 @@
     border-radius: 14px;
 }
 
+/* Options title */
 #options h2 {
     margin: 0 0 8px;
 
@@ -26,6 +26,7 @@
     text-transform: uppercase;
 }
 
+/* One option row (checkbox + label) */
 .option {
     display: inline-flex;
     align-items: center;
@@ -35,6 +36,7 @@
     font-size: 12px;
 }
 
+/* Option checkbox */
 .option input {
     width: 17px;
     height: 17px;

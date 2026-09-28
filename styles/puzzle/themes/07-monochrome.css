@@ -1,8 +1,6 @@
-/* ============================================================
-   07 — MONOCHROME        default: pure grey
-   Picking a color adds a soft tint (--tint) to the greys.
-   ============================================================ */
+/* ===== 07 — MONOCHROME (default: pure grey) ===== picking a color adds a soft tint (--tint) */
 
+/* Monochrome theme: board */
 #fifteen-puzzle.puzzle-monochrome {
     --theme-hue: 0;
 
@@ -22,6 +20,7 @@
 }
 
 
+/* Monochrome theme: tiles */
 #fifteen-puzzle.puzzle-monochrome .grid-item {
     background:
         linear-gradient(
@@ -36,6 +35,7 @@
 }
 
 
+/* Monochrome theme: tile on hover */
 #fifteen-puzzle.puzzle-monochrome .grid-item:hover {
     background:
         linear-gradient(
@@ -48,6 +48,7 @@
 }
 
 
+/* Monochrome theme: tile in its home spot */
 #fifteen-puzzle.puzzle-monochrome .grid-item.solved {
     color: #bef264;
 }

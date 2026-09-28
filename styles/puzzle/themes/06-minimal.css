@@ -1,7 +1,6 @@
-/* ============================================================
-   06 — MINIMAL           default: slate grey-blue
-   ============================================================ */
+/* ===== 06 — MINIMAL (default: slate grey-blue) ===== */
 
+/* Minimal theme: board */
 #fifteen-puzzle.puzzle-minimal {
     --theme-hue: 215;
 
@@ -19,6 +18,7 @@
 }
 
 
+/* Minimal theme: tiles */
 #fifteen-puzzle.puzzle-minimal .grid-item {
     background: hsl(var(--h) calc(32% * var(--sat, 1)) calc(91% * var(--fk, 1) + var(--fb, 0%)));
 
@@ -31,6 +31,7 @@
 }
 
 
+/* Minimal theme: tile on hover */
 #fifteen-puzzle.puzzle-minimal .grid-item:hover {
     background: hsl(var(--h) calc(40% * var(--sat, 1)) calc(96% * var(--fk, 1) + var(--fb, 0%)));
 
@@ -40,6 +41,7 @@
 }
 
 
+/* Minimal theme: tile in its home spot */
 #fifteen-puzzle.puzzle-minimal .grid-item.solved {
     color: #65a30d;
 

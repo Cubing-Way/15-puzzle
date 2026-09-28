@@ -1,8 +1,6 @@
-/* ============================================================
-   08 — WOOD              default: brown / orange
-   Walnut board, maple tiles.
-   ============================================================ */
+/* ===== 08 — WOOD (default: brown / orange) ===== walnut board, maple tiles */
 
+/* Wood theme: board */
 #fifteen-puzzle.puzzle-wood {
     --theme-hue: 28;
 
@@ -41,6 +39,7 @@
         0 18px 40px hsl(calc(var(--h) - 4) calc(66% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1)));
 }
 
+/* Wood theme: tiles */
 #fifteen-puzzle.puzzle-wood .grid-item {
     background:
         repeating-linear-gradient(
@@ -64,6 +63,7 @@
         0 6px 10px rgb(0 0 0 / calc((calc(.25 * var(--sa, 1))) * var(--soft, 1)));
 }
 
+/* Wood theme: tile on hover */
 #fifteen-puzzle.puzzle-wood .grid-item:hover {
     background:
         linear-gradient(
@@ -73,6 +73,7 @@
         );
 }
 
+/* Wood theme: tile in its home spot */
 #fifteen-puzzle.puzzle-wood .grid-item.solved {
     color: #2f6b12;
 }

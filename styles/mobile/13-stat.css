@@ -1,7 +1,6 @@
-/* =========================
-   STAT
-   ========================= */
+/* ===== STAT ===== */
 
+/* One stat panel (Moves or Time) */
 .stat {
     min-width: 0;
 
@@ -16,6 +15,7 @@
 
 /* Separate the two stat sections */
 
+/* Space between the two stat panels */
 .stat + .stat {
     padding-left: 12px;
 

@@ -1,7 +1,6 @@
-/* =========================================================
-   SOLVE MODALS
-   ========================================================= */
+/* ===== SOLVE MODALS ===== */
 
+/* Dark overlays behind the All Solves and replay modals */
 #solveModal,
 #solveDetailsModal {
     position: fixed;
@@ -22,6 +21,7 @@
     background: rgba(0, 0, 0, 0.55);
 }
 
+/* All Solves modal box */
 .solve-modal {
     width: min(600px, 100%);
     max-height: 90vh;
@@ -42,6 +42,7 @@
     -webkit-overflow-scrolling: touch;
 }
 
+/* Replay modal box */
 .solve-details-modal {
     width: min(500px, 100%);
     max-height: 90vh;
@@ -62,6 +63,7 @@
     -webkit-overflow-scrolling: touch;
 }
 
+/* Modal header (title and × button) */
 .solve-modal-header {
     display: flex;
     align-items: center;
@@ -71,11 +73,13 @@
     margin-bottom: 18px;
 }
 
+/* Modal title */
 .solve-modal-title {
     font-size: 1.25rem;
     font-weight: 800;
 }
 
+/* Modal × close button */
 .solve-modal-close {
     width: 34px;
     height: 34px;
@@ -101,6 +105,7 @@
     cursor: pointer;
 }
 
+/* Modal close button on hover */
 .solve-modal-close:hover {
     background: var(--surface-2);
     color: var(--text);

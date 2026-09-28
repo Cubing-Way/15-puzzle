@@ -1,22 +1,9 @@
-/* ============================================================
-   PUZZLE THEME SYSTEM  (19 themes x 13 colors + default)
-   Supports 3x3 through 10x10 puzzles.
-
-   HOW COLOR WORKS
-   - Every theme sets its own default hue:   --theme-hue
-   - The color select sets  data-color="red" (etc.) on #fifteen-puzzle
-     which sets  --user-hue
-   - Everything in a theme is built from:    --h
-       --h = --user-hue if a color is picked, else --theme-hue
-   - "Default" = no data-color attribute -> each theme keeps its
-     own natural color (wood = brown/orange, ocean = cyan, ...)
-   ============================================================ */
+/* ===== PUZZLE THEME SYSTEM ===== themes build colors from --h (the picked --user-hue, else --theme-hue) */
 
 
-/* ============================================================
-   SHARED FOUNDATION
-   ============================================================ */
+/* ===== SHARED FOUNDATION ===== */
 
+/* The board */
 #fifteen-puzzle {
     width: 100%;
     max-width: 400px;

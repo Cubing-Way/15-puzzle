@@ -1,7 +1,6 @@
-/* ============================================================
-   TILE FOUNDATION
-   ============================================================ */
+/* ===== TILE FOUNDATION ===== */
 
+/* Tile base shared by all themes */
 #fifteen-puzzle .grid-item {
     width: 100%;
     height: 100%;
@@ -48,16 +47,19 @@
 }
 
 
+/* Tile on hover (all themes) */
 #fifteen-puzzle .grid-item:hover {
     transform: translateY(-2px);
 }
 
 
+/* Tile while pressed (all themes) */
 #fifteen-puzzle .grid-item:active {
     transform: scale(0.94);
 }
 
 
+/* Tile in its home spot (all themes) */
 #fifteen-puzzle .grid-item.solved {
     color: var(--solved, #9dff00);
 

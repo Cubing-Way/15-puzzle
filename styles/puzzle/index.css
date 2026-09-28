@@ -1,3 +1,4 @@
+/* Board and tile themes for all screens, imported in cascade order */
 @import url("01-shared-foundation.css");
 @import url("02-color-wheel.css");
 @import url("03-tile-foundation.css");

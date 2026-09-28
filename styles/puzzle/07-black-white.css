@@ -1,22 +1,8 @@
-/* ============================================================
-   BLACK & WHITE
-
-   Both work like the other colors, with multipliers instead of a
-   hue (every theme color is an hsl()):
-
-     --sat        saturation multiplier          (0 = greys)
-     --fk / --fb  tile lightness   = L * fk + fb
-     --bk / --bb  board lightness                (falls back to fk / fb)
-     --lk / --lb  border lightness               (falls back to fk / fb)
-     --sk / --sb  shadow lightness               (falls back to fk / fb)
-     --tk / --tb  number lightness = L * tk + tb
-     --soft       strength of blurred shadows and glows (1 = as themed)
-
-   This block must stay AFTER all themes so it wins ties.
-   ============================================================ */
+/* ===== BLACK & WHITE ===== greys via multipliers (--sat, --fk/--fb, --tk/--tb...); must stay after all themes */
 
 /* ---- BLACK: same look, dark grey instead of a hue ---- */
 
+/* Black: greys instead of a hue */
 #fifteen-puzzle[data-color="black"] {
     --tint: 0%;
     --sat: 0;
@@ -35,23 +21,9 @@
 }
 
 
-/* ---- WHITE: white takes the place of the theme's color ----
-   Works like picking any other color: the theme keeps its own
-   structure, and whatever normally carries the theme's color
-   turns white.
+/* ---- WHITE: white replaces the theme's color (lightness stretched: L * 2.2 - 20%) ---- */
 
-   Lightness is stretched (L * 2.2 - 20%). Browsers clamp hsl
-   lightness at 0% and 100%, so:
-     bright parts (L 55%+)  -> pure white  (modern / soft / candy tiles,
-                                            neon lines, arcade frame ...)
-     mid parts              -> light greys (gradients stay visible)
-     dark parts (L < 10%)   -> near black  (lava rock, gold lacquer,
-                                            terminal screen ...)
-   Boards keep the theme's own lightness, shadows / 3D edges too.
-
-   The rest are the same readability knobs the bright colors
-   (yellow, lime ...) already use. */
-
+/* White: white takes the place of the theme's color */
 #fifteen-puzzle[data-color="white"] {
     --tint: 0%;
     --sat: 0;

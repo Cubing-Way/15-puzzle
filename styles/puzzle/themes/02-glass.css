@@ -1,7 +1,6 @@
-/* ============================================================
-   02 — GLASS             default: indigo blue
-   ============================================================ */
+/* ===== 02 — GLASS (default: indigo blue) ===== */
 
+/* Glass theme: board */
 #fifteen-puzzle.puzzle-glass {
     --theme-hue: 226;
 
@@ -31,6 +30,7 @@
 }
 
 
+/* Glass theme: tiles */
 #fifteen-puzzle.puzzle-glass .grid-item {
     background:
         linear-gradient(
@@ -52,6 +52,7 @@
 }
 
 
+/* Glass theme: tile on hover */
 #fifteen-puzzle.puzzle-glass .grid-item:hover {
     background:
         linear-gradient(
@@ -62,6 +63,7 @@
 }
 
 
+/* Glass theme: tile in its home spot */
 #fifteen-puzzle.puzzle-glass .grid-item.solved {
     color: #d9ff69;
 

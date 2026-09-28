@@ -1,8 +1,8 @@
-/* ============================================================
-   REDUCED MOTION
-   ============================================================ */
+/* ===== REDUCED MOTION ===== */
 
+/* Users who turned on reduced motion */
 @media (prefers-reduced-motion: reduce) {
+    /* Board and tiles: no animations */
     #fifteen-puzzle,
     #fifteen-puzzle .grid-item {
         transition: none !important;

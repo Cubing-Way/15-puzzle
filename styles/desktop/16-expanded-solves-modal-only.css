@@ -1,7 +1,6 @@
-/* =========================================================
-   EXPANDED SOLVES MODAL ONLY
-   ========================================================= */
+/* ===== EXPANDED SOLVES MODAL ONLY ===== */
 
+/* All Solves: grid of size cards */
 #solveModal .solve-sizes-container {
     display: grid;
     grid-template-columns: repeat(
@@ -12,6 +11,7 @@
     width: 100%;
 }
 
+/* All Solves: one size card */
 #solveModal .solve-size-section {
     display: flex;
     flex-direction: column;
@@ -21,6 +21,7 @@
     border-radius: 0;
 }
 
+/* All Solves: size title on a card */
 #solveModal .solve-size-title {
     display: block;
     text-align: left;
@@ -29,16 +30,19 @@
 }
 
 
+/* All Solves: Today / All Time group on a card */
 #solveModal .solve-stats-group {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
+/* All Solves: Today / All Time heading */
 #solveModal .solve-stats-heading {
     margin-bottom: 3px;
 }
 
+/* All Solves: one stat line */
 #solveModal .solve-stat {
     display: block;
 }

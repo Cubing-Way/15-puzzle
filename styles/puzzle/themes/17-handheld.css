@@ -1,8 +1,6 @@
-/* ============================================================
-   17 — HANDHELD          default: green LCD
-   Light shade is --h, dark shade is 48 degrees further.
-   ============================================================ */
+/* ===== 17 — HANDHELD (default: green LCD) ===== light shade is --h, dark shade is 48° further */
 
+/* Handheld theme: board */
 #fifteen-puzzle.puzzle-handheld {
     --theme-hue: 72;
 
@@ -22,6 +20,7 @@
         0 10px 0 hsl(calc(var(--h) + 48) calc(79% * var(--sat, 1)) calc(14% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
 }
 
+/* Handheld theme: tiles */
 #fifteen-puzzle.puzzle-handheld .grid-item {
     background: hsl(var(--h) calc(85% * var(--sat, 1)) calc((40% + var(--hl, 0%)) * var(--fk, 1) + var(--fb, 0%)));
 
@@ -37,12 +36,14 @@
         inset -3px -3px 0 hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
 }
 
+/* Handheld theme: tile on hover */
 #fifteen-puzzle.puzzle-handheld .grid-item:hover {
     background: hsl(var(--h) calc(73% * var(--sat, 1)) calc((47% + var(--hl, 0%)) * var(--fk, 1) + var(--fb, 0%)));
 
     transform: none;
 }
 
+/* Handheld theme: tile in its home spot */
 #fifteen-puzzle.puzzle-handheld .grid-item.solved {
     color: #15803d;
 }

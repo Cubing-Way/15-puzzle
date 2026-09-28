@@ -1,8 +1,8 @@
-/* =========================================================
-   MOBILE MODAL ADJUSTMENTS
-   ========================================================= */
+/* ===== MOBILE MODAL ADJUSTMENTS ===== */
 
+/* Always applies here: this file only loads up to 600px */
 @media (max-width: 600px) {
+    /* All Solves: grid of size cards */
     #solveModal .solve-sizes-container {
         display: grid;
         grid-auto-flow: column;          /* every block goes in its own column, one row */
@@ -15,6 +15,7 @@
         padding-bottom: 6px;
     }
 
+    /* All Solves: one size card */
     #solveModal .solve-size-section {
         min-width: 150px;
         padding: 10px;
@@ -22,22 +23,27 @@
 }
 
 
+    /* All Solves: one size card */
     #solveModal .solve-size-section {
         padding: 10px 0;
     }
 
+    /* All Solves: Solve History list */
     #solveModal .solve-history-section {
         margin-top: 14px;
     }
 
+    /* One solve in the history list */
     .solve-row {
         gap: 8px;
     }
 
+    /* View and × buttons of a solve */
     .solve-row-actions {
         gap: 5px;
     }
 
+    /* View (replay) button */
     .solve-view-button {
         min-height: 34px;
         padding: 0 8px;

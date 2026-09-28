@@ -1,10 +1,4 @@
-/* ============================================================
-   SOLVED ON BLACK AND WHITE
-   Solved pieces only change their number color (green / yellow
-   per theme), never the tile. These rules just swap in a green
-   that stays readable where black or white makes the tile very
-   dark or very light.
-   ============================================================ */
+/* ===== SOLVED ON BLACK AND WHITE ===== keeps solved numbers readable on very dark or light tiles */
 
 /* black: dark green numbers become light green on the dark tiles */
 #fifteen-puzzle.puzzle-wood[data-color="black"] .grid-item.solved,

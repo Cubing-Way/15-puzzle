@@ -1,8 +1,6 @@
-/* ============================================================
-   09 — BLUEPRINT         default: cyanotype blue
-   Technical drawing: light lines on deep color.
-   ============================================================ */
+/* ===== 09 — BLUEPRINT (default: cyanotype blue) ===== light lines on deep color */
 
+/* Blueprint theme: board */
 #fifteen-puzzle.puzzle-blueprint {
     --theme-hue: 213;
 
@@ -32,6 +30,7 @@
         0 14px 34px hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1)));
 }
 
+/* Blueprint theme: tiles */
 #fifteen-puzzle.puzzle-blueprint .grid-item {
     background: rgb(var(--w, 255 255 255) / .04);
 
@@ -44,12 +43,14 @@
     box-shadow: none;
 }
 
+/* Blueprint theme: tile on hover */
 #fifteen-puzzle.puzzle-blueprint .grid-item:hover {
     background: rgb(var(--w, 255 255 255) / .14);
 
     border-style: solid;
 }
 
+/* Blueprint theme: tile in its home spot */
 #fifteen-puzzle.puzzle-blueprint .grid-item.solved {
     color: #fde68a;
 

@@ -1,7 +1,6 @@
-/* ============================================================
-   15 — ICE               default: pale sky blue
-   ============================================================ */
+/* ===== 15 — ICE (default: pale sky blue) ===== */
 
+/* Ice theme: board */
 #fifteen-puzzle.puzzle-ice {
     --theme-hue: 201;
 
@@ -28,6 +27,7 @@
         0 16px 36px hsl(calc(var(--h) - 9) calc(80% * var(--sat, 1)) calc(31% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
 }
 
+/* Ice theme: tiles */
 #fifteen-puzzle.puzzle-ice .grid-item {
     background:
         linear-gradient(
@@ -45,6 +45,7 @@
         0 4px 10px hsl(calc(var(--h) - 9) calc(80% * var(--sat, 1)) calc(31% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
 }
 
+/* Ice theme: tile on hover */
 #fifteen-puzzle.puzzle-ice .grid-item:hover {
     background:
         linear-gradient(
@@ -56,6 +57,7 @@
     color: hsl(var(--h) calc(96% * var(--sat, 1)) calc((32% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 }
 
+/* Ice theme: tile in its home spot */
 #fifteen-puzzle.puzzle-ice .grid-item.solved {
     color: #15803d;
 }

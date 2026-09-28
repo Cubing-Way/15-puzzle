@@ -1,7 +1,6 @@
-/* =========================
-   CONTROLS
-   ========================= */
+/* ===== CONTROLS ===== */
 
+/* Button rows under Moves and Time */
 .move-controls,
 .timer-controls {
     min-width: 0;
@@ -10,15 +9,18 @@
 
     gap: 4px;
 }
+/* Undo and redo arrow buttons */
 .move-controls button#undo-button,
 .move-controls button#redo-button {
     font-size: 30px;
     font-weight: 900;
 }
+/* Undo / redo / reset button row */
 .move-controls {
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* Pause / reset button row */
 .timer-controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
