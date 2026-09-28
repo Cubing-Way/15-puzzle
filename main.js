@@ -20,38 +20,41 @@ const sizeSelect = document.getElementById("size-select");
 
 const STORAGE_KEY = "15-puzzle-state";
 
-const puzzleThemes = [
-    "puzzle-neon-clean",
-    "puzzle-neon",
-    "puzzle-modern",
-    "puzzle-glass",
-    "puzzle-soft",
-    "puzzle-arcade",
-    "puzzle-minimal",
-    "puzzle-midnight",
-    "puzzle-ocean",
-    "puzzle-sunset",
-    "puzzle-forest",
-    "puzzle-monochrome",
-    "puzzle-wood",
-    "puzzle-blueprint",
-    "puzzle-candy",
-    "puzzle-lava",
-    "puzzle-aurora",
-    "puzzle-sakura",
-    "puzzle-terminal",
-    "puzzle-ice",
-    "puzzle-gold",
-    "puzzle-handheld",
-    "puzzle-chalkboard",
-    "puzzle-synthwave"
-];
+// Each theme's own color, used when the color select is on "Default".
+// "natural" = the theme's original look (no data-color attribute).
+const puzzleThemeColors = {
+    "puzzle-neon-clean": "blue",
+    "puzzle-modern": "blue",
+    "puzzle-glass": "purple",
+    "puzzle-soft": "blue",
+    "puzzle-arcade": "blue",
+    "puzzle-minimal": "natural",
+    "puzzle-monochrome": "black",
+    "puzzle-wood": "orange",
+    "puzzle-blueprint": "blue",
+    "puzzle-candy": "pink",
+    "puzzle-lava": "red",
+    "puzzle-aurora": "teal",
+    "puzzle-sakura": "pink",
+    "puzzle-terminal": "green",
+    "puzzle-ice": "cyan",
+    "puzzle-gold": "yellow",
+    "puzzle-handheld": "lime",
+    "puzzle-chalkboard": "natural",
+    "puzzle-synthwave": "magenta"
+};
+
+const puzzleThemes = Object.keys(puzzleThemeColors);
+const DEFAULT_THEME = "puzzle-neon-clean";
 
 
 const colorSelect = document.getElementById("puzzle-color-select");
 
 
 const puzzleColors = [
+    "default",
+    "black",
+    "white",
     "red",
     "orange",
     "yellow",
@@ -65,49 +68,61 @@ const puzzleColors = [
     "pink"
 ];
 
-const savedColor = localStorage.getItem("puzzle-color");
-
-if (savedColor && puzzleColors.includes(savedColor)) {
-    puzzleElement.dataset.color = savedColor;
-    colorSelect.value = savedColor;
-} else {
-    puzzleElement.removeAttribute("data-color");
-    colorSelect.value = "";
+function applyTheme(theme) {
+    puzzleElement.classList.remove(...puzzleThemes);
+    puzzleElement.classList.add(theme);
+    themeSelect.value = theme;
 }
 
-colorSelect.addEventListener("change", () => {
-    const selectedColor = colorSelect.value;
+// Shows the color for the current select choice.
+// "default" follows the theme; any other choice stays as picked.
+function applyColor() {
+    const choice = colorSelect.value;
+    const theme = themeSelect.value;
 
-    if (!selectedColor) {
+    const color = choice === "default"
+        ? puzzleThemeColors[theme]
+        : choice;
+
+    if (color === "natural") {
         puzzleElement.removeAttribute("data-color");
-        localStorage.removeItem("puzzle-color");
-        return;
+    } else {
+        puzzleElement.dataset.color = color;
     }
+}
 
-    if (!puzzleColors.includes(selectedColor)) return;
 
-    puzzleElement.dataset.color = selectedColor;
-    localStorage.setItem("puzzle-color", selectedColor);
-});
-
+// ---- initial state ----
 
 const savedTheme = localStorage.getItem("puzzle-theme");
-const initialTheme = puzzleThemes.includes(savedTheme)
-    ? savedTheme
-    : "puzzle-neon-clean";
+const savedColor = localStorage.getItem("puzzle-color");
 
-puzzleElement.classList.remove(...puzzleThemes);
-puzzleElement.classList.add(initialTheme);
-themeSelect.value = initialTheme;
+applyTheme(puzzleThemes.includes(savedTheme) ? savedTheme : DEFAULT_THEME);
+
+colorSelect.value = puzzleColors.includes(savedColor) ? savedColor : "default";
+applyColor();
+
+
+// ---- changes ----
 
 themeSelect.addEventListener("change", () => {
     const selectedTheme = themeSelect.value;
 
     if (!puzzleThemes.includes(selectedTheme)) return;
 
-    puzzleElement.classList.remove(...puzzleThemes);
-    puzzleElement.classList.add(selectedTheme);
+    applyTheme(selectedTheme);
     localStorage.setItem("puzzle-theme", selectedTheme);
+
+    // color select is left alone: "default" picks up the new
+    // theme's color, a picked color (e.g. black) stays
+    applyColor();
+});
+
+colorSelect.addEventListener("change", () => {
+    if (!puzzleColors.includes(colorSelect.value)) return;
+
+    applyColor();
+    localStorage.setItem("puzzle-color", colorSelect.value);
 });
 
 for (let size = 3; size <= 10; size++) {

@@ -187,14 +187,16 @@ body {
 
 
 /* =========================
-   HEADER THEME SELECT
+   THEME / COLOR SELECTS
    ========================= */
 
-#puzzle-theme-select {
+#puzzle-theme-select,
+#puzzle-color-select {
     width: 100%;
-    min-height: 42px;
+    min-width: 92px;
+    min-height: 40px;
 
-    padding: 9px 12px;
+    padding: 8px 6px 8px 9px;
 
     border: 1px solid var(--border);
     border-radius: 9px;
@@ -203,8 +205,13 @@ body {
     color: var(--text);
 
     font-family: inherit;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
+    line-height: 1.2;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     cursor: pointer;
     outline: none;
@@ -214,16 +221,102 @@ body {
         box-shadow .2s ease;
 }
 
-#puzzle-theme-select:hover {
+#puzzle-theme-select:hover,
+#puzzle-color-select:hover {
     border-color: var(--primary);
 }
 
-#puzzle-theme-select:focus {
+#puzzle-theme-select:focus,
+#puzzle-color-select:focus {
     border-color: var(--primary);
 
     box-shadow:
         0 0 0 3px
         rgba(37, 99, 235, .12);
+}
+
+
+/* =========================
+   THEME / COLOR LABELS
+   ========================= */
+
+.select-field {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    margin: 0;
+}
+
+.select-label {
+    flex: 0 0 auto;
+
+    white-space: nowrap;
+
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.select-field select {
+    flex: 1 1 auto;
+
+    margin: 0;
+}
+
+/* =========================
+   HEADER LAYOUT WITH SELECTS
+   Title on the first row, the selects and dark-mode toggle
+   wrap onto their own full-width row instead of overlapping.
+   ========================= */
+
+@media (max-width: 700px) {
+    #app-header {
+        flex-wrap: wrap;
+
+        row-gap: 10px;
+    }
+
+    #brand {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    #brand h1 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #header-actions {
+        flex: 1 1 100%;
+
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        gap: 8px;
+    }
+
+    #header-actions .select-field {
+        flex: 1 1 140px;
+
+        width: auto;
+    }
+
+    #header-actions #theme-toggle {
+        flex: 0 0 auto;
+
+        margin-left: auto;
+    }
 }
 
 

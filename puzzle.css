@@ -1,836 +1,5 @@
 /* ============================================================
-   PUZZLE THEME SYSTEM
-   Supports 3x3 through 10x10 puzzles.
-   Add a theme class to #fifteen-puzzle.
-   ============================================================ */
-
-
-/* ============================================================
-   SHARED FOUNDATION
-   ============================================================ */
-
-#fifteen-puzzle {
-    width: 100%;
-    max-width: 400px;
-    aspect-ratio: 1 / 1;
-
-    min-width: 0;
-    min-height: 0;
-
-    position: relative;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(var(--grid-size, 3), minmax(0, 1fr));
-
-    grid-template-rows:
-        repeat(var(--grid-size, 3), minmax(0, 1fr));
-
-    --puzzle-gap:
-        clamp(
-            3px,
-            calc(10px - (var(--grid-size, 3) * 0.65px)),
-            8px
-        );
-
-    --puzzle-radius:
-        clamp(
-            7px,
-            calc(25px - (var(--grid-size, 3) * 1.7px)),
-            21px
-        );
-
-    --tile-radius:
-        clamp(
-            2px,
-            calc(14px - (var(--grid-size, 3) * 1.15px)),
-            10px
-        );
-
-    --number-size:
-        clamp(
-            11px,
-            calc(100cqw / var(--grid-size, 3) * 0.72),
-            38px
-        );
-
-    --tile-highlight: #60a5fa;
-
-    gap: var(--puzzle-gap);
-    padding: var(--puzzle-gap);
-
-    border-radius: var(--puzzle-radius);
-
-    overflow: hidden;
-    isolation: isolate;
-
-    container-type: inline-size;
-
-    touch-action: none;
-
-    transition:
-        background 0.2s ease,
-        border 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-
-/* ============================================================
-   TILE FOUNDATION
-   ============================================================ */
-
-#fifteen-puzzle .grid-item {
-    width: 100%;
-    height: 100%;
-
-    min-width: 0;
-    min-height: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0;
-
-    border: 0;
-
-    border-radius: var(--tile-radius);
-
-    font-size: var(--number-size);
-
-    font-weight: 850;
-
-    line-height: 1;
-
-    text-align: center;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    user-select: none;
-    -webkit-user-select: none;
-
-    touch-action: none;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.14s ease,
-        background 0.18s ease,
-        border 0.18s ease,
-        box-shadow 0.18s ease,
-        color 0.18s ease,
-        filter 0.18s ease;
-}
-
-
-#fifteen-puzzle .grid-item:hover {
-    transform: translateY(-2px);
-}
-
-
-#fifteen-puzzle .grid-item:active {
-    transform: scale(0.94);
-}
-
-
-#fifteen-puzzle .grid-item.solved {
-    color: var(--solved, #9dff00);
-
-    -webkit-text-stroke: 0;
-
-    text-shadow: none;
-}
-
-
-/* ============================================================
-   EMPTY TILE
-   ============================================================ */
-
-#fifteen-puzzle .grid-item.empty {
-    background: transparent !important;
-
-    border: none !important;
-
-    box-shadow: none !important;
-
-    transform: none !important;
-
-    filter: none !important;
-
-    cursor: default;
-
-    pointer-events: none;
-}
-
-
-/* ============================================================
-   01 — MODERN
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-modern {
-    --tile-highlight: #60a5fa;
-
-    background:
-        linear-gradient(
-            145deg,
-            #172554,
-            #0f172a
-        );
-
-    box-shadow:
-        0 18px 42px rgba(15, 23, 42, 0.22);
-}
-
-
-#fifteen-puzzle.puzzle-modern .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #60a5fa,
-            #2563eb 55%,
-            #1d4ed8
-        );
-
-    color: #ffffff;
-
-    box-shadow:
-        inset 0 1px 1px rgba(255,255,255,.25),
-        0 5px 12px rgba(15,23,42,.18);
-}
-
-
-#fifteen-puzzle.puzzle-modern .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            #93c5fd,
-            #3b82f6,
-            #2563eb
-        );
-}
-
-
-#fifteen-puzzle.puzzle-modern .grid-item.solved {
-    color: #c6ff35;
-}
-
-
-/* ============================================================
-   02 — GLASS
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-glass {
-    --tile-highlight: rgba(255,255,255,.5);
-
-    background:
-        linear-gradient(
-            135deg,
-            #172554,
-            #312e81 55%,
-            #1e1b4b
-        );
-
-    box-shadow:
-        0 22px 50px rgba(30,27,75,.28);
-}
-
-
-#fifteen-puzzle.puzzle-glass .grid-item {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.28),
-            rgba(96,165,250,.18)
-        );
-
-    color: #ffffff;
-
-    border: 1px solid rgba(255,255,255,.25);
-
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    box-shadow:
-        inset 0 1px 1px rgba(255,255,255,.25),
-        0 6px 15px rgba(0,0,0,.12);
-}
-
-
-#fifteen-puzzle.puzzle-glass .grid-item:hover {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.38),
-            rgba(96,165,250,.28)
-        );
-}
-
-
-#fifteen-puzzle.puzzle-glass .grid-item.solved {
-    color: #d9ff69;
-
-    border-color: rgba(217,255,105,.4);
-}
-
-
-/* ============================================================
-   03 — NEON
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-neon {
-    --tile-highlight: #60a5fa;
-
-    background: #020617;
-
-    border: 1px solid #1e40af;
-
-    box-shadow:
-        0 0 0 1px rgba(59,130,246,.12),
-        0 0 28px rgba(37,99,235,.2);
-}
-
-
-#fifteen-puzzle.puzzle-neon .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #172554,
-            #1d4ed8
-        );
-
-    color: #dbeafe;
-
-    border: 1px solid rgba(96,165,250,.65);
-
-    box-shadow:
-        inset 0 0 10px rgba(96,165,250,.12),
-        0 0 7px rgba(37,99,235,.2);
-}
-
-
-#fifteen-puzzle.puzzle-neon .grid-item:hover {
-    color: #ffffff;
-
-    border-color: #60a5fa;
-
-    filter: brightness(1.12);
-}
-
-
-#fifteen-puzzle.puzzle-neon .grid-item.solved {
-    color: #9dff00;
-
-    border-color: #9dff00;
-
-    text-shadow:
-        0 0 7px rgba(157,255,0,.65);
-}
-
-
-/* ============================================================
-   04 — NEON CLEAN
-   Same cyber style without glow.
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-neon-clean {
-    --tile-highlight: #60a5fa;
-
-    background: #020617;
-
-    border: 1px solid #1e40af;
-
-    box-shadow: none;
-}
-
-
-#fifteen-puzzle.puzzle-neon-clean .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #172554,
-            #1d4ed8
-        );
-
-    color: #dbeafe;
-
-    border: 1px solid #60a5fa;
-
-    box-shadow: none;
-}
-
-
-#fifteen-puzzle.puzzle-neon-clean .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            #1e3a8a,
-            #2563eb
-        );
-
-    color: #ffffff;
-
-    border-color: #93c5fd;
-
-    box-shadow: none;
-
-    filter: none;
-}
-
-
-#fifteen-puzzle.puzzle-neon-clean .grid-item.solved {
-    color: #9dff00;
-
-    border-color: #9dff00;
-
-    text-shadow: none;
-}
-
-
-/* ============================================================
-   05 — SOFT
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-soft {
-    --tile-highlight: #60a5fa;
-
-    background:
-        linear-gradient(
-            135deg,
-            #dbeafe,
-            #ede9fe
-        );
-
-    box-shadow:
-        0 18px 38px rgba(99,102,241,.15);
-}
-
-
-#fifteen-puzzle.puzzle-soft .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #60a5fa,
-            #3b82f6
-        );
-
-    color: #ffffff;
-
-    box-shadow:
-        0 5px 0 #1d4ed8,
-        0 9px 16px rgba(37,99,235,.15);
-
-    transform: translateY(-2px);
-}
-
-
-#fifteen-puzzle.puzzle-soft .grid-item:hover {
-    transform:
-        translateY(-3px)
-        scale(1.01);
-}
-
-
-#fifteen-puzzle.puzzle-soft .grid-item:active {
-    transform:
-        translateY(2px)
-        scale(.96);
-
-    box-shadow:
-        0 2px 0 #1d4ed8;
-}
-
-
-#fifteen-puzzle.puzzle-soft .grid-item.solved {
-    color: #ecffb8;
-}
-
-
-/* ============================================================
-   06 — ARCADE
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-arcade {
-    --tile-highlight: #60a5fa;
-
-    background: #111111;
-
-    border: 3px solid #facc15;
-
-    box-shadow:
-        0 0 0 3px #111111,
-        0 0 0 6px #facc15;
-}
-
-
-#fifteen-puzzle.puzzle-arcade .grid-item {
-    background: #2563eb;
-
-    color: #ffffff;
-
-    border: 2px solid #60a5fa;
-
-    box-shadow:
-        inset 2px 2px 0 rgba(255,255,255,.22),
-        inset -2px -2px 0 rgba(0,0,0,.2);
-}
-
-
-#fifteen-puzzle.puzzle-arcade .grid-item:hover {
-    background: #3b82f6;
-
-    transform: scale(.97);
-}
-
-
-#fifteen-puzzle.puzzle-arcade .grid-item.solved {
-    color: #faff00;
-
-    text-shadow:
-        1px 1px 0 #111111;
-}
-
-
-/* ============================================================
-   07 — MINIMAL
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-minimal {
-    --tile-highlight: #94a3b8;
-
-    background: #cbd5e1;
-
-    box-shadow:
-        0 12px 30px rgba(15,23,42,.1);
-}
-
-
-#fifteen-puzzle.puzzle-minimal .grid-item {
-    background: #e2e8f0;
-
-    color: #334155;
-
-    border: 1px solid #cbd5e1;
-
-    box-shadow:
-        0 2px 5px rgba(15,23,42,.06);
-}
-
-
-#fifteen-puzzle.puzzle-minimal .grid-item:hover {
-    background: #f1f5f9;
-
-    color: #2563eb;
-
-    transform: scale(.98);
-}
-
-
-#fifteen-puzzle.puzzle-minimal .grid-item.solved {
-    color: #65a30d;
-
-    background: #ecf7d6;
-
-    border-color: #bef264;
-}
-
-
-/* ============================================================
-   08 — MIDNIGHT
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-midnight {
-    --tile-highlight: #818cf8;
-
-    background:
-        linear-gradient(
-            145deg,
-            #0f172a,
-            #020617
-        );
-
-    box-shadow:
-        0 18px 45px rgba(2,6,23,.4);
-}
-
-
-#fifteen-puzzle.puzzle-midnight .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #334155,
-            #1e293b
-        );
-
-    color: #e2e8f0;
-
-    border: 1px solid #475569;
-}
-
-
-#fifteen-puzzle.puzzle-midnight .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            #475569,
-            #334155
-        );
-
-    border-color: #818cf8;
-}
-
-
-#fifteen-puzzle.puzzle-midnight .grid-item.solved {
-    color: #bef264;
-}
-
-
-/* ============================================================
-   09 — OCEAN
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-ocean {
-    --tile-highlight: #67e8f9;
-
-    background:
-        linear-gradient(
-            145deg,
-            #083344,
-            #164e63
-        );
-
-    box-shadow:
-        0 18px 40px rgba(8,51,68,.25);
-}
-
-
-#fifteen-puzzle.puzzle-ocean .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #0891b2,
-            #0369a1
-        );
-
-    color: #ecfeff;
-
-    border: 1px solid #67e8f9;
-}
-
-
-#fifteen-puzzle.puzzle-ocean .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            #06b6d4,
-            #0284c7
-        );
-}
-
-
-#fifteen-puzzle.puzzle-ocean .grid-item.solved {
-    color: #bef264;
-}
-
-
-/* ============================================================
-   10 — SUNSET
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-sunset {
-    --tile-highlight: #fb923c;
-
-    background:
-        linear-gradient(
-            145deg,
-            #431407,
-            #7c2d12
-        );
-
-    box-shadow:
-        0 18px 40px rgba(124,45,18,.25);
-}
-
-
-#fifteen-puzzle.puzzle-sunset .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #f97316,
-            #ea580c
-        );
-
-    color: #fff7ed;
-
-    border: 1px solid #fb923c;
-}
-
-
-#fifteen-puzzle.puzzle-sunset .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            #fb923c,
-            #f97316
-        );
-}
-
-
-#fifteen-puzzle.puzzle-sunset .grid-item.solved {
-    color: #fef08a;
-}
-
-
-/* ============================================================
-   11 — FOREST
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-forest {
-    --tile-highlight: #86efac;
-
-    background:
-        linear-gradient(
-            145deg,
-            #052e16,
-            #14532d
-        );
-
-    box-shadow:
-        0 18px 40px rgba(20,83,45,.25);
-}
-
-
-#fifteen-puzzle.puzzle-forest .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #16a34a,
-            #15803d
-        );
-
-    color: #f0fdf4;
-
-    border: 1px solid #86efac;
-}
-
-
-#fifteen-puzzle.puzzle-forest .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            #22c55e,
-            #16a34a
-        );
-}
-
-
-#fifteen-puzzle.puzzle-forest .grid-item.solved {
-    color: #fef08a;
-}
-
-
-/* ============================================================
-   12 — MONOCHROME
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-monochrome {
-    --tile-highlight: #d4d4d4;
-
-    background: #171717;
-
-    box-shadow:
-        0 16px 35px rgba(0,0,0,.22);
-}
-
-
-#fifteen-puzzle.puzzle-monochrome .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            #525252,
-            #262626
-        );
-
-    color: #fafafa;
-
-    border: 1px solid #737373;
-}
-
-
-#fifteen-puzzle.puzzle-monochrome .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            #737373,
-            #404040
-        );
-
-    border-color: #d4d4d4;
-}
-
-
-#fifteen-puzzle.puzzle-monochrome .grid-item.solved {
-    color: #bef264;
-}
-
-
-/* ============================================================
-   EMPTY TILE
-   Keep this last so no theme can override it.
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-modern .grid-item.empty,
-#fifteen-puzzle.puzzle-glass .grid-item.empty,
-#fifteen-puzzle.puzzle-neon .grid-item.empty,
-#fifteen-puzzle.puzzle-neon-clean .grid-item.empty,
-#fifteen-puzzle.puzzle-soft .grid-item.empty,
-#fifteen-puzzle.puzzle-arcade .grid-item.empty,
-#fifteen-puzzle.puzzle-minimal .grid-item.empty,
-#fifteen-puzzle.puzzle-midnight .grid-item.empty,
-#fifteen-puzzle.puzzle-ocean .grid-item.empty,
-#fifteen-puzzle.puzzle-sunset .grid-item.empty,
-#fifteen-puzzle.puzzle-forest .grid-item.empty,
-#fifteen-puzzle.puzzle-monochrome .grid-item.empty {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    transform: none !important;
-    filter: none !important;
-    cursor: default;
-    pointer-events: none;
-}
-
-
-/* ============================================================
-   MOBILE
-   ============================================================ */
-
-@media (max-width: 600px) {
-    #fifteen-puzzle {
-        max-width: 400px;
-    }
-
-    #fifteen-puzzle .grid-item:hover {
-        transform: none;
-    }
-}
-
-
-/* ============================================================
-   REDUCED MOTION
-   ============================================================ */
-
-@media (prefers-reduced-motion: reduce) {
-    #fifteen-puzzle,
-    #fifteen-puzzle .grid-item {
-        transition: none !important;
-    }
-}
-
-/* ============================================================
-   PUZZLE THEME SYSTEM  (24 themes x 11 colors + default)
+   PUZZLE THEME SYSTEM  (19 themes x 13 colors + default)
    Supports 3x3 through 10x10 puzzles.
 
    HOW COLOR WORKS
@@ -922,6 +91,7 @@
    COLOR WHEEL
    Set by  puzzleElement.setAttribute("data-color", "red")
    To tweak a color, just change its hue number (0-360).
+   Black and white are special: see BLACK & WHITE near the end.
 
    Extra tuning variables (only set for the bright colors):
    --dl         darkens the bright end of dark-tile themes
@@ -943,12 +113,55 @@
 #fifteen-puzzle[data-color="magenta"]  { --user-hue: 305; }
 #fifteen-puzzle[data-color="pink"]     { --user-hue: 335; }
 
+/* Light hues (bright tiles): dark numbers instead of white ones */
 #fifteen-puzzle[data-color="yellow"],
-#fifteen-puzzle[data-color="lime"] {
-    --dl: -16%;
+#fifteen-puzzle[data-color="lime"],
+#fifteen-puzzle[data-color="orange"],
+#fifteen-puzzle[data-color="green"],
+#fifteen-puzzle[data-color="teal"],
+#fifteen-puzzle[data-color="cyan"] {
     --ink: hsl(var(--h) 65% 8%);
-    --solved-ink: #ffffff;
 }
+
+/* Candy / Synthwave: dark numbers where the hue is light enough.
+   Candy has three tile colors: --numc (1st), --numc2 (2nd), --numc3 (3rd). */
+#fifteen-puzzle[data-color="yellow"],
+#fifteen-puzzle[data-color="lime"],
+#fifteen-puzzle[data-color="green"],
+#fifteen-puzzle[data-color="teal"],
+#fifteen-puzzle[data-color="cyan"] {
+    --numc: hsl(var(--h) 65% 8%);
+    --dc: 10%;
+}
+
+#fifteen-puzzle[data-color="yellow"] {
+    --numc3: #ffffff;
+}
+
+/* blue / purple: candy's 2nd tile lands on green / cyan, give it dark numbers */
+#fifteen-puzzle[data-color="blue"],
+#fifteen-puzzle[data-color="purple"] {
+    --numc2: hsl(var(--h) 65% 8%);
+    --dc2: 0%;
+}
+
+/* Per-color tuning so numbers stay readable (each is a lightness shift)
+   --dl  neon-clean, aurora  (light numbers on dark tiles: darken the bright end)
+   --dn  modern, soft, arcade  (bright tiles)
+   --dc  candy, synthwave  (candy also has --dc2 for its 2nd tile color)
+   --hl  handheld  (dark numbers on light tiles: lighten the tile)
+   --td  minimal, sakura, ice, wood  (dark numbers on pale tiles: darken the number) */
+#fifteen-puzzle[data-color="red"]     { --dn: -4%;  --dc: -12%; --hl: 18%; --dl: -6%; }
+#fifteen-puzzle[data-color="orange"]  { --dn: 6%;   --dc: -30%; --hl: 6%;  --dl: -4%; }
+#fifteen-puzzle[data-color="yellow"]  { --dn: 0%;   --dc: 0%;   --dl: -18%; --td: -8%; }
+#fifteen-puzzle[data-color="lime"]    { --dn: 0%;   --dl: -24%; --td: -12%; }
+#fifteen-puzzle[data-color="green"]   { --dn: 0%;   --dl: -12%; --td: -10%; }
+#fifteen-puzzle[data-color="teal"]    { --dn: 0%;   --dl: -14%; --td: -12%; }
+#fifteen-puzzle[data-color="cyan"]    { --dn: 2%;   --dl: -8%;  --td: -8%; }
+#fifteen-puzzle[data-color="blue"]    { --dn: -6%;  --dc: -30%; --hl: 6%;  }
+#fifteen-puzzle[data-color="purple"]  { --dn: -2%;  --dc: -26%; --hl: 18%; }
+#fifteen-puzzle[data-color="magenta"] { --dn: -8%;  --dc: -28%; }
+#fifteen-puzzle[data-color="pink"]    { --dn: -4%;  --dc: -28%; --hl: 6%;  --dl: -20%; }
 
 
 /* ============================================================
@@ -1056,12 +269,22 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 57% 21%),
-            hsl(var(--h) 47% 11%)
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            145deg,
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
         );
 
     box-shadow:
-        0 18px 42px hsl(var(--h) 47% 11% / .22);
+        0 18px 42px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.22) * var(--soft, 1)));
+
+    --board-shadow:
+        0 18px 42px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.22) * var(--soft, 1)));
 }
 
 
@@ -1069,16 +292,16 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 94% 68%),
-            hsl(var(--h) 83% 53%) 55%,
-            hsl(var(--h) 76% 48%)
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc((68% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))) 55%,
+            hsl(var(--h) calc(76% * var(--sat, 1)) calc((48% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 
     color: var(--ink, #ffffff);
 
     box-shadow:
-        inset 0 1px 1px rgba(255,255,255,.25),
-        0 5px 12px hsl(var(--h) 47% 11% / .18);
+        inset 0 1px 1px rgba(255, 255, 255, calc((.25) * var(--soft, 1))),
+        0 5px 12px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.18) * var(--soft, 1)));
 }
 
 
@@ -1086,9 +309,9 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 96% 78%),
-            hsl(var(--h) 91% 60%),
-            hsl(var(--h) 83% 53%)
+            hsl(var(--h) calc(96% * var(--sat, 1)) calc((78% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(91% * var(--sat, 1)) calc((60% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 }
 
@@ -1105,18 +328,29 @@
 #fifteen-puzzle.puzzle-glass {
     --theme-hue: 226;
 
-    --tile-highlight: rgba(255,255,255,.5);
+    --tile-highlight: rgb(var(--w, 255 255 255) / .5);
 
     background:
         linear-gradient(
             135deg,
-            hsl(var(--h) 57% 21%),
-            hsl(calc(var(--h) + 17) 47% 34%) 55%,
-            hsl(calc(var(--h) + 18) 47% 20%)
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) + 17) calc(47% * var(--sat, 1)) calc(34% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 55%,
+            hsl(calc(var(--h) + 18) calc(47% * var(--sat, 1)) calc(20% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            135deg,
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) + 17) calc(47% * var(--sat, 1)) calc(34% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 55%,
+            hsl(calc(var(--h) + 18) calc(47% * var(--sat, 1)) calc(20% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
         );
 
     box-shadow:
-        0 22px 50px hsl(calc(var(--h) + 18) 47% 20% / .28);
+        0 22px 50px hsl(calc(var(--h) + 18) calc(47% * var(--sat, 1)) calc(20% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.28) * var(--soft, 1)));
+
+    --board-shadow:
+        0 22px 50px hsl(calc(var(--h) + 18) calc(47% * var(--sat, 1)) calc(20% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.28) * var(--soft, 1)));
 }
 
 
@@ -1124,20 +358,20 @@
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.28),
-            hsl(calc(var(--h) - 13) 94% 68% / .18)
+            rgb(var(--w, 255 255 255) / .28),
+            hsl(calc(var(--h) - 13) calc(94% * var(--sat, 1)) calc(68% * var(--fk, 1) + var(--fb, 0%)) / .18)
         );
 
-    color: #ffffff;
+    color: var(--num, #ffffff);
 
-    border: 1px solid rgba(255,255,255,.25);
+    border: 1px solid rgb(var(--w, 255 255 255) / .25);
 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 
     box-shadow:
-        inset 0 1px 1px rgba(255,255,255,.25),
-        0 6px 15px rgba(0,0,0,.12);
+        inset 0 1px 1px rgb(var(--w, 255 255 255) / calc((.25) * var(--soft, 1))),
+        0 6px 15px rgb(0 0 0 / calc((calc(.12 * var(--sa, 1))) * var(--soft, 1)));
 }
 
 
@@ -1145,8 +379,8 @@
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.38),
-            hsl(calc(var(--h) - 13) 94% 68% / .28)
+            rgb(var(--w, 255 255 255) / .38),
+            hsl(calc(var(--h) - 13) calc(94% * var(--sat, 1)) calc(68% * var(--fk, 1) + var(--fb, 0%)) / .28)
         );
 }
 
@@ -1159,72 +393,22 @@
 
 
 /* ============================================================
-   03 — NEON              default: electric blue
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-neon {
-    --theme-hue: 224;
-
-    background: hsl(var(--h) 84% 5%);
-
-    border: 1px solid hsl(var(--h) 71% 40%);
-
-    box-shadow:
-        0 0 0 1px hsl(var(--h) 91% 60% / .12),
-        0 0 28px hsl(var(--h) 83% 53% / .2);
-}
-
-
-#fifteen-puzzle.puzzle-neon .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(var(--h) 57% 21%),
-            hsl(var(--h) 76% calc(48% + var(--dl, 0%)))
-        );
-
-    color: hsl(var(--h) 95% 93%);
-
-    border: 1px solid hsl(var(--h) 94% 68% / .65);
-
-    box-shadow:
-        inset 0 0 10px hsl(var(--h) 94% 68% / .12),
-        0 0 7px hsl(var(--h) 83% 53% / .2);
-}
-
-
-#fifteen-puzzle.puzzle-neon .grid-item:hover {
-    color: #ffffff;
-
-    border-color: hsl(var(--h) 94% 68%);
-
-    filter: brightness(1.12);
-}
-
-
-#fifteen-puzzle.puzzle-neon .grid-item.solved {
-    color: #9dff00;
-
-    border-color: #9dff00;
-
-    text-shadow:
-        0 0 7px rgba(157,255,0,.65);
-}
-
-
-/* ============================================================
-   04 — NEON CLEAN        default: electric blue (app default)
+   03 — NEON CLEAN        default: electric blue (app default)
    Same cyber style without glow.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-neon-clean {
     --theme-hue: 224;
 
-    background: hsl(var(--h) 84% 5%);
+    background: hsl(var(--h) calc(84% * var(--sat, 1)) calc(5% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    border: 1px solid hsl(var(--h) 71% 40%);
+    --board-bg: hsl(var(--h) calc(84% * var(--sat, 1)) calc(5% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 1px solid hsl(var(--h) calc(71% * var(--sat, 1)) calc(40% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow: none;
+
+    --board-shadow: none;
 }
 
 
@@ -1232,13 +416,13 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 57% 21%),
-            hsl(var(--h) 76% calc(48% + var(--dl, 0%)))
+            hsl(var(--h) calc(57% * var(--sat, 1)) calc(21% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(76% * var(--sat, 1)) calc((48% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(var(--h) 95% 93%);
+    color: hsl(var(--h) calc(95% * var(--sat, 1)) calc(93% * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(var(--h) 94% 68%);
+    border: 1px solid hsl(var(--h) calc(94% * var(--sat, 1)) calc(68% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow: none;
 }
@@ -1248,13 +432,13 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 64% 33%),
-            hsl(var(--h) 83% calc(53% + var(--dl, 0%)))
+            hsl(var(--h) calc(64% * var(--sat, 1)) calc(33% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: #ffffff;
+    color: var(--num, #ffffff);
 
-    border-color: hsl(var(--h) 96% 78%);
+    border-color: hsl(var(--h) calc(96% * var(--sat, 1)) calc(78% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow: none;
 
@@ -1272,7 +456,7 @@
 
 
 /* ============================================================
-   05 — SOFT              default: blue
+   04 — SOFT              default: blue
    ============================================================ */
 
 #fifteen-puzzle.puzzle-soft {
@@ -1281,12 +465,22 @@
     background:
         linear-gradient(
             135deg,
-            hsl(var(--h) 95% 93%),
-            hsl(calc(var(--h) + 34) 91% 95%)
+            hsl(var(--h) calc(95% * var(--sat, 1)) calc(93% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) + 34) calc(91% * var(--sat, 1)) calc(95% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            135deg,
+            hsl(var(--h) calc(95% * var(--sat, 1)) calc(93% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) + 34) calc(91% * var(--sat, 1)) calc(95% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
         );
 
     box-shadow:
-        0 18px 38px hsl(calc(var(--h) + 20) 90% 65% / .15);
+        0 18px 38px hsl(calc(var(--h) + 20) calc(90% * var(--sat, 1)) calc(65% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.15) * var(--soft, 1)));
+
+    --board-shadow:
+        0 18px 38px hsl(calc(var(--h) + 20) calc(90% * var(--sat, 1)) calc(65% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.15) * var(--soft, 1)));
 }
 
 
@@ -1294,15 +488,15 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 94% 68%),
-            hsl(var(--h) 91% 60%)
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc((68% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(91% * var(--sat, 1)) calc((60% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 
     color: var(--ink, #ffffff);
 
     box-shadow:
-        0 5px 0 hsl(var(--h) 76% 48%),
-        0 9px 16px hsl(var(--h) 83% 53% / .15);
+        0 5px 0 hsl(var(--h) calc(76% * var(--sat, 1)) calc(48% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 9px 16px hsl(var(--h) calc(83% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.15) * var(--soft, 1)));
 
     transform: translateY(-2px);
 }
@@ -1321,7 +515,7 @@
         scale(.96);
 
     box-shadow:
-        0 2px 0 hsl(var(--h) 76% 48%);
+        0 2px 0 hsl(var(--h) calc(76% * var(--sat, 1)) calc(48% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
 }
 
 
@@ -1331,38 +525,44 @@
 
 
 /* ============================================================
-   06 — ARCADE            default: blue tiles, yellow frame
+   05 — ARCADE            default: blue tiles, yellow frame
    The yellow cabinet frame stays yellow in every color.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-arcade {
     --theme-hue: 221;
 
-    background: #111111;
+    background: hsl(0 calc(0% * var(--sat, 1)) calc(7% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    border: 3px solid #facc15;
+    --board-bg: hsl(0 calc(0% * var(--sat, 1)) calc(7% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 3px solid hsl(48 calc(96% * var(--sat, 1)) calc(53% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        0 0 0 3px #111111,
-        0 0 0 6px #facc15;
+        0 0 0 3px hsl(0 calc(0% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 0 0 6px hsl(48 calc(96% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+
+    --board-shadow:
+        0 0 0 3px hsl(0 calc(0% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 0 0 6px hsl(48 calc(96% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
 }
 
 
 #fifteen-puzzle.puzzle-arcade .grid-item {
-    background: hsl(var(--h) 83% 53%);
+    background: hsl(var(--h) calc(83% * var(--sat, 1)) calc((53% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)));
 
     color: var(--ink, #ffffff);
 
-    border: 2px solid hsl(var(--h) 94% 68%);
+    border: 2px solid hsl(var(--h) calc(94% * var(--sat, 1)) calc(68% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
         inset 2px 2px 0 rgba(255,255,255,.22),
-        inset -2px -2px 0 rgba(0,0,0,.2);
+        inset -2px -2px 0 rgb(0 0 0 / calc(.2 * var(--sa, 1)));
 }
 
 
 #fifteen-puzzle.puzzle-arcade .grid-item:hover {
-    background: hsl(var(--h) 91% 60%);
+    background: hsl(var(--h) calc(91% * var(--sat, 1)) calc((60% + var(--dn, 0%)) * var(--fk, 1) + var(--fb, 0%)));
 
     transform: scale(.97);
 }
@@ -1377,37 +577,42 @@
 
 
 /* ============================================================
-   07 — MINIMAL           default: slate grey-blue
+   06 — MINIMAL           default: slate grey-blue
    ============================================================ */
 
 #fifteen-puzzle.puzzle-minimal {
     --theme-hue: 215;
 
-    --tile-highlight: hsl(var(--h) 20% 65%);
+    --tile-highlight: hsl(var(--h) calc(20% * var(--sat, 1)) calc(65% * var(--fk, 1) + var(--fb, 0%)));
 
-    background: hsl(var(--h) 32% 84%);
+    background: hsl(var(--h) calc(32% * var(--sat, 1)) calc(84% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(var(--h) calc(32% * var(--sat, 1)) calc(84% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
     box-shadow:
-        0 12px 30px hsl(var(--h) 47% 11% / .1);
+        0 12px 30px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.1) * var(--soft, 1)));
+
+    --board-shadow:
+        0 12px 30px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.1) * var(--soft, 1)));
 }
 
 
 #fifteen-puzzle.puzzle-minimal .grid-item {
-    background: hsl(var(--h) 32% 91%);
+    background: hsl(var(--h) calc(32% * var(--sat, 1)) calc(91% * var(--fk, 1) + var(--fb, 0%)));
 
-    color: hsl(var(--h) 25% 27%);
+    color: hsl(var(--h) calc(25% * var(--sat, 1)) calc((27% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(var(--h) 32% 84%);
+    border: 1px solid hsl(var(--h) calc(32% * var(--sat, 1)) calc(84% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        0 2px 5px hsl(var(--h) 47% 11% / .06);
+        0 2px 5px hsl(var(--h) calc(47% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.06) * var(--soft, 1)));
 }
 
 
 #fifteen-puzzle.puzzle-minimal .grid-item:hover {
-    background: hsl(var(--h) 40% 96%);
+    background: hsl(var(--h) calc(40% * var(--sat, 1)) calc(96% * var(--fk, 1) + var(--fb, 0%)));
 
-    color: hsl(var(--h) 83% 45%);
+    color: hsl(var(--h) calc(83% * var(--sat, 1)) calc((45% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 
     transform: scale(.98);
 }
@@ -1416,216 +621,12 @@
 #fifteen-puzzle.puzzle-minimal .grid-item.solved {
     color: #65a30d;
 
-    background: #ecf7d6;
-
     border-color: #bef264;
 }
 
 
 /* ============================================================
-   08 — MIDNIGHT          default: dark slate + indigo hover
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-midnight {
-    --theme-hue: 222;
-
-    --tile-highlight: hsl(calc(var(--h) + 12) 89% 74%);
-
-    background:
-        linear-gradient(
-            145deg,
-            hsl(var(--h) 47% 11%),
-            hsl(var(--h) 60% 5%)
-        );
-
-    box-shadow:
-        0 18px 45px hsl(var(--h) 60% 5% / .4);
-}
-
-
-#fifteen-puzzle.puzzle-midnight .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(var(--h) 25% 27%),
-            hsl(var(--h) 33% 17%)
-        );
-
-    color: hsl(var(--h) 32% 91%);
-
-    border: 1px solid hsl(var(--h) 19% 35%);
-}
-
-
-#fifteen-puzzle.puzzle-midnight .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(var(--h) 19% 35%),
-            hsl(var(--h) 25% 27%)
-        );
-
-    border-color: hsl(calc(var(--h) + 12) 89% 74%);
-}
-
-
-#fifteen-puzzle.puzzle-midnight .grid-item.solved {
-    color: #bef264;
-}
-
-
-/* ============================================================
-   09 — OCEAN             default: cyan / deep sea
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-ocean {
-    --theme-hue: 196;
-
-    --tile-highlight: hsl(var(--h) 86% 67%);
-
-    background:
-        linear-gradient(
-            145deg,
-            hsl(var(--h) 78% 15%),
-            hsl(calc(var(--h) - 2) 65% 24%)
-        );
-
-    box-shadow:
-        0 18px 40px hsl(var(--h) 78% 15% / .25);
-}
-
-
-#fifteen-puzzle.puzzle-ocean .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(calc(var(--h) - 4) 91% 36%),
-            hsl(calc(var(--h) + 5) 96% 32%)
-        );
-
-    color: var(--ink, hsl(var(--h) 100% 96%));
-
-    border: 1px solid hsl(var(--h) 86% 67%);
-}
-
-
-#fifteen-puzzle.puzzle-ocean .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(calc(var(--h) - 7) 94% 43%),
-            hsl(calc(var(--h) + 4) 98% 39%)
-        );
-}
-
-
-#fifteen-puzzle.puzzle-ocean .grid-item.solved {
-    color: var(--solved-ink, #bef264);
-}
-
-
-/* ============================================================
-   10 — SUNSET            default: orange
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-sunset {
-    --theme-hue: 23;
-
-    --tile-highlight: hsl(calc(var(--h) + 4) 96% 61%);
-
-    background:
-        linear-gradient(
-            145deg,
-            hsl(calc(var(--h) - 8) 84% 15%),
-            hsl(calc(var(--h) - 8) 75% 28%)
-        );
-
-    box-shadow:
-        0 18px 40px hsl(calc(var(--h) - 8) 75% 28% / .25);
-}
-
-
-#fifteen-puzzle.puzzle-sunset .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(calc(var(--h) + 2) 95% 53%),
-            hsl(calc(var(--h) - 2) 90% 48%)
-        );
-
-    color: var(--ink, hsl(var(--h) 100% 96%));
-
-    border: 1px solid hsl(calc(var(--h) + 4) 96% 61%);
-}
-
-
-#fifteen-puzzle.puzzle-sunset .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(calc(var(--h) + 4) 96% 61%),
-            hsl(calc(var(--h) + 2) 95% 53%)
-        );
-}
-
-
-#fifteen-puzzle.puzzle-sunset .grid-item.solved {
-    color: var(--solved-ink, #fef08a);
-}
-
-
-/* ============================================================
-   11 — FOREST            default: green
-   ============================================================ */
-
-#fifteen-puzzle.puzzle-forest {
-    --theme-hue: 142;
-
-    --tile-highlight: hsl(var(--h) 77% 73%);
-
-    background:
-        linear-gradient(
-            145deg,
-            hsl(calc(var(--h) + 2) 85% 10%),
-            hsl(calc(var(--h) + 2) 61% 20%)
-        );
-
-    box-shadow:
-        0 18px 40px hsl(calc(var(--h) + 2) 61% 20% / .25);
-}
-
-
-#fifteen-puzzle.puzzle-forest .grid-item {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(var(--h) 76% 36%),
-            hsl(var(--h) 72% 29%)
-        );
-
-    color: var(--ink, hsl(var(--h) 80% 96%));
-
-    border: 1px solid hsl(var(--h) 77% 73%);
-}
-
-
-#fifteen-puzzle.puzzle-forest .grid-item:hover {
-    background:
-        linear-gradient(
-            145deg,
-            hsl(var(--h) 71% 45%),
-            hsl(var(--h) 76% 36%)
-        );
-}
-
-
-#fifteen-puzzle.puzzle-forest .grid-item.solved {
-    color: var(--solved-ink, #fef08a);
-}
-
-
-/* ============================================================
-   12 — MONOCHROME        default: pure grey
+   07 — MONOCHROME        default: pure grey
    Picking a color adds a soft tint (--tint) to the greys.
    ============================================================ */
 
@@ -1634,12 +635,17 @@
 
     --mono-s: var(--tint, 0%);
 
-    --tile-highlight: hsl(var(--h) var(--mono-s) 83%);
+    --tile-highlight: hsl(var(--h) var(--mono-s) calc(83% * var(--fk, 1) + var(--fb, 0%)));
 
-    background: hsl(var(--h) var(--mono-s) 9%);
+    background: hsl(var(--h) var(--mono-s) calc(9% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    --board-bg: hsl(var(--h) var(--mono-s) calc(9% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
     box-shadow:
-        0 16px 35px rgba(0,0,0,.22);
+        0 16px 35px rgb(0 0 0 / calc((calc(.22 * var(--sa, 1))) * var(--soft, 1)));
+
+    --board-shadow:
+        0 16px 35px rgb(0 0 0 / calc((calc(.22 * var(--sa, 1))) * var(--soft, 1)));
 }
 
 
@@ -1647,13 +653,13 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) var(--mono-s) 32%),
-            hsl(var(--h) var(--mono-s) 15%)
+            hsl(var(--h) var(--mono-s) calc(32% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) var(--mono-s) calc(15% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(var(--h) calc(var(--mono-s) * .5) 98%);
+    color: hsl(var(--h) calc(var(--mono-s) * .5) calc(98% * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(var(--h) var(--mono-s) 45%);
+    border: 1px solid hsl(var(--h) var(--mono-s) calc(45% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 }
 
 
@@ -1661,11 +667,11 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) var(--mono-s) 45%),
-            hsl(var(--h) var(--mono-s) 25%)
+            hsl(var(--h) var(--mono-s) calc(45% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) var(--mono-s) calc(25% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    border-color: hsl(var(--h) var(--mono-s) 83%);
+    border-color: hsl(var(--h) var(--mono-s) calc(83% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 }
 
 
@@ -1675,14 +681,14 @@
 
 
 /* ============================================================
-   13 — WOOD              default: brown / orange
+   08 — WOOD              default: brown / orange
    Walnut board, maple tiles.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-wood {
     --theme-hue: 28;
 
-    --tile-highlight: hsl(calc(var(--h) + 8) 60% 60%);
+    --tile-highlight: hsl(calc(var(--h) + 8) calc(60% * var(--sat, 1)) calc(60% * var(--fk, 1) + var(--fb, 0%)));
 
     background:
         repeating-linear-gradient(
@@ -1692,44 +698,60 @@
         ),
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) - 6) 43% 26%),
-            hsl(calc(var(--h) - 5) 51% 16%)
+            hsl(calc(var(--h) - 6) calc(43% * var(--sat, 1)) calc(26% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 5) calc(51% * var(--sat, 1)) calc(16% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        repeating-linear-gradient(
+            92deg,
+            rgba(0,0,0,.05) 0 3px,
+            transparent 3px 9px
+        ),
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 6) calc(43% * var(--sat, 1)) calc(26% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 5) calc(51% * var(--sat, 1)) calc(16% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
         );
 
     box-shadow:
-        inset 0 0 0 2px hsl(calc(var(--h) - 4) 66% 10%),
-        0 18px 40px hsl(calc(var(--h) - 4) 66% 10% / .35);
+        inset 0 0 0 2px hsl(calc(var(--h) - 4) calc(66% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 18px 40px hsl(calc(var(--h) - 4) calc(66% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1)));
+
+    --board-shadow:
+        inset 0 0 0 2px hsl(calc(var(--h) - 4) calc(66% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 18px 40px hsl(calc(var(--h) - 4) calc(66% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-wood .grid-item {
     background:
         repeating-linear-gradient(
             88deg,
-            hsl(var(--h) 60% 30% / .08) 0 2px,
+            hsl(var(--h) calc(60% * var(--sat, 1)) calc(30% * var(--fk, 1) + var(--fb, 0%)) / .08) 0 2px,
             transparent 2px 7px
         ),
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) + 9) 72% 76%),
-            hsl(calc(var(--h) + 7) 61% 63%)
+            hsl(calc(var(--h) + 9) calc(72% * var(--sat, 1)) calc(76% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) + 7) calc(61% * var(--sat, 1)) calc(63% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(calc(var(--h) - 2) 60% 18%);
+    color: hsl(calc(var(--h) - 2) calc(60% * var(--sat, 1)) calc((18% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(calc(var(--h) + 7) 49% 48%);
+    border: 1px solid hsl(calc(var(--h) + 7) calc(49% * var(--sat, 1)) calc(48% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
         inset 0 1px 0 rgba(255,255,255,.45),
-        0 3px 0 hsl(calc(var(--h) + 4) 58% 34%),
-        0 6px 10px rgba(0,0,0,.25);
+        0 3px 0 hsl(calc(var(--h) + 4) calc(58% * var(--sat, 1)) calc(34% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 6px 10px rgb(0 0 0 / calc((calc(.25 * var(--sa, 1))) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-wood .grid-item:hover {
     background:
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) + 9) 82% 82%),
-            hsl(calc(var(--h) + 7) 66% 68%)
+            hsl(calc(var(--h) + 9) calc(82% * var(--sat, 1)) calc(82% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) + 7) calc(66% * var(--sat, 1)) calc(68% * var(--fk, 1) + var(--fb, 0%)))
         );
 }
 
@@ -1739,34 +761,45 @@
 
 
 /* ============================================================
-   14 — BLUEPRINT         default: cyanotype blue
+   09 — BLUEPRINT         default: cyanotype blue
    Technical drawing: light lines on deep color.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-blueprint {
     --theme-hue: 213;
 
-    --tile-highlight: #ffffff;
+    --tile-highlight: rgb(var(--w, 255 255 255));
     --tile-radius: 2px;
 
     background:
-        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px)
+        linear-gradient(rgb(var(--w, 255 255 255) / .08) 1px, transparent 1px)
             0 0 / 20px 20px,
-        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)
+        linear-gradient(90deg, rgb(var(--w, 255 255 255) / .08) 1px, transparent 1px)
             0 0 / 20px 20px,
-        hsl(var(--h) 81% 25%);
+        hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    border: 2px solid hsl(var(--h) 95% 93%);
+    --board-bg:
+        linear-gradient(rgb(var(--w, 255 255 255) / .08) 1px, transparent 1px)
+            0 0 / 20px 20px,
+        linear-gradient(90deg, rgb(var(--w, 255 255 255) / .08) 1px, transparent 1px)
+            0 0 / 20px 20px,
+        hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    box-shadow: 0 14px 34px hsl(var(--h) 81% 25% / .35);
+    border: 2px solid hsl(var(--h) calc(95% * var(--sat, 1)) calc(93% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 14px 34px hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1)));
+
+    --board-shadow:
+        0 14px 34px hsl(var(--h) calc(81% * var(--sat, 1)) calc(25% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-blueprint .grid-item {
-    background: rgba(255,255,255,.04);
+    background: rgb(var(--w, 255 255 255) / .04);
 
-    color: hsl(var(--h) 100% 97%);
+    color: hsl(var(--h) calc(100% * var(--sat, 1)) calc(97% * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1.5px dashed hsl(var(--h) 95% 93% / .85);
+    border: 1.5px dashed hsl(var(--h) calc(95% * var(--sat, 1)) calc(93% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))) / .85);
 
     font-family: "Courier New", ui-monospace, monospace;
 
@@ -1774,7 +807,7 @@
 }
 
 #fifteen-puzzle.puzzle-blueprint .grid-item:hover {
-    background: rgba(255,255,255,.14);
+    background: rgb(var(--w, 255 255 255) / .14);
 
     border-style: solid;
 }
@@ -1787,43 +820,53 @@
 
 
 /* ============================================================
-   15 — CANDY             default: pink + violet + mint
+   10 — CANDY             default: pink + violet + mint
    Three tile colors spread around the wheel from --h.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-candy {
     --theme-hue: 330;
 
-    --tile-highlight: hsl(var(--h) 90% 76%);
+    --tile-highlight: hsl(var(--h) calc(90% * var(--sat, 1)) calc(76% * var(--fk, 1) + var(--fb, 0%)));
 
     background:
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) - 4) 87% 88%),
-            hsl(calc(var(--h) - 101) 94% 89%)
+            hsl(calc(var(--h) - 4) calc(87% * var(--sat, 1)) calc(88% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 101) calc(94% * var(--sat, 1)) calc(89% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) - 4) calc(87% * var(--sat, 1)) calc(88% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 101) calc(94% * var(--sat, 1)) calc(89% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
         );
 
     box-shadow:
-        0 18px 38px hsl(var(--h) 81% 60% / .2);
+        0 18px 38px hsl(var(--h) calc(81% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
+
+    --board-shadow:
+        0 18px 38px hsl(var(--h) calc(81% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-candy .grid-item {
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 86% 70%),
-            hsl(var(--h) 81% 60%)
+            hsl(var(--h) calc(86% * var(--sat, 1)) calc((70% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(81% * var(--sat, 1)) calc((60% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: #ffffff;
+    color: var(--numc, var(--num, #ffffff));
 
     text-shadow: 0 1px 2px rgba(0,0,0,.3);
 
-    border: 2px solid hsl(var(--h) 87% 94%);
+    border: 2px solid hsl(var(--h) calc(87% * var(--sat, 1)) calc(94% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        0 5px 0 hsl(var(--h) 80% 40%),
-        0 9px 14px hsl(var(--h) 80% 40% / .25);
+        0 5px 0 hsl(var(--h) calc(80% * var(--sat, 1)) calc(40% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 9px 14px hsl(var(--h) calc(80% * var(--sat, 1)) calc(40% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
 
     transform: translateY(-2px);
 }
@@ -1832,26 +875,30 @@
     background:
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) - 72) 92% 76%),
-            hsl(calc(var(--h) - 72) 90% 66%)
+            hsl(calc(var(--h) - 72) calc(92% * var(--sat, 1)) calc((76% + var(--dc2, var(--dc, 0%))) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) - 72) calc(90% * var(--sat, 1)) calc((66% + var(--dc2, var(--dc, 0%))) * var(--fk, 1) + var(--fb, 0%)))
         );
 
+    color: var(--numc2, var(--numc, var(--num, #ffffff)));
+
     box-shadow:
-        0 5px 0 hsl(calc(var(--h) - 72) 70% 42%),
-        0 9px 14px hsl(calc(var(--h) - 72) 70% 42% / .25);
+        0 5px 0 hsl(calc(var(--h) - 72) calc(70% * var(--sat, 1)) calc(42% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 9px 14px hsl(calc(var(--h) - 72) calc(70% * var(--sat, 1)) calc(42% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-candy .grid-item:nth-child(3n) {
     background:
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) - 157) 77% 64%),
-            hsl(calc(var(--h) - 157) 80% 40%)
+            hsl(calc(var(--h) - 157) calc(77% * var(--sat, 1)) calc((64% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) - 157) calc(80% * var(--sat, 1)) calc((40% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 
+    color: var(--numc3, var(--numc, var(--num, #ffffff)));
+
     box-shadow:
-        0 5px 0 hsl(calc(var(--h) - 157) 80% 26%),
-        0 9px 14px hsl(calc(var(--h) - 157) 80% 26% / .25);
+        0 5px 0 hsl(calc(var(--h) - 157) calc(80% * var(--sat, 1)) calc(26% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 9px 14px hsl(calc(var(--h) - 157) calc(80% * var(--sat, 1)) calc(26% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-candy .grid-item:hover {
@@ -1868,54 +915,60 @@
 
 
 /* ============================================================
-   16 — LAVA              default: red-orange
+   11 — LAVA              default: red-orange
    Charcoal rock with glowing edges.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-lava {
     --theme-hue: 14;
 
-    --tile-highlight: hsl(calc(var(--h) + 17) 97% 72%);
+    --tile-highlight: hsl(calc(var(--h) + 17) calc(97% * var(--sat, 1)) calc(72% * var(--fk, 1) + var(--fb, 0%)));
 
-    background: hsl(var(--h) 50% 5%);
+    background: hsl(var(--h) calc(50% * var(--sat, 1)) calc(5% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    border: 1px solid hsl(calc(var(--h) - 14) 63% 31%);
+    --board-bg: hsl(var(--h) calc(50% * var(--sat, 1)) calc(5% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 1px solid hsl(calc(var(--h) - 14) calc(63% * var(--sat, 1)) calc(31% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        0 0 34px hsl(calc(var(--h) - 14) 84% 60% / .22),
-        0 18px 40px rgba(0,0,0,.45);
+        0 0 34px hsl(calc(var(--h) - 14) calc(84% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.22) * var(--soft, 1))),
+        0 18px 40px rgb(0 0 0 / calc((calc(.45 * var(--sa, 1))) * var(--soft, 1)));
+
+    --board-shadow:
+        0 0 34px hsl(calc(var(--h) - 14) calc(84% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.22) * var(--soft, 1))),
+        0 18px 40px rgb(0 0 0 / calc((calc(.45 * var(--sa, 1))) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-lava .grid-item {
     background:
         linear-gradient(
             160deg,
-            hsl(var(--h) 52% 15%),
-            hsl(var(--h) 52% 7%)
+            hsl(var(--h) calc(52% * var(--sat, 1)) calc(15% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(52% * var(--sat, 1)) calc(7% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(calc(var(--h) + 20) 100% 92%);
+    color: hsl(calc(var(--h) + 20) calc(100% * var(--sat, 1)) calc(92% * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(calc(var(--h) + 7) 90% 48%);
+    border: 1px solid hsl(calc(var(--h) + 7) calc(90% * var(--sat, 1)) calc(48% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        inset 0 -6px 14px hsl(calc(var(--h) - 14) 84% 60% / .28),
-        0 0 8px hsl(calc(var(--h) + 7) 90% 48% / .25);
+        inset 0 -6px 14px hsl(calc(var(--h) - 14) calc(84% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.28) * var(--soft, 1))),
+        0 0 8px hsl(calc(var(--h) + 7) calc(90% * var(--sat, 1)) calc(48% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.25) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-lava .grid-item:hover {
     background:
         linear-gradient(
             160deg,
-            hsl(var(--h) 60% 21%),
-            hsl(var(--h) 60% 11%)
+            hsl(var(--h) calc(60% * var(--sat, 1)) calc(21% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(60% * var(--sat, 1)) calc(11% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    border-color: hsl(calc(var(--h) + 17) 97% 72%);
+    border-color: hsl(calc(var(--h) + 17) calc(97% * var(--sat, 1)) calc(72% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        inset 0 -6px 16px hsl(calc(var(--h) + 11) 93% 55% / .45),
-        0 0 14px hsl(calc(var(--h) + 11) 93% 55% / .4);
+        inset 0 -6px 16px hsl(calc(var(--h) + 11) calc(93% * var(--sat, 1)) calc(55% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.45) * var(--soft, 1))),
+        0 0 14px hsl(calc(var(--h) + 11) calc(93% * var(--sat, 1)) calc(55% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.4) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-lava .grid-item.solved {
@@ -1926,41 +979,58 @@
 
 
 /* ============================================================
-   17 — AURORA            default: teal into violet
+   12 — AURORA            default: teal into violet
    ============================================================ */
 
 #fifteen-puzzle.puzzle-aurora {
     --theme-hue: 172;
 
-    --tile-highlight: hsl(var(--h) 77% 82%);
+    --tile-highlight: hsl(var(--h) calc(77% * var(--sat, 1)) calc(82% * var(--fk, 1) + var(--fb, 0%)));
 
     background:
         radial-gradient(
             circle at 20% 0%,
-            hsl(var(--h) 66% 50% / .35),
+            hsl(var(--h) calc(66% * var(--sat, 1)) calc(50% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))) / .35),
             transparent 55%
         ),
         radial-gradient(
             circle at 90% 100%,
-            hsl(calc(var(--h) + 86) 92% 76% / .35),
+            hsl(calc(var(--h) + 86) calc(92% * var(--sat, 1)) calc(76% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))) / .35),
             transparent 55%
         ),
-        hsl(calc(var(--h) + 43) 65% 7%);
+        hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    box-shadow: 0 20px 46px hsl(calc(var(--h) + 43) 65% 7% / .5);
+    --board-bg:
+        radial-gradient(
+            circle at 20% 0%,
+            hsl(var(--h) calc(66% * var(--sat, 1)) calc(50% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))) / .35),
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            hsl(calc(var(--h) + 86) calc(92% * var(--sat, 1)) calc(76% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))) / .35),
+            transparent 55%
+        ),
+        hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    box-shadow:
+        0 20px 46px hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
+
+    --board-shadow:
+        0 20px 46px hsl(calc(var(--h) + 43) calc(65% * var(--sat, 1)) calc(7% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-aurora .grid-item {
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 66% 50% / .32),
-            hsl(calc(var(--h) + 86) 90% 66% / .32)
+            hsl(var(--h) calc(66% * var(--sat, 1)) calc((50% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)) / .32),
+            hsl(calc(var(--h) + 86) calc(90% * var(--sat, 1)) calc((66% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)) / .32)
         );
 
-    color: hsl(var(--h) 100% 96%);
+    color: hsl(var(--h) calc(100% * var(--sat, 1)) calc(96% * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(var(--h) 77% 82% / .5);
+    border: 1px solid hsl(var(--h) calc(77% * var(--sat, 1)) calc(82% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))) / .5);
 
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
@@ -1970,11 +1040,11 @@
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 66% 50% / .5),
-            hsl(calc(var(--h) + 86) 90% 66% / .5)
+            hsl(var(--h) calc(66% * var(--sat, 1)) calc((50% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)) / .5),
+            hsl(calc(var(--h) + 86) calc(90% * var(--sat, 1)) calc((66% + var(--dl, 0%)) * var(--fk, 1) + var(--fb, 0%)) / .5)
         );
 
-    border-color: hsl(var(--h) 77% 82%);
+    border-color: hsl(var(--h) calc(77% * var(--sat, 1)) calc(82% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 }
 
 #fifteen-puzzle.puzzle-aurora .grid-item.solved {
@@ -1985,98 +1055,111 @@
 
 
 /* ============================================================
-   18 — SAKURA            default: rose pink
+   13 — SAKURA            default: rose pink
    Pale petals on soft blush.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-sakura {
     --theme-hue: 350;
 
-    --tile-highlight: hsl(var(--h) 96% 82%);
+    --tile-highlight: hsl(var(--h) calc(96% * var(--sat, 1)) calc(82% * var(--fk, 1) + var(--fb, 0%)));
 
     background:
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) + 2) 100% 94%),
-            hsl(calc(var(--h) - 23) 87% 94%)
+            hsl(calc(var(--h) + 2) calc(100% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 23) calc(87% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 2) calc(100% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(calc(var(--h) - 23) calc(87% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
         );
 
     box-shadow:
-        0 16px 34px hsl(calc(var(--h) - 20) 87% 70% / .18);
+        0 16px 34px hsl(calc(var(--h) - 20) calc(87% * var(--sat, 1)) calc(70% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.18) * var(--soft, 1)));
+
+    --board-shadow:
+        0 16px 34px hsl(calc(var(--h) - 20) calc(87% * var(--sat, 1)) calc(70% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.18) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-sakura .grid-item {
     background:
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) + 5) 100% 97%),
-            hsl(calc(var(--h) + 1) 96% 90%)
+            hsl(calc(var(--h) + 5) calc(100% * var(--sat, 1)) calc(97% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) + 1) calc(96% * var(--sat, 1)) calc(90% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(calc(var(--h) - 9) 79% 35%);
+    color: hsl(calc(var(--h) - 9) calc(79% * var(--sat, 1)) calc((35% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(var(--h) 96% 82%);
+    border: 1px solid hsl(var(--h) calc(96% * var(--sat, 1)) calc(82% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        0 3px 8px hsl(calc(var(--h) - 4) 90% 60% / .12);
+        0 3px 8px hsl(calc(var(--h) - 4) calc(90% * var(--sat, 1)) calc(60% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.12) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-sakura .grid-item:hover {
     background:
         linear-gradient(
             145deg,
-            #ffffff,
-            hsl(calc(var(--h) + 1) 96% 90%)
+            hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) + 1) calc(96% * var(--sat, 1)) calc(90% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(calc(var(--h) - 7) 83% 41%);
+    color: hsl(calc(var(--h) - 7) calc(83% * var(--sat, 1)) calc((41% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 }
 
 #fifteen-puzzle.puzzle-sakura .grid-item.solved {
     color: #4d7c0f;
-
-    background:
-        linear-gradient(145deg, #f7fee7, #d9f99d);
 
     border-color: #a3e635;
 }
 
 
 /* ============================================================
-   19 — TERMINAL          default: green phosphor
+   14 — TERMINAL          default: green phosphor
    ============================================================ */
 
 #fifteen-puzzle.puzzle-terminal {
     --theme-hue: 142;
 
-    --tile-highlight: hsl(var(--h) 69% 58%);
+    --tile-highlight: hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--fk, 1) + var(--fb, 0%)));
     --tile-radius: 2px;
 
-    background: hsl(var(--h) 90% 2%);
+    background: hsl(var(--h) calc(90% * var(--sat, 1)) calc(2% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    border: 1px solid hsl(var(--h) 64% 24%);
+    --board-bg: hsl(var(--h) calc(90% * var(--sat, 1)) calc(2% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    box-shadow: 0 0 0 1px hsl(var(--h) 85% 10%);
+    border: 1px solid hsl(var(--h) calc(64% * var(--sat, 1)) calc(24% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 0 0 1px hsl(var(--h) calc(85% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+
+    --board-shadow:
+        0 0 0 1px hsl(var(--h) calc(85% * var(--sat, 1)) calc(10% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
 }
 
 #fifteen-puzzle.puzzle-terminal .grid-item {
-    background: hsl(var(--h) 78% 5%);
+    background: hsl(var(--h) calc(78% * var(--sat, 1)) calc(5% * var(--fk, 1) + var(--fb, 0%)));
 
-    color: hsl(var(--h) 69% 58%);
+    color: hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(var(--h) 72% 29%);
+    border: 1px solid hsl(var(--h) calc(72% * var(--sat, 1)) calc(29% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     font-family: "Courier New", ui-monospace, monospace;
 
-    text-shadow: 0 0 6px hsl(var(--h) 69% 58% / .55);
+    text-shadow: 0 0 6px hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--tk, 1) + var(--tb, 0%)) / .55);
 }
 
 #fifteen-puzzle.puzzle-terminal .grid-item:hover {
-    background: hsl(var(--h) 85% 10%);
+    background: hsl(var(--h) calc(85% * var(--sat, 1)) calc(10% * var(--fk, 1) + var(--fb, 0%)));
 
-    color: hsl(var(--h) 79% 85%);
+    color: hsl(var(--h) calc(79% * var(--sat, 1)) calc(85% * var(--tk, 1) + var(--tb, 0%)));
 
-    border-color: hsl(var(--h) 69% 58%);
+    border-color: hsl(var(--h) calc(69% * var(--sat, 1)) calc(58% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 }
 
 #fifteen-puzzle.puzzle-terminal .grid-item.solved {
@@ -2089,51 +1172,61 @@
 
 
 /* ============================================================
-   20 — ICE               default: pale sky blue
+   15 — ICE               default: pale sky blue
    ============================================================ */
 
 #fifteen-puzzle.puzzle-ice {
     --theme-hue: 201;
 
-    --tile-highlight: hsl(var(--h) 95% 74%);
+    --tile-highlight: hsl(var(--h) calc(95% * var(--sat, 1)) calc(74% * var(--fk, 1) + var(--fb, 0%)));
 
     background:
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) + 3) 94% 94%),
-            hsl(var(--h) 94% 86%)
+            hsl(calc(var(--h) + 3) calc(94% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc(86% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
+        );
+
+    --board-bg:
+        linear-gradient(
+            145deg,
+            hsl(calc(var(--h) + 3) calc(94% * var(--sat, 1)) calc(94% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))),
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc(86% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))))
         );
 
     box-shadow:
-        0 16px 36px hsl(calc(var(--h) - 9) 80% 31% / .2);
+        0 16px 36px hsl(calc(var(--h) - 9) calc(80% * var(--sat, 1)) calc(31% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
+
+    --board-shadow:
+        0 16px 36px hsl(calc(var(--h) - 9) calc(80% * var(--sat, 1)) calc(31% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-ice .grid-item {
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,.95),
-            hsl(var(--h) 94% 86% / .85)
+            hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--fk, 1) + var(--fb, 0%)) / .95),
+            hsl(var(--h) calc(94% * var(--sat, 1)) calc(86% * var(--fk, 1) + var(--fb, 0%)) / .85)
         );
 
-    color: hsl(var(--h) 90% 23%);
+    color: hsl(var(--h) calc(90% * var(--sat, 1)) calc((23% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid rgba(255,255,255,.9);
+    border: 1px solid hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))) / .9);
 
     box-shadow:
-        inset 0 1px 2px #ffffff,
-        0 4px 10px hsl(calc(var(--h) - 9) 80% 31% / .2);
+        inset 0 1px 2px hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / var(--soft, 1)),
+        0 4px 10px hsl(calc(var(--h) - 9) calc(80% * var(--sat, 1)) calc(31% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.2) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-ice .grid-item:hover {
     background:
         linear-gradient(
             145deg,
-            #ffffff,
-            hsl(calc(var(--h) + 3) 94% 94%)
+            hsl(0 calc(0% * var(--sat, 1)) calc(100% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) + 3) calc(94% * var(--sat, 1)) calc(94% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(var(--h) 96% 32%);
+    color: hsl(var(--h) calc(96% * var(--sat, 1)) calc((32% + var(--td, 0%)) * var(--tk, 1) + var(--tb, 0%)));
 }
 
 #fifteen-puzzle.puzzle-ice .grid-item.solved {
@@ -2142,52 +1235,59 @@
 
 
 /* ============================================================
-   21 — GOLD              default: gold on black lacquer
+   16 — GOLD              default: gold on black lacquer
    Pick blue for sapphire, red for ruby, etc.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-gold {
     --theme-hue: 43;
 
-    --tile-highlight: hsl(var(--h) 96% 56%);
+    --tile-highlight: hsl(var(--h) calc(96% * var(--sat, 1)) calc(56% * var(--fk, 1) + var(--fb, 0%)));
 
-    background: hsl(var(--h) 20% 4%);
+    background: hsl(var(--h) calc(20% * var(--sat, 1)) calc(4% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    border: 2px solid hsl(calc(var(--h) - 17) 93% 37%);
+    --board-bg: hsl(var(--h) calc(20% * var(--sat, 1)) calc(4% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 2px solid hsl(calc(var(--h) - 17) calc(93% * var(--sat, 1)) calc(37% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        0 0 0 3px hsl(var(--h) 20% 4%),
-        0 0 0 4px hsl(var(--h) 85% 45%),
-        0 18px 40px rgba(0,0,0,.45);
+        0 0 0 3px hsl(var(--h) calc(20% * var(--sat, 1)) calc(4% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 0 0 4px hsl(var(--h) calc(85% * var(--sat, 1)) calc(45% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 18px 40px rgb(0 0 0 / calc((calc(.45 * var(--sa, 1))) * var(--soft, 1)));
+
+    --board-shadow:
+        0 0 0 3px hsl(var(--h) calc(20% * var(--sat, 1)) calc(4% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 0 0 4px hsl(var(--h) calc(85% * var(--sat, 1)) calc(45% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%)))),
+        0 18px 40px rgb(0 0 0 / calc((calc(.45 * var(--sa, 1))) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-gold .grid-item {
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 6% 15%),
-            hsl(var(--h) 6% 7%)
+            hsl(var(--h) calc(6% * var(--sat, 1)) calc(15% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(6% * var(--sat, 1)) calc(7% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(var(--h) 91% 60%);
+    color: hsl(var(--h) calc(91% * var(--sat, 1)) calc(60% * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 1px solid hsl(calc(var(--h) - 8) 92% 33%);
+    border: 1px solid hsl(calc(var(--h) - 8) calc(92% * var(--sat, 1)) calc(33% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        inset 0 1px 0 hsl(var(--h) 96% 56% / .25);
+        inset 0 1px 0 hsl(var(--h) calc(96% * var(--sat, 1)) calc(56% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / .25);
 }
 
 #fifteen-puzzle.puzzle-gold .grid-item:hover {
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 6% 23%),
-            hsl(var(--h) 6% 11%)
+            hsl(var(--h) calc(6% * var(--sat, 1)) calc(23% * var(--fk, 1) + var(--fb, 0%))),
+            hsl(var(--h) calc(6% * var(--sat, 1)) calc(11% * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: hsl(calc(var(--h) + 5) 97% 77%);
+    color: hsl(calc(var(--h) + 5) calc(97% * var(--sat, 1)) calc(77% * var(--tk, 1) + var(--tb, 0%)));
 
-    border-color: hsl(var(--h) 96% 56%);
+    border-color: hsl(var(--h) calc(96% * var(--sat, 1)) calc(56% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 }
 
 #fifteen-puzzle.puzzle-gold .grid-item.solved {
@@ -2198,76 +1298,86 @@
 
 
 /* ============================================================
-   22 — HANDHELD          default: green LCD
+   17 — HANDHELD          default: green LCD
    Light shade is --h, dark shade is 48 degrees further.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-handheld {
     --theme-hue: 72;
 
-    --tile-highlight: hsl(var(--h) 84% 37%);
+    --tile-highlight: hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--fk, 1) + var(--fb, 0%)));
     --tile-radius: 0px;
 
-    background: hsl(var(--h) 84% 37%);
+    background: hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    border: 4px solid hsl(calc(var(--h) + 48) 34% 28%);
+    --board-bg: hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    box-shadow: 0 10px 0 hsl(calc(var(--h) + 48) 79% 14%);
+    border: 4px solid hsl(calc(var(--h) + 48) calc(34% * var(--sat, 1)) calc(28% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
+
+    box-shadow:
+        0 10px 0 hsl(calc(var(--h) + 48) calc(79% * var(--sat, 1)) calc(14% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
+
+    --board-shadow:
+        0 10px 0 hsl(calc(var(--h) + 48) calc(79% * var(--sat, 1)) calc(14% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
 }
 
 #fifteen-puzzle.puzzle-handheld .grid-item {
-    background: hsl(var(--h) 85% 40%);
+    background: hsl(var(--h) calc(85% * var(--sat, 1)) calc((40% + var(--hl, 0%)) * var(--fk, 1) + var(--fb, 0%)));
 
-    color: hsl(calc(var(--h) + 48) 79% 14%);
+    color: hsl(calc(var(--h) + 48) calc(79% * var(--sat, 1)) calc(14% * var(--tk, 1) + var(--tb, 0%)));
 
-    border: 3px solid hsl(calc(var(--h) + 48) 34% 28%);
+    border: 3px solid hsl(calc(var(--h) + 48) calc(34% * var(--sat, 1)) calc(28% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     font-family: "Courier New", ui-monospace, monospace;
 
     font-weight: 900;
 
     box-shadow:
-        inset -3px -3px 0 hsl(var(--h) 84% 37%);
+        inset -3px -3px 0 hsl(var(--h) calc(84% * var(--sat, 1)) calc(37% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))));
 }
 
 #fifteen-puzzle.puzzle-handheld .grid-item:hover {
-    background: hsl(var(--h) 73% 47%);
+    background: hsl(var(--h) calc(73% * var(--sat, 1)) calc((47% + var(--hl, 0%)) * var(--fk, 1) + var(--fb, 0%)));
 
     transform: none;
 }
 
 #fifteen-puzzle.puzzle-handheld .grid-item.solved {
-    background: hsl(calc(var(--h) + 48) 79% 14%);
-
-    color: hsl(var(--h) 85% 40%);
+    color: #15803d;
 }
 
 
 /* ============================================================
-   23 — CHALKBOARD        default: slate green board
+   18 — CHALKBOARD        default: slate green board
    The wooden frame and chalk stay the same in every color.
    ============================================================ */
 
 #fifteen-puzzle.puzzle-chalkboard {
     --theme-hue: 160;
 
-    --tile-highlight: #f8fafc;
+    --tile-highlight: rgb(var(--w, 248 250 252));
 
-    background: hsl(var(--h) 33% 18%);
+    background: hsl(var(--h) calc(33% * var(--sat, 1)) calc(18% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
 
-    border: 6px solid #8b6b45;
+    --board-bg: hsl(var(--h) calc(33% * var(--sat, 1)) calc(18% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%))));
+
+    border: 6px solid hsl(33 calc(33% * var(--sat, 1)) calc(41% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        inset 0 0 30px rgba(0,0,0,.35),
-        0 14px 30px rgba(0,0,0,.3);
+        inset 0 0 30px rgb(0 0 0 / calc((calc(.35 * var(--sa, 1))) * var(--soft, 1))),
+        0 14px 30px rgb(0 0 0 / calc((calc(.3 * var(--sa, 1))) * var(--soft, 1)));
+
+    --board-shadow:
+        inset 0 0 30px rgb(0 0 0 / calc((calc(.35 * var(--sa, 1))) * var(--soft, 1))),
+        0 14px 30px rgb(0 0 0 / calc((calc(.3 * var(--sa, 1))) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-chalkboard .grid-item {
-    background: rgba(255,255,255,.03);
+    background: rgb(var(--w, 255 255 255) / .03);
 
-    color: #f8fafc;
+    color: var(--num, #f8fafc);
 
-    border: 2px solid rgba(248,250,252,.75);
+    border: 2px solid rgb(var(--w, 248 250 252) / .75);
 
     font-family: "Comic Sans MS", "Chalkboard SE", "Segoe Print", cursive;
 
@@ -2277,7 +1387,7 @@
 }
 
 #fifteen-puzzle.puzzle-chalkboard .grid-item:hover {
-    background: rgba(255,255,255,.12);
+    background: rgb(var(--w, 255 255 255) / .12);
 }
 
 #fifteen-puzzle.puzzle-chalkboard .grid-item.solved {
@@ -2288,7 +1398,7 @@
 
 
 /* ============================================================
-   24 — SYNTHWAVE         default: hot pink + violet, cyan edge
+   19 — SYNTHWAVE         default: hot pink + violet, cyan edge
    Violet and the edge accent are offsets from --h, so picking
    a color shifts the whole palette together.
    ============================================================ */
@@ -2296,53 +1406,65 @@
 #fifteen-puzzle.puzzle-synthwave {
     --theme-hue: 336;
 
-    --tile-highlight: hsl(calc(var(--h) - 148) 86% 53%);
+    --tile-highlight: hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--fk, 1) + var(--fb, 0%)));
 
     background:
         linear-gradient(
             180deg,
-            hsl(calc(var(--h) - 61) 82% 11%) 0%,
-            hsl(calc(var(--h) - 62) 76% 18%) 60%,
-            hsl(calc(var(--h) - 51) 78% 22%) 100%
+            hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 0%,
+            hsl(calc(var(--h) - 62) calc(76% * var(--sat, 1)) calc(18% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 60%,
+            hsl(calc(var(--h) - 51) calc(78% * var(--sat, 1)) calc(22% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 100%
         );
 
-    border: 1px solid hsl(calc(var(--h) - 44) 84% 49%);
+    --board-bg:
+        linear-gradient(
+            180deg,
+            hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 0%,
+            hsl(calc(var(--h) - 62) calc(76% * var(--sat, 1)) calc(18% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 60%,
+            hsl(calc(var(--h) - 51) calc(78% * var(--sat, 1)) calc(22% * var(--bk, var(--fk, 1)) + var(--bb, var(--fb, 0%)))) 100%
+        );
+
+    border: 1px solid hsl(calc(var(--h) - 44) calc(84% * var(--sat, 1)) calc(49% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        0 0 26px hsl(calc(var(--h) - 44) 84% 49% / .3),
-        0 18px 40px hsl(calc(var(--h) - 61) 82% 11% / .5);
+        0 0 26px hsl(calc(var(--h) - 44) calc(84% * var(--sat, 1)) calc(49% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.3) * var(--soft, 1))),
+        0 18px 40px hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
+
+    --board-shadow:
+        0 0 26px hsl(calc(var(--h) - 44) calc(84% * var(--sat, 1)) calc(49% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.3) * var(--soft, 1))),
+        0 18px 40px hsl(calc(var(--h) - 61) calc(82% * var(--sat, 1)) calc(11% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.5) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-synthwave .grid-item {
     background:
         linear-gradient(
             145deg,
-            hsl(var(--h) 80% 40%),
-            hsl(calc(var(--h) - 64) 74% 47%)
+            hsl(var(--h) calc(80% * var(--sat, 1)) calc((40% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) - 64) calc(74% * var(--sat, 1)) calc((47% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 
-    color: #ffffff;
+    color: var(--numc, var(--num, #ffffff));
 
-    border: 1px solid hsl(calc(var(--h) - 148) 86% 53%);
+    border: 1px solid hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--lk, var(--fk, 1)) + var(--lb, var(--fb, 0%))));
 
     box-shadow:
-        0 0 8px hsl(calc(var(--h) - 148) 86% 53% / .35),
-        inset 0 1px 1px rgba(255,255,255,.25);
+        0 0 8px hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.35) * var(--soft, 1))),
+        inset 0 1px 1px rgba(255, 255, 255, calc((.25) * var(--soft, 1)));
 
-    text-shadow: 0 0 8px hsl(calc(var(--h) - 148) 86% 53% / .7);
+    text-shadow: 0 0 8px hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--tk, 1) + var(--tb, 0%)) / .7);
 }
 
 #fifteen-puzzle.puzzle-synthwave .grid-item:hover {
     background:
         linear-gradient(
             145deg,
-            hsl(calc(var(--h) - 3) 71% 51%),
-            hsl(calc(var(--h) - 65) 81% 56%)
+            hsl(calc(var(--h) - 3) calc(71% * var(--sat, 1)) calc((51% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%))),
+            hsl(calc(var(--h) - 65) calc(81% * var(--sat, 1)) calc((56% + var(--dc, 0%)) * var(--fk, 1) + var(--fb, 0%)))
         );
 
     box-shadow:
-        0 0 14px hsl(calc(var(--h) - 148) 86% 53% / .6),
-        inset 0 1px 1px rgba(255,255,255,.25);
+        0 0 14px hsl(calc(var(--h) - 148) calc(86% * var(--sat, 1)) calc(53% * var(--sk, var(--fk, 1)) + var(--sb, var(--fb, 0%))) / calc((.6) * var(--soft, 1))),
+        inset 0 1px 1px rgba(255, 255, 255, calc((.25) * var(--soft, 1)));
 }
 
 #fifteen-puzzle.puzzle-synthwave .grid-item.solved {
@@ -2351,6 +1473,144 @@
     border-color: #fef08a;
 
     text-shadow: 0 0 8px rgba(254,240,138,.7);
+}
+
+
+/* ============================================================
+   SOLVED ON BLACK AND WHITE
+   Solved pieces only change their number color (green / yellow
+   per theme), never the tile. These rules just swap in a green
+   that stays readable where black or white makes the tile very
+   dark or very light.
+   ============================================================ */
+
+/* black: dark green numbers become light green on the dark tiles */
+#fifteen-puzzle.puzzle-wood[data-color="black"] .grid-item.solved,
+#fifteen-puzzle.puzzle-ice[data-color="black"] .grid-item.solved,
+#fifteen-puzzle.puzzle-minimal[data-color="black"] .grid-item.solved,
+#fifteen-puzzle.puzzle-sakura[data-color="black"] .grid-item.solved,
+#fifteen-puzzle.puzzle-handheld[data-color="black"] .grid-item.solved {
+    color: #86efac;
+}
+
+/* white: lime / pale yellow numbers become dark green on the white tiles */
+#fifteen-puzzle.puzzle-modern[data-color="white"] .grid-item.solved,
+#fifteen-puzzle.puzzle-soft[data-color="white"] .grid-item.solved,
+#fifteen-puzzle.puzzle-arcade[data-color="white"] .grid-item.solved,
+#fifteen-puzzle.puzzle-candy[data-color="white"] .grid-item.solved,
+#fifteen-puzzle.puzzle-synthwave[data-color="white"] .grid-item.solved {
+    color: #3f6212;
+
+    border-color: #65a30d;
+
+    text-shadow: none;
+}
+
+
+/* ============================================================
+   BOARD ALWAYS FOLLOWS THE THEME
+   Each theme stores its board look in --board-bg / --board-shadow.
+   This rule is strong enough to beat the dark-mode board rule in
+   mobile.css (body.dark-mode #fifteen-puzzle), so the board keeps
+   the theme's color in light and dark mode. You can delete that
+   rule from mobile.css if you like; this file no longer needs it.
+   ============================================================ */
+
+html body #fifteen-puzzle[class*="puzzle-"] {
+    background: var(--board-bg);
+
+    box-shadow: var(--board-shadow);
+}
+
+
+/* ============================================================
+   BLACK & WHITE
+
+   Both work like the other colors, with multipliers instead of a
+   hue (every theme color is an hsl()):
+
+     --sat        saturation multiplier          (0 = greys)
+     --fk / --fb  tile lightness   = L * fk + fb
+     --bk / --bb  board lightness                (falls back to fk / fb)
+     --lk / --lb  border lightness               (falls back to fk / fb)
+     --sk / --sb  shadow lightness               (falls back to fk / fb)
+     --tk / --tb  number lightness = L * tk + tb
+     --soft       strength of blurred shadows and glows (1 = as themed)
+
+   This block must stay AFTER all themes so it wins ties.
+   ============================================================ */
+
+/* ---- BLACK: same look, dark grey instead of a hue ---- */
+
+#fifteen-puzzle[data-color="black"] {
+    --tint: 0%;
+    --sat: 0;
+    --fk: .22;
+    --fb: 0%;
+}
+
+/* themes whose numbers are dark on light tiles -> flip numbers to light */
+#fifteen-puzzle.puzzle-minimal[data-color="black"],
+#fifteen-puzzle.puzzle-sakura[data-color="black"],
+#fifteen-puzzle.puzzle-ice[data-color="black"],
+#fifteen-puzzle.puzzle-wood[data-color="black"],
+#fifteen-puzzle.puzzle-handheld[data-color="black"] {
+    --tk: -.6;
+    --tb: 100%;
+}
+
+
+/* ---- WHITE: white takes the place of the theme's color ----
+   Works like picking any other color: the theme keeps its own
+   structure, and whatever normally carries the theme's color
+   turns white.
+
+   Lightness is stretched (L * 2.2 - 20%). Browsers clamp hsl
+   lightness at 0% and 100%, so:
+     bright parts (L 55%+)  -> pure white  (modern / soft / candy tiles,
+                                            neon lines, arcade frame ...)
+     mid parts              -> light greys (gradients stay visible)
+     dark parts (L < 10%)   -> near black  (lava rock, gold lacquer,
+                                            terminal screen ...)
+   Boards keep the theme's own lightness, shadows / 3D edges too.
+
+   The rest are the same readability knobs the bright colors
+   (yellow, lime ...) already use. */
+
+#fifteen-puzzle[data-color="white"] {
+    --tint: 0%;
+    --sat: 0;
+
+    /* tiles */
+    --fk: 2.2;
+    --fb: -20%;
+
+    /* board: theme's own lightness */
+    --bk: 1;
+    --bb: 0%;
+
+    /* lines, borders, frames */
+    --lk: 2.2;
+    --lb: -20%;
+
+    /* shadows and 3D edges: as themed */
+    --sk: 1;
+    --sb: 0%;
+
+    /* numbers: light ones go full white, dark ones stay dark */
+    --tk: 1.6;
+    --tb: 0%;
+
+    /* dark numbers on the white tiles */
+    --ink: hsl(0 0% 10%);
+    --numc: hsl(0 0% 10%);
+
+    /* same kind of per-theme tuning the other colors get */
+    --dn: 0%;
+    --dl: -24%;
+    --dc: 10%;
+    --hl: 6%;
+    --td: -8%;
 }
 
 
@@ -2379,4 +1639,3 @@
         transition: none !important;
     }
 }
-
