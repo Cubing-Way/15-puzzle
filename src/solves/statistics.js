@@ -3,13 +3,13 @@ function getStats(solves) {
     // No solves: nothing to compute
     if (!solves.length) return { count: 0, average: null, standardDeviation: null, best: null };
 
-    // Average time
+    // Solve times and their average
     const times = solves.map(solve => solve.time);
     const average = times.reduce((sum, time) => sum + time, 0) / times.length;
     // Average squared distance from the average
     const variance = times.reduce((sum, time) => sum + Math.pow(time - average, 2), 0) / times.length;
 
-    // Standard deviation is the square root of the variance
+    // Standard deviation is the square root of the variance; best is the lowest time
     return {
         count: times.length,
         average,
@@ -20,7 +20,9 @@ function getStats(solves) {
 
 // Solves grouped by puzzle size, smallest size first: [{ size, solves }]
 function groupBySize(solves) {
+    // Sizes that have solves, smallest first
     const sizes = [...new Set(solves.map(solve => Number(solve.size)))].sort((a, b) => a - b);
+    // Each size with its solves
     return sizes.map(size => ({ size, solves: solves.filter(solve => Number(solve.size) === size) }));
 }
 

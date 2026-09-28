@@ -3,8 +3,7 @@ function createPuzzle(size) {
     return Array.from({ length: size * size }, (_, i) => i + 1);
 }
 
-// Slides the clicked tile (and any tiles between it and the blank) toward the blank;
-// returns the same array when the tile isn't in line with the blank
+// Slides the clicked tile and any tiles between it and the blank; returns the same array if nothing moves
 function moveSquare(puzzle, square, size) {
     // Position of the blank (the tile numbered size²)
     const blank = puzzle.indexOf(size * size);

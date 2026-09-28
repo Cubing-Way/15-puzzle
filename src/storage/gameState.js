@@ -14,11 +14,10 @@ function clearSavedState() {
     localStorage.removeItem(STORAGE_KEY);
 }
 
-// Reads the saved game: { size } alone when no game is in progress;
-// null (and clears it) when it's missing, broken or already solved
+// Reads the saved game: { size } only, a game to resume, or null (broken and solved saves are deleted)
 function loadGameState() {
+    // Parse the saved JSON (null when nothing is saved)
     let state;
-
     try {
         state = JSON.parse(localStorage.getItem(STORAGE_KEY));
     } catch {
@@ -33,9 +32,10 @@ function loadGameState() {
     // Only the size was saved (no game in progress)
     if (!state.puzzle) return { size: state.size };
 
-    // Corrupted (wrong tile count) or already solved: nothing to resume, clear it
+    // The puzzle must be an array with one tile per position
     const valid = Array.isArray(state.puzzle) && state.puzzle.length === state.size * state.size;
 
+    // Corrupted or already solved: nothing to resume, clear it
     if (!valid || isSolved(state.puzzle)) {
         clearSavedState();
         return null;

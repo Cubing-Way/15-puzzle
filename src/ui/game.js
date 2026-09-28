@@ -12,9 +12,11 @@ let elapsedTime = 0;
 // setInterval handle while the clock is running
 let timerInterval = null;
 
-// Options panel checkboxes
+// "Move counter" option
 let moveCounterEnabled = true;
+// "Timer" option
 let timerEnabled = true;
+// "Highlight solved" option
 let highlightSolvedEnabled = true;
 
 // True once the first move of this puzzle is made
@@ -39,11 +41,14 @@ let saveGame = () => {};
 
 // Builds the Options and Stats panels, resumes the saved game (if any) and returns the tile click handler
 function createGame({ savedGame, onStateChange, onSolved }) {
+    // Where to send save requests
     saveGame = onStateChange;
 
+    // Options, Moves and Time panels
     createOptionsUI();
     createStatsUI();
 
+    // Resume the saved game's moves, time and history
     if (savedGame) {
         restoreSavedGame(savedGame);
     }
@@ -71,10 +76,11 @@ function createGame({ savedGame, onStateChange, onSolved }) {
             updateTimerDisplay();
         }
 
-        // First move of this puzzle: record the starting position so undo can go back to it
+        // First move of this puzzle
         if (!puzzleStarted) {
             puzzleStarted = true;
 
+            // Record the starting position so undo can go back to it (after a solve the old history is kept)
             if (puzzleHistory.length === 0) {
                 resetHistory(puzzle);
             }
@@ -94,6 +100,7 @@ function createGame({ savedGame, onStateChange, onSolved }) {
         addToHistory(newPuzzle);
         renderPuzzle(newPuzzle);
 
+        // Check for a win
         if (isSolved(newPuzzle)) {
             // Solved: stop the clock and save the solve with its full history (used for replays)
             stopTimer();
@@ -110,15 +117,18 @@ function createGame({ savedGame, onStateChange, onSolved }) {
     };
 }
 
-// Resumes a saved game's moves, time and undo/redo history; the clock waits for the first move
+// Resumes a saved game's moves, time and undo/redo history
 function restoreSavedGame(saved) {
+    // Saved moves and time; the clock waits for the first move
     moveCount = saved.moveCount || 0;
     elapsedTime = saved.elapsedTime || 0;
     timerPaused = true;
     restoredGame = true;
+
+    // "Started" if moves were made
     puzzleStarted = moveCount > 0;
 
-    // Rebuild the undo/redo history, skipping entries that can't be read
+    // Rebuild the undo/redo history (skipping entries that can't be read) and its position
     puzzleHistory = Array.isArray(saved.puzzleHistory)
         ? saved.puzzleHistory.map(readSavedSnapshot).filter(Boolean)
         : [];
@@ -137,14 +147,16 @@ function readSavedSnapshot(entry) {
         return { puzzle: entry, moveCount: 0, elapsedTime: 0 };
     }
 
+    // Unknown entry: dropped by the filter in restoreSavedGame
     return null;
 }
 
-// Resets the game for a new puzzle; after a solve (keepLastSolve) the final moves,
-// time and undo history stay on screen, and the next move starts moves and time from zero
+// Resets the game for a new puzzle (keepLastSolve: a finished solve's moves, time and history stay shown)
 function markNewPuzzle({ keepLastSolve = false } = {}) {
+    // Stop the clock
     stopTimer();
 
+    // Zero moves, time and undo history, unless the last solve stays on screen
     if (!keepLastSolve) {
         moveCount = 0;
         elapsedTime = 0;
@@ -156,6 +168,8 @@ function markNewPuzzle({ keepLastSolve = false } = {}) {
     timerPaused = false;
     restoredGame = false;
     puzzleStarted = false;
+
+    // After a solve, the next move starts moves and time from zero
     resetStatsOnFirstMove = keepLastSolve;
 
     // Redraw everything and hide "Solved!"
@@ -163,10 +177,12 @@ function markNewPuzzle({ keepLastSolve = false } = {}) {
     showSolvedMessage(false);
 }
 
-// Sends the game to main.js to be saved (nothing to resume before the board is drawn or once it's solved)
+// Sends the game in progress to main.js to be saved
 function saveProgress() {
+    // No board yet, or already solved: nothing to resume later
     if (!currentPuzzle || isSolved(currentPuzzle)) return;
 
+    // Puzzle, moves, time, pause state and undo/redo history
     saveGame({
         puzzle: currentPuzzle,
         moveCount,
@@ -187,6 +203,7 @@ function renderPuzzle(puzzle) {
     currentPuzzle = puzzle;
     const blank = puzzle.length;
 
+    // Update each tile element
     puzzle.forEach((square, i) => {
         // Tile element at this position (skip if the board isn't built yet)
         const tile = document.getElementById(`Square-${i + 1}`);
@@ -212,29 +229,39 @@ function snapshot(puzzle) {
 
 // Adds a snapshot after a move (and drops any redo steps)
 function addToHistory(puzzle) {
+    // Drop the redo steps past the current position
     puzzleHistory = puzzleHistory.slice(0, historyIndex + 1);
+
+    // Add the new position and point at it
     puzzleHistory.push(snapshot(puzzle));
     historyIndex = puzzleHistory.length - 1;
+
+    // Refresh undo/redo
     updateHistoryButtons();
 }
 
 // Starts a new history with this puzzle as the first snapshot
 function resetHistory(puzzle) {
+    // Only the starting position, and point at it
     puzzleHistory = [snapshot(puzzle)];
     historyIndex = 0;
+
+    // Refresh undo/redo
     updateHistoryButtons();
 }
 
 // Undo (-1) or redo (+1): loads the neighbouring snapshot
 function stepHistory(step) {
+    // Position of the snapshot to load
     const index = historyIndex + step;
 
     // Nothing before the first snapshot or after the last
     if (index < 0 || index >= puzzleHistory.length) return;
 
-    // Stop the clock while swapping in the snapshot's puzzle, moves and time
+    // Stop the clock while swapping state
     stopTimer();
 
+    // Load the snapshot's position, moves and time
     const state = puzzleHistory[index];
     historyIndex = index;
     moveCount = state.moveCount;
@@ -245,22 +272,26 @@ function stepHistory(step) {
     updateTimerDisplay();
     renderPuzzle(state.puzzle);
 
-    // Solved: keep the clock stopped; otherwise resume it if it was running
+    // Show or hide "Solved!" for the loaded position
     const solved = isSolved(state.puzzle);
     showSolvedMessage(solved);
 
+    // Solved: keep the clock stopped; otherwise restart it unless it's paused or off
     if (solved) {
         timerPaused = true;
     } else {
         startTimer();
     }
 
+    // Save the new position
     saveProgress();
 }
 
 // Disables undo at the start of the history and redo at the end
 function updateHistoryButtons() {
+    // Nothing before the first snapshot
     document.getElementById("undo-button").disabled = historyIndex <= 0;
+    // Nothing after the last snapshot
     document.getElementById("redo-button").disabled = historyIndex >= puzzleHistory.length - 1;
 }
 
@@ -269,17 +300,20 @@ function updateHistoryButtons() {
 
 // Shows or hides the move counter and writes the current count
 function updateMoveCounter() {
+    // Counter element
     const counter = document.getElementById("move-counter");
 
-    // Hidden while the option is off
+    // Hidden while the option is off; shows the current count
     counter.style.display = moveCounterEnabled ? "block" : "none";
     counter.textContent = moveCount;
 }
 
 // Adds one move (only while the move counter option is on)
 function incrementMoveCounter() {
+    // Not counting while the option is off
     if (!moveCounterEnabled) return;
 
+    // Count it and redraw
     moveCount++;
     updateMoveCounter();
 }
@@ -295,6 +329,7 @@ function resetMoveCount() {
 
 // Starts the clock unless it's already running, paused or turned off
 function startTimer() {
+    // Already running, paused, or timer option off
     if (timerInterval || timerPaused || !timerEnabled) return;
 
     // Add 10 ms every 10 ms and redraw
@@ -314,10 +349,12 @@ function stopTimer() {
     updateTimerButton();
 }
 
-// Pause/Resume button (does nothing while the timer option is off)
+// Pause/Resume button
 function toggleTimer() {
+    // Does nothing while the timer option is off
     if (!timerEnabled) return;
 
+    // Flip the paused state; a restored game no longer waits for the first move
     timerPaused = !timerPaused;
     restoredGame = false;
 
@@ -335,6 +372,7 @@ function toggleTimer() {
 
 // "Reset" in the Time panel: zero the clock; it runs again on the next move
 function resetTimer() {
+    // Stop the clock
     stopTimer();
 
     // Zero the time and clear the pause/restore flags
@@ -348,19 +386,23 @@ function resetTimer() {
     saveProgress();
 }
 
-// Sets the Pause/Resume label, disabled while the timer option is off
+// Updates the Pause/Resume button
 function updateTimerButton() {
+    // Pause/Resume button
     const button = document.getElementById("timer-pause-button");
 
+    // Label follows the paused state; disabled while the timer option is off
     button.textContent = timerPaused ? "Resume" : "Pause";
     button.disabled = !timerEnabled;
 }
 
 // Writes the elapsed time as mm:ss
 function updateTimerDisplay() {
+    // Whole seconds, and two-digit padding
     const totalSeconds = Math.floor(elapsedTime / 1000);
     const pad = number => String(number).padStart(2, "0");
 
+    // Minutes and seconds, zero-padded
     document.getElementById("timer").textContent = `${pad(Math.floor(totalSeconds / 60))}:${pad(totalSeconds % 60)}`;
 }
 
@@ -404,25 +446,27 @@ function createOptionsUI() {
         saveProgress();
     });
 
-    // Timer checkbox: off stops the clock; on resumes it only if the game has started and isn't paused
+    // Timer checkbox: stop or restart the clock
     document.getElementById("timer-option").addEventListener("change", event => {
         timerEnabled = event.target.checked;
 
+        // Off: stop; on: resume only if the game has started and isn't paused
         if (!timerEnabled) {
             stopTimer();
         } else if (currentPuzzle && !timerPaused && puzzleStarted) {
             startTimer();
         }
 
-        // Enable or disable Pause/Resume to match
+        // Enable or disable Pause/Resume to match, then save
         updateTimerButton();
         saveProgress();
     });
 
-    // Highlight checkbox: redraw so tiles in place gain or lose their highlight
+    // Highlight checkbox: tiles in place gain or lose their highlight
     document.getElementById("highlight-option").addEventListener("change", event => {
         highlightSolvedEnabled = event.target.checked;
 
+        // Redraw the board
         if (currentPuzzle) {
             renderPuzzle(currentPuzzle);
         }
@@ -472,6 +516,7 @@ function createStatsUI() {
 
 // Keyboard shortcuts: Ctrl+Z undo, Ctrl+Shift+Z or Ctrl+Y redo
 function createKeyboardControls() {
+    // Listen for keys anywhere on the page
     document.addEventListener("keydown", event => {
         // Don't take over keys while a form field has focus
         const target = event.target;
@@ -483,8 +528,10 @@ function createKeyboardControls() {
         // Only Ctrl shortcuts, and not while typing
         if (isTyping || !event.ctrlKey) return;
 
+        // Pressed key in lowercase, so Shift+Z still counts as "z"
         const key = event.key.toLowerCase();
 
+        // Ctrl+Z: undo (with Shift: redo); Ctrl+Y: redo
         if (key === "z" || key === "y") {
             event.preventDefault();
             stepHistory(key === "z" && !event.shiftKey ? -1 : 1);

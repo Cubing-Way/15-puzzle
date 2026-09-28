@@ -23,26 +23,31 @@ function renderSidebar() {
     const sidebar = document.getElementById("avgRightSidebar");
     if (!sidebar) return;
 
-    // Start over with the "Today" heading
+    // All solves; start over with the "Today" heading
     const solves = loadSolves();
     sidebar.replaceChildren(createElement("strong", "solve-recent-title", "Today"));
 
-    // One line per size with today's average, e.g. "4x4 avg:  35.20s (3 solves)"
+    // One line per size with today's average
     groupBySize(solves).forEach(({ size, solves: sizeSolves }) => {
+        // Today's stats for this size
         const { count, average } = getStats(sizeSolves.filter(isToday));
 
+        // Text line, e.g. "4x4 avg:  35.20s (3 solves)" or "4x4 - No solves"
         const text = count > 0
             ? `${size}x${size} avg:  ${formatSolveTime(average)} (${count === 1 ? "1 solve" : count + " solves"})`
             : `${size}x${size} - No solves`;
 
+        // Add it, followed by a line break
         sidebar.append(createElement("span", "solve-stat", text), document.createElement("br"));
     });
 
-    // The 10 most recent solves, newest first: "12.34s (4x4)" and a × delete button
+    // The 10 most recent solves, newest first
     [...solves].sort((a, b) => b.timestamp - a.timestamp).slice(0, 10).forEach(solve => {
+        // × button that deletes this solve
         const deleteButton = createIconButton("solve-delete", "×", "Delete solve");
         deleteButton.addEventListener("click", () => deleteSolve(solve.id));
 
+        // Row with the time and size, e.g. "12.34s (4x4)", then the button
         const row = createElement("div", "solve-preview");
         row.append(
             createElement("span", "solve-preview-info", `${formatSolveTime(solve.time)} (${solve.size}x${solve.size})`),

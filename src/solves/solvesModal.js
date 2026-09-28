@@ -11,21 +11,26 @@ function openSolveModal() {
     // Close any open copy first
     closeSolveModal();
 
+    // All solves, and an empty "All Solves" modal
     const solves = loadSolves();
     const { overlay, modal } = createModal("solveModal", "solve-modal", "All Solves");
 
-    // Grid with one stats card per size: "Today" and "All Time"
+    // Grid with one stats card per size
     const sizesContainer = createElement("div", "solve-sizes-container");
 
+    // One card per size
     groupBySize(solves).forEach(({ size, solves: sizeSolves }) => {
+        // Card for this size
         const sizeSection = createElement("div", "solve-size-section");
 
+        // Title (e.g. "4x4"), then today's and all-time stats
         sizeSection.append(
             createElement("strong", "solve-size-title", `${size}x${size}`),
             createStatsGroup("Today", sizeSolves.filter(isToday)),
             createStatsGroup("All Time", sizeSolves)
         );
 
+        // Add the card to the grid
         sizesContainer.appendChild(sizeSection);
     });
 
@@ -36,13 +41,16 @@ function openSolveModal() {
 
 // One stats group ("Today" or "All Time"): best single, average, σ and solve count
 function createStatsGroup(title, solves) {
+    // Stats for these solves
     const { count, average, standardDeviation, best } = getStats(solves);
 
     // A formatted time, or "No solves" when there are none
     const show = seconds => count ? formatSolveTime(seconds) : "No solves";
 
+    // Group box
     const group = createElement("div", "solve-stats-group");
 
+    // Heading, then one line per stat
     group.append(
         createElement("strong", "solve-stats-heading", title),
         createElement("span", "solve-stat", `Best Single: ${show(best)}`),
@@ -54,18 +62,20 @@ function createStatsGroup(title, solves) {
     return group;
 }
 
-// "Solve History": one row per solve, newest first, numbered by age (oldest = 1)
+// "Solve History" section: every solve, newest first, numbered by age
 function createHistorySection(solves) {
+    // Section with its heading
     const section = createElement("div", "solve-history-section");
     section.appendChild(createElement("strong", "solve-history-title", "Solve History"));
 
-    // Number each solve by age
+    // Number each solve by age (oldest = 1)
     const solveNumbers = new Map(
         [...solves]
             .sort((a, b) => a.timestamp - b.timestamp)
             .map((solve, index) => [solve.id, index + 1])
     );
 
+    // One row per solve, newest first
     [...solves].sort((a, b) => b.timestamp - a.timestamp).forEach(solve => {
         // Buttons on the right side
         const actions = createElement("div", "solve-row-actions");

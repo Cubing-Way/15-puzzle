@@ -13,9 +13,11 @@ function saveSolves(solves) {
 
 // Saves a finished solve with a unique id and the current time
 function addSolve({ time, size, solveState }) {
+    // Saved solves, and the current time
     const solves = loadSolves();
     const timestamp = Date.now();
 
+    // New entry; the id is the time plus a random suffix
     solves.push({
         id: `${timestamp}-${Math.random().toString(36).slice(2)}`,
         time,
@@ -24,6 +26,7 @@ function addSolve({ time, size, solveState }) {
         solveState
     });
 
+    // Save the longer list
     saveSolves(solves);
 }
 

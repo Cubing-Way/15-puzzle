@@ -21,11 +21,12 @@ function showSolveDetails(solve) {
     board.id = "solveReplayPuzzle";
     board.style.gridTemplateColumns = `repeat(${solve.size}, 1fr)`;
 
-    // Row with ← previous / "Move X / Y" / next →
+    // ← previous button, "Move X / Y" label, → next button
     const previousButton = createIconButton("solve-replay-button", "←", "Previous move");
     const moveDisplay = createElement("span", "solve-replay-move");
     const nextButton = createIconButton("solve-replay-button", "→", "Next move");
 
+    // Row holding them
     const controls = createElement("div", "solve-replay-controls");
     controls.append(previousButton, moveDisplay, nextButton);
 
@@ -41,6 +42,7 @@ function showSolveDetails(solve) {
 
     // Draws the board, move number and time for the current step
     function renderStep() {
+        // Snapshot for this step, and the blank's number
         const step = history[replayIndex];
         const blank = solve.size * solve.size;
 
@@ -66,6 +68,7 @@ function showSolveDetails(solve) {
         renderStep();
     }
 
+    // ← goes back one step, → goes forward one
     previousButton.addEventListener("click", () => goTo(-1));
     nextButton.addEventListener("click", () => goTo(1));
 

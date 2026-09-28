@@ -59,19 +59,21 @@ function applyColor() {
 
 // Applies the theme and color saved from the last visit, and saves new picks
 function initThemeControls() {
-    // Use the saved theme and color if they're valid, otherwise the defaults
+    // Theme and color saved from the last visit
     const savedTheme = localStorage.getItem("puzzle-theme");
     const savedColor = localStorage.getItem("puzzle-color");
 
+    // Use them if they're valid, otherwise the defaults
     applyTheme(puzzleThemes.includes(savedTheme) ? savedTheme : DEFAULT_THEME);
     colorSelect.value = puzzleColors.includes(savedColor) ? savedColor : "default";
     applyColor();
 
-    // Theme picked: apply it, save it, refresh the color ("default" follows the new theme, a picked color stays)
+    // Theme picked: apply it, save it, refresh the color
     themeSelect.addEventListener("change", () => {
         // Ignore unknown values
         if (!puzzleThemes.includes(themeSelect.value)) return;
 
+        // Apply and remember it; re-apply the color ("default" follows the new theme, a picked color stays)
         applyTheme(themeSelect.value);
         localStorage.setItem("puzzle-theme", themeSelect.value);
         applyColor();
@@ -82,6 +84,7 @@ function initThemeControls() {
         // Ignore unknown values
         if (!puzzleColors.includes(colorSelect.value)) return;
 
+        // Apply and remember it
         applyColor();
         localStorage.setItem("puzzle-color", colorSelect.value);
     });

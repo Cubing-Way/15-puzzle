@@ -1,5 +1,6 @@
 // Creates one div per tile inside the board and wires up clicks and taps (renderPuzzle fills in the numbers)
 function createPuzzleUI(container, puzzle, onMove) {
+    // One tile per position
     puzzle.forEach((_, i) => {
         // Tile element, with an id by position
         const tile = document.createElement("div");
@@ -8,8 +9,10 @@ function createPuzzleUI(container, puzzle, onMove) {
 
         // Forgets the press and releases the pointer capture
         const endPress = event => {
+            // Forget which tile was pressed
             delete container.dataset.clickedSquare;
 
+            // Release the pointer capture
             if (tile.hasPointerCapture(event.pointerId)) {
                 tile.releasePointerCapture(event.pointerId);
             }
@@ -22,16 +25,19 @@ function createPuzzleUI(container, puzzle, onMove) {
             tile.setPointerCapture(event.pointerId);
         });
 
-        // Release: move the pressed tile (only if a press was recorded)
+        // Release: move the pressed tile
         tile.addEventListener("pointerup", event => {
             event.preventDefault();
 
+            // Tile index saved on press
             const clickedSquare = Number(container.dataset.clickedSquare);
 
+            // Only move if a press was recorded
             if (!Number.isNaN(clickedSquare)) {
                 onMove(clickedSquare);
             }
 
+            // Forget the press and release the pointer
             endPress(event);
         });
 

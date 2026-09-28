@@ -39,6 +39,7 @@ renderSidebar();
 
 // Options and Stats panels, plus the tile click handler
 const moveHandler = createGame({
+    // Saved game to resume (null if none)
     savedGame,
 
     // Save progress whenever the game state changes
@@ -53,7 +54,10 @@ const moveHandler = createGame({
 
 // Clears the board and draws the tiles for this puzzle
 function drawBoard(puzzle) {
+    // Number of columns for the CSS grid
     puzzleElement.style.setProperty("--grid-size", size);
+
+    // Replace the old tiles, then fill in numbers and classes
     puzzleElement.replaceChildren();
     createPuzzleUI(puzzleElement, puzzle, moveHandler);
     renderPuzzle(puzzle);
@@ -69,9 +73,12 @@ function startPuzzle(puzzle, options) {
 // Resume the saved puzzle, or start a scrambled one
 drawBoard(savedGame?.puzzle || scramblePuzzle(size));
 
-// Scramble: start a new random puzzle; Solve: jump straight to the solved puzzle
+// Scramble and Solve buttons
 createPuzzleControls(
+    // Scramble: start a new random puzzle
     () => startPuzzle(scramblePuzzle(size)),
+
+    // Solve: jump straight to the solved puzzle
     () => startPuzzle(createPuzzle(size))
 );
 

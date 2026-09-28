@@ -2,6 +2,7 @@
 function createElement(tag, className, text) {
     const element = document.createElement(tag);
 
+    // Class and text only when given
     if (className) element.className = className;
     if (text !== undefined) element.textContent = text;
 
@@ -47,6 +48,7 @@ function createModal(overlayId, modalClass, title) {
         if (event.target === overlay) overlay.remove();
     });
 
+    // The caller fills the box and adds the overlay to the page
     return { overlay, modal };
 }
 
