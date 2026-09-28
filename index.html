@@ -50,57 +50,57 @@
         <!-- Right side of the top bar -->
         <div id="header-actions">
 
+            <!-- Board theme picker (values are the theme classes in styles/puzzle/themes) -->
+            <div class="select-field">
+                <!-- Label for the select below -->
+                <span id="puzzle-theme-label" class="select-label">Theme</span>
+                <!-- One option per theme -->
+                <select id="puzzle-theme-select" aria-labelledby="puzzle-theme-label">
+                    <option value="puzzle-neon-clean">Default</option>
+                    <option value="puzzle-modern">Modern</option>
+                    <option value="puzzle-glass">Glass</option>
+                    <option value="puzzle-soft">Soft</option>
+                    <option value="puzzle-arcade">Arcade</option>
+                    <option value="puzzle-minimal">Minimal</option>
+                    <option value="puzzle-monochrome">Monochrome</option>
+                    <option value="puzzle-wood">Wood</option>
+                    <option value="puzzle-blueprint">Blueprint</option>
+                    <option value="puzzle-candy">Candy</option>
+                    <option value="puzzle-lava">Lava</option>
+                    <option value="puzzle-aurora">Aurora</option>
+                    <option value="puzzle-sakura">Sakura</option>
+                    <option value="puzzle-terminal">Terminal</option>
+                    <option value="puzzle-ice">Ice</option>
+                    <option value="puzzle-gold">Gold</option>
+                    <option value="puzzle-handheld">Handheld</option>
+                    <option value="puzzle-chalkboard">Chalkboard</option>
+                    <option value="puzzle-synthwave">Synthwave</option>
+                </select>
+            </div>
 
-<!-- Board theme picker (values are the theme classes in styles/puzzle/themes) -->
-<div class="select-field">
-    <!-- Label for the select below -->
-    <span id="puzzle-theme-label" class="select-label">Theme</span>
-    <!-- One option per theme -->
-    <select id="puzzle-theme-select" aria-labelledby="puzzle-theme-label">
-        <option value="puzzle-neon-clean">Default</option>
-        <option value="puzzle-modern">Modern</option>
-        <option value="puzzle-glass">Glass</option>
-        <option value="puzzle-soft">Soft</option>
-        <option value="puzzle-arcade">Arcade</option>
-        <option value="puzzle-minimal">Minimal</option>
-        <option value="puzzle-monochrome">Monochrome</option>
-        <option value="puzzle-wood">Wood</option>
-        <option value="puzzle-blueprint">Blueprint</option>
-        <option value="puzzle-candy">Candy</option>
-        <option value="puzzle-lava">Lava</option>
-        <option value="puzzle-aurora">Aurora</option>
-        <option value="puzzle-sakura">Sakura</option>
-        <option value="puzzle-terminal">Terminal</option>
-        <option value="puzzle-ice">Ice</option>
-        <option value="puzzle-gold">Gold</option>
-        <option value="puzzle-handheld">Handheld</option>
-        <option value="puzzle-chalkboard">Chalkboard</option>
-        <option value="puzzle-synthwave">Synthwave</option>
-    </select>
-</div>
+            <!-- Tile color picker ("Default" uses the theme's own color) -->
+            <div class="select-field">
+                <!-- Label for the select below -->
+                <span id="puzzle-color-label" class="select-label">Color</span>
+                <!-- One option per color -->
+                <select id="puzzle-color-select" aria-labelledby="puzzle-color-label">
+                    <option value="default">Default</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                    <option value="red">Red</option>
+                    <option value="orange">Orange</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="lime">Lime</option>
+                    <option value="green">Green</option>
+                    <option value="teal">Teal</option>
+                    <option value="cyan">Cyan</option>
+                    <option value="blue">Blue</option>
+                    <option value="purple">Purple</option>
+                    <option value="magenta">Magenta</option>
+                    <option value="pink">Pink</option>
+                </select>
+            </div>
 
-<!-- Tile color picker ("Default" uses the theme's own color) -->
-<div class="select-field">
-    <!-- Label for the select below -->
-    <span id="puzzle-color-label" class="select-label">Color</span>
-    <!-- One option per color -->
-    <select id="puzzle-color-select" aria-labelledby="puzzle-color-label">
-        <option value="default">Default</option>
-        <option value="black">Black</option>
-        <option value="white">White</option>
-        <option value="red">Red</option>
-        <option value="orange">Orange</option>
-        <option value="yellow">Yellow</option>
-        <option value="lime">Lime</option>
-        <option value="green">Green</option>
-        <option value="teal">Teal</option>
-        <option value="cyan">Cyan</option>
-        <option value="blue">Blue</option>
-        <option value="purple">Purple</option>
-        <option value="magenta">Magenta</option>
-        <option value="pink">Pink</option>
-    </select>
-</div>
             <!-- Light/dark switch (wired in src/theme/darkMode.js) -->
             <div id="theme-toggle">
 
@@ -152,8 +152,8 @@
                 <!-- Scramble button goes here (createPuzzleControls) -->
                 <div id="scramble-control"></div>
 
-               <!-- Solve button goes here (createPuzzleControls) -->
-               <div id="reset-control"></div>
+                <!-- Solve button goes here (createPuzzleControls) -->
+                <div id="reset-control"></div>
             </div>
 
             <!-- The board: tiles added by createPuzzleUI, theme class set by themeControls.js -->

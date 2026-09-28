@@ -1,12 +1,4 @@
-/* ===== SMALL SCREENS ===== */
-
-/* Never applies here: this file only loads above 600px */
-@media (max-width: 600px) {
-    /* All Solves: grid of size cards */
-    #solveModal .solve-sizes-container {
-        grid-template-columns: 1fr;
-    }
-}
+/* ===== THEME/COLOR SELECT FIELDS ===== */
 
 /* Theme/Color field (label + select) */
 .select-field {
