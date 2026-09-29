@@ -26,7 +26,7 @@
     font-size: 1rem;
 }
 
-/* "Today" heading in the right sidebar */
+/* "Today" and "Solves" headings in the right sidebar */
 .solve-recent-title {
     display: block;
     margin: 16px 0 8px;

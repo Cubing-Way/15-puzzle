@@ -9,7 +9,7 @@ A sliding-puzzle simulator for sizes 3×3 up to 10×10, with a timer, undo/redo,
 - **Moves and timer:** the clock starts on your first move and can be paused or reset.
 - **Undo/redo:** with the ← → buttons, Ctrl+Z, and Ctrl+Y or Ctrl+Shift+Z.
 - **Options:** turn the move counter, the timer, or the highlight on tiles already in place on or off.
-- **Solve history:** the sidebar shows today's average for each size and your last 10 solves. "Expand Solves" adds best single, average, standard deviation and solve count (today and all time), and lets you replay or delete any solve.
+- **Solve history:** the sidebar shows today's average for each size you've solved today and your latest 8 solves. "Expand Solves" adds best single, average, standard deviation and solve count (today and all time), and lets you replay or delete any solve.
 - **Look:** 19 board themes, 13 tile colors and a light/dark switch.
 - **Saving:** the game in progress, your solves and your theme choices are kept in the browser's localStorage, so a reload picks up where you left off.
 
